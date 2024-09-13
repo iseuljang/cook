@@ -80,7 +80,7 @@ try{
 				+ " on n.uno = u.uno "
 				+ " where n.state='E' ";
 	}else {
-		sql = "select bno,title,unick, " 
+		sql = "select bno,title,unick,star, " 
 			+ " (select count(*) from comment where bno = b.bno and state='E') as cnt, "
 			+ " date_format(b.rdate,'%Y-%m-%d') as rdate,hit "
 			+ " from board b "
@@ -117,46 +117,43 @@ try{
 	
 	rs = psmt.executeQuery();
 %>
-<div class="container">
 <section>
-<!-- 메뉴 오른쪽 게시판 상세 내용 부분 -->
-<table id="inTable">
-	<tr>
-		<td>
-			<h2>&nbsp;&nbsp;레시피게시판</h2>
-			<select name="sType" id="sType">
-				<option value="title" <%= searchType.equals("title") ? "selected" : "" %>>제목</option>
-				<option value="content" <%= searchType.equals("content") ? "selected" : "" %>>내용</option>
-				<option value="nick" <%= searchType.equals("nick") ? "selected" : "" %>>작성자</option>
-			</select>
-			<input type="text" name="searchValue" id="search" value="<%= searchValue %>">
-			<button type="button" id="sBtn">검색하기</button>
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-			<%
-			if(session.getAttribute("loginUserNo") != null){
-				%>
-				<a href="write.jsp">
-				<button type="button" id="wBtn">글쓰기</button>
-				</a>
-				<br>
+    <article>
+        <div class="article_inner">
+            <h2>레시피게시판</h2>
+            <div class="content_inner">
+                <form>
+                    <select name="sType" id="sType">
+						<option value="title" <%= searchType.equals("title") ? "selected" : "" %>>제목</option>
+						<option value="content" <%= searchType.equals("content") ? "selected" : "" %>>내용</option>
+						<option value="nick" <%= searchType.equals("nick") ? "selected" : "" %>>작성자</option>
+					</select>
+                    <input type="text" name="searchValue" id="search" value="<%= searchValue %>">
+					<button type="button" id="sBtn">검색하기</button>
+                </form>
 				<%
-			}
-			%>
-		</td>
-	</tr>
-	<tr>
-		<td>
-			<table width="100%" id="listTable">
-				<thead>
-					<tr>
-						<th width="40px">번호</th>
-						<a href="view.jsp">
-						<th width="450px">제목</th>
-						</a>
-						<th width="150px">작성일</th>
-						<th width="60px">조회수</th>
-					</tr>
-				</thead>
+				if(session.getAttribute("loginUserNo") != null){
+					%>
+					<a href="write.jsp?type=<%= type %>">
+					<button type="button" id="wBtn">글쓰기</button>
+					</a>
+					<br>
+					<%
+				}
+				%>
+				
+				<table>
+                    <thead>
+						<tr>
+							<th width="40px">번호</th>
+							<a href="view.jsp">
+							<th width="400px">제목</th>
+							</a>
+							<th width="150px">난이도</th>
+							<th width="150px">작성일</th>
+							<th width="60px">조회수</th>
+						</tr>
+					</thead>
 				<tbody>
 				<%
 				int seqNo = total -((nowPage-1)*paging.getPerPage());
@@ -169,18 +166,19 @@ try{
 					}
 					%>
 					<tr>
-						<td>seqNo--</td>
+						<td><%= seqNo--%></td>
 						<td><a href="view.jsp?type=<%= type %>&no=<%= boardNo %>&nowPage=<%= nowPage %>&searchType=<%= searchType %>&searchValue=<%= searchValue %>"><%= rs.getString("title") %></a></td>
 						<%
 						if(type.equals("R")){
+							String starNum = rs.getString("star");
 							%>
 						<td>
 						<div class="star-rating" id="star">
-							<input id="star5" name="star" type="radio" value="5"/><label for="star5">★</label>
-							<input id="star4" name="star" type="radio" value="4"/><label for="star4">★</label>
-							<input id="star3" name="star" type="radio" value="3"/><label for="star3">★</label>
-							<input id="star2" name="star" type="radio" value="2"/><label for="star2">★</label>
-							<input id="star1" name="star" type="radio" value="1"/><label for="star1">★</label>
+							<input id="star5" name="star" type="radio" value="5" <%= starNum.equals("5") ? "checked" : "" %> /><label for="star5">★</label>
+							<input id="star4" name="star" type="radio" value="4" <%= starNum.equals("4") ? "checked" : "" %>/><label for="star4">★</label>
+							<input id="star3" name="star" type="radio" value="3" <%= starNum.equals("3") ? "checked" : "" %>/><label for="star3">★</label>
+							<input id="star2" name="star" type="radio" value="2" <%= starNum.equals("2") ? "checked" : "" %>/><label for="star2">★</label>
+							<input id="star1" name="star" type="radio" value="1" <%= starNum.equals("1") ? "checked" : "" %>/><label for="star1">★</label>
 				        </div>
 						</td>
 							<%
@@ -193,16 +191,22 @@ try{
 				}
 				%>
 				</tbody>
-			</table>
-		</td>
-	</tr>
-	<!-- 페이징 영역 -->
-	<tr>
-		<td align="center">1 2 3 4 5 &gt;</td>
-	</tr>
-</table>
+				</table>
+			</div>
+			<!-- 페이징 영역 -->
+            <div class="paging_inner">
+                <a href="">이전</a>
+                <a href="">1</a>
+                <a href="">2</a>
+                <a href="">3</a>
+                <a href="">4</a>
+                <a href="">5</a>
+                <a href="">6</a>
+                <a href="">다음</a>
+            </div>
+        </div>
+    </article>
 </section>
-</div>
 <%
 }catch(Exception e){
 	e.printStackTrace();

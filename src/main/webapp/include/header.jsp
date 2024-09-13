@@ -57,58 +57,61 @@ case "U" : LevelStr = "&#127808;"; break;
 </script>
 </head>
 <body>
-<div id="outDiv">
 <!-- head 영역 -->
-<header>
-	<a href="<%= request.getContextPath() %>/index.jsp" style="cursor:pointer;">
-        <img src="<%= request.getContextPath() %>/image/logo.jpg" width="100px" height="100px">
-    </a>
-    <nav>
-        <!-- 게시판이동하는 메뉴 영역 -->
-        <div id="menu">
-		<ul>
-			<li>
-				<a href="<%= request.getContextPath() %>/board/notice_board_list.jsp?type=N">
-					공지게시판
-				</a>
-			</li>
-			<li>
-				<a href="<%= request.getContextPath() %>/board/free_board_list.jsp?type=F">
-					자유게시판
-				</a>
-			</li>
-			<li>
-				<a href="<%= request.getContextPath() %>/board/r_board_list.jsp?type=R">
-					레시피게시판
-				</a>
-			</li>
-		</ul>
-        </div>
-    </nav>
-    <%
-    if(session.getAttribute("loginUserNo") != null){
-    %>
-    <span id="menuA">
-        [<%= LevelStr %> <%= loginNick %>]&nbsp;&nbsp;&nbsp;
-        <span id="menutableA">
-            <a href="<%= request.getContextPath() %>/user/myinfo.jsp">
-                <button id="infoBtn">내정보보기</button>
-            </a>
-            <a href="<%= request.getContextPath() %>/user/logout.jsp">
-                <button id="logoutBtn">로그아웃</button>
-            </a>
-        </span>
-    </span>
-    <%    
-    } else {
-    %>
-    <a href="<%= request.getContextPath() %>/user/join.jsp">
-        <button id="jBtn">회원가입</button>&nbsp;
-    </a>
-    <a href="<%= request.getContextPath() %>/user/login.jsp">
-        <button id="lBtn">로그인</button>
-    </a>&nbsp;&nbsp;
-    <%
-    }
-    %>
-</header>
+<div id="outDiv">
+    <header>
+        <div class="title_inner">
+            <div class="logo">
+               <a href="<%= request.getContextPath() %>/index.jsp" style="cursor:pointer;">
+		       <img src="<%= request.getContextPath() %>/image/logo.jpg" width="150px" height="150px" style="border-radius: 70%;">
+		   	   </a>
+            </div>
+            <div class="login">
+              <%
+		    if(session.getAttribute("loginUserNo") != null){
+		    %>
+		    <span id="menuA">
+		        [<%= LevelStr %> <%= loginNick %>]&nbsp;&nbsp;&nbsp;
+		        <span id="menutableA">
+		            <a href="<%= request.getContextPath() %>/user/myinfo.jsp">
+		                <button id="infoBtn">내정보보기</button>
+		            </a>
+		            <a href="<%= request.getContextPath() %>/user/logout.jsp">
+		                <button id="logoutBtn">로그아웃</button>
+		            </a>
+		        </span>
+		    </span>
+		    <%    
+		    } else {
+		    %>
+		    <a href="<%= request.getContextPath() %>/user/join.jsp">
+		        <button id="jBtn">회원가입</button>&nbsp;
+		    </a>
+		    <a href="<%= request.getContextPath() %>/user/login.jsp">
+		        <button id="lBtn">로그인</button>
+		    </a>&nbsp;&nbsp;
+		    <%
+		    }
+		    %>
+	            </div>
+	        </div>
+	        <nav>
+	            <ul>
+	                <li>
+	                	<a href="<%= request.getContextPath() %>/board/notice_board_list.jsp?type=N">
+						공지게시판
+						</a>
+					</li>
+	                <li>
+						<a href="<%= request.getContextPath() %>/board/free_board_list.jsp?type=F">
+							자유게시판
+						</a>
+					</li>
+					<li>
+						<a href="<%= request.getContextPath() %>/board/r_board_list.jsp?type=R">
+							레시피게시판
+						</a>
+					</li>
+	            </ul>
+	        </nav>
+	  </header>

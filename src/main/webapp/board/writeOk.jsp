@@ -2,49 +2,74 @@
 <%@ page import="java.sql.*" %>
 <%@ page import="cook.*" %>
 <%
-String method = request.getMethod();
-if(method.equals("GET") || session.getAttribute("no") == null){
-	%>
-	<script>
-		alert("잘못된 접근입니다.");
-		location.href = "r_board_list.jsp?type=R";
-	</script>
-	<%
-}else{
-	request.setCharacterEncoding("UTF-8");
-	int uno = (Integer)session.getAttribute("no");
-	String star = request.getParameter("star");
-	if(star == null || star.equals("")){
-		star = "0";
-	}
-	String title = request.getParameter("title");  // 제목
-	String content = request.getParameter("content");  // TinyMCE에서 작성된 HTML 내용
-	
-	Connection conn = null;
-	PreparedStatement pstmt = null;
-	
-	try {
-		conn = DBConn.conn();
-	
-	    // 게시글 저장 SQL
-	    String sql = "insert into board (title, content, star, uno) values (?, ?, ?, ?)";
-	    pstmt = conn.prepareStatement(sql);
-	    pstmt.setString(1, title);
-	    pstmt.setString(2, content);
-	    pstmt.setString(3, star);
-	    pstmt.setInt(4, uno);
-	
-	    int result = pstmt.executeUpdate();  // DB에 데이터 저장
-	    if (result > 0) {
-	        out.println("<script>alert('글이 성공적으로 저장되었습니다.'); location.href='r_board_list.jsp?type=R';</script>");
-	    } else {
-	        out.println("<script>alert('글 저장에 실패하였습니다.'); history.back();</script>");
-	    }
-	} catch (Exception e) {
-	    e.printStackTrace();
-	} finally {
-	    if (pstmt != null) pstmt.close();
-	    if (conn != null) conn.close();
-	}
+request.setCharacterEncoding("UTF-8");
+String type = request.getParameter("type");
+String path = request.getParameter("path");
+if (type == null || type.trim().isEmpty()) {
+    type = "F";
+}
+
+String title = request.getParameter("title");
+String content = request.getParameter("content");
+String uno = (String) session.getAttribute("loginUserNo");
+String star = request.getParameter("star");
+if (star == null) {
+    star = "0";
+}
+
+
+Connection conn = null;
+PreparedStatement psmt = null;
+
+try {
+    conn = DBConn.conn(); // DBConn이 올바르게 구현되어 있는지 확인
+
+    String sql = "";
+    if (type.equals("N")) {
+        sql = "INSERT INTO notice_board (title, content, top_yn, uno) VALUES (?, ?, ?, ?)";
+        psmt = conn.prepareStatement(sql);
+        String top_yn = request.getParameter("top_yn");
+        psmt.setString(1, title);
+        psmt.setString(2, content);
+        psmt.setString(3, top_yn);
+        psmt.setString(4, uno);
+    } else if (type.equals("F")) {
+        sql = "INSERT INTO board (title, content, type, uno) VALUES (?, ?, ?, ?)";
+        psmt = conn.prepareStatement(sql);
+        psmt.setString(1, title);
+        psmt.setString(2, content);
+        psmt.setString(3, type);
+        psmt.setString(4, uno);
+    } else if (type.equals("R")) {
+        sql = "INSERT INTO board (title, content, type, star, uno) VALUES (?, ?, ?, ?, ?)";
+        psmt = conn.prepareStatement(sql);
+        psmt.setString(1, title);
+        psmt.setString(2, content);
+        psmt.setString(3, type);
+        psmt.setString(4, star);
+        psmt.setString(5, uno);
+    }
+
+    int result = psmt.executeUpdate();
+    if (result > 0) {
+    	%>
+    	<script>
+    		alert("게시글이 성공적으로 등록되었습니다.");
+    		location.href = "<%= path%><%= type%>";
+    	</script>
+    	<%
+    } else {
+        %>
+    	<script>
+    		alert("게시글 등록에 실패하였습니다.");
+    		location.href = "<%= path%><%= type%>";
+    	</script>
+    	<%
+    }
+} catch (Exception e) {
+    e.printStackTrace();
+    out.print(e.getMessage());
+} finally {
+    DBConn.close(psmt, conn);
 }
 %>
