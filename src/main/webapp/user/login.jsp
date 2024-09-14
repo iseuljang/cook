@@ -31,70 +31,49 @@
 			return false;
 		}
 		
-		if(confirm("로그인하시겠습니까?") == false){
-			return false;
+		if(confirm("로그인하시겠습니까?") == true){
+			$("#loginFn").submit();
+    		return true;
 		}
-		return true;
 	}
 </script>
-<div class="container">
 <section>
-	<table id="joinTable">
-		<form action="loginOk.jsp" method="post" onsubmit="return DoLogin();">
-		<tr>
-			<td>
-				<h2>&nbsp;&nbsp;로그인</h2><br>
-			</td>
-		</tr>
-		<tr>
-			<td>
+    <article>
+        <div class="article_inner">
+            <h2>로그인</h2>
+            <div class="content_inner">
+				<form action="loginOk.jsp" method="post" id="loginFn">
 				<table style="border: none; align:left;" width="100%">
-                  	    <tr>
-                            <td style="text-align: right; width:150px;">아이디&nbsp;</td>
-                            <td>
-                                <input type="text" name="uid" id="uid" onkeydown="DoReset();">
-                            </td>
-                        </tr>
-                        <tr>
-                            <td style="text-align: right;">비밀번호&nbsp;</td>
-                            <td>
-                                <input type="password" name="upw" id="upw" onkeydown="DoReset();">
-                            </td>
-                        </tr>
-                        <tr>
-                       	<td colspan="2" style="text-align: center;">
-                           	<span id="msg" style="color:green;">&nbsp;</span>
-                           	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                           	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                       	</td>
-                        </tr>
-                        <tr>
-                            <td colspan="2" style="text-align: center;">
-                                <button type="submit" id="login">로그인하기</button>
-                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                <br>
-                                <a href="<%= request.getContextPath() %>/index.jsp">
-                                <button type="button" id="nomalBtn">비회원으로 이용하기</button>
-                                </a>
-                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                            </td>
-                        </tr>
-                    </table>
-			</td>
-		</tr>
-		<tr>
-			<td>
-				&nbsp;<br>
-			</td>
-		</tr>
-		</form>
-	</table>
-</section>
-</div>
+              	    <tr>
+                        <td style="text-align: right;">아이디&nbsp;</td>
+                        <td>
+                            <input type="text" name="uid" id="uid" onkeydown="DoReset();">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: right;">비밀번호&nbsp;</td>
+                        <td>
+                            <input type="password" name="upw" id="upw" onkeydown="DoReset();">
+                        </td>
+                    </tr>
+                    <tr>
+	                   	<td colspan="2" style="text-align: center;">
+	                       	<span id="msg" style="color:green;">&nbsp;</span>
+	                   	</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" style="text-align: center;">
+                            <button type="button" onclick="DoLogin();" id="login">로그인하기</button>
+                            <br>
+                            <a href="<%= request.getContextPath() %>/index.jsp">
+                            <button type="button" id="nomalBtn">비회원으로 이용하기</button>
+                            </a>
+                        </td>
+                    </tr>
+                </table>
+                </form>
+			</div>
+        </div>
+    </article>
+</section>		
 <%@ include file="../include/footer.jsp" %>

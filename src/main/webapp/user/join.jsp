@@ -121,20 +121,15 @@
         msg.innerHTML = "";
 	}	
 </script>
-<div class="container">
 <section>
-	<table id="joinTable">
-		<form action="joinOk.jsp" method="post" id="joinFn">
-		<tr>
-			<td>
-				<h2>&nbsp;&nbsp;회원가입</h2><br>
-			</td>
-		</tr>
-		<tr>
-			<td>
+    <article>
+        <div class="article_inner">
+            <h2>회원가입</h2>
+            <div class="content_inner">
+				<form action="joinOk.jsp" method="post" id="joinFn">
 				<table style="border: none; align:left;" width="100%">
                	    <tr>
-                         <td style="text-align: right; width:150px;">아이디&nbsp;</td>
+                         <td style="text-align: right;">아이디&nbsp;</td>
                          <td>
                              <input type="text" name="uid" id="uid" onkeydown="DoReset();">
                          </td>
@@ -170,30 +165,18 @@
                      <tr>
                      	<td colspan="2" style="text-align: center;">
                          	<span id="msg" style="color:green;">&nbsp;</span>
-                         	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                         	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                      	</td>
                      </tr>
                      <tr>
                          <td colspan="2" style="text-align: center;">
                              <button type="button" id="join" onclick="DoJoin();">가입하기</button>
                              <button type="reset" id="resetBtn">취소</button>
-                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                          </td>
                      </tr>
                  </table>	
-			</td>
-		</tr>
-		<tr>
-			<td>
-				&nbsp;<br>
-			</td>
-		</tr>
-		</form>
-	</table>
+			</form>
+			</div>
+        </div>
+    </article>
 </section>
-</div>
 <%@ include file="../include/footer.jsp" %>

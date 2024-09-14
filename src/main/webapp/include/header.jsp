@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="java.io.*" %>
+<%@ page import="java.util.*" %>
 <%@ page import="java.sql.*" %>
 <%@ page import="cook.*" %>
 <%
@@ -27,6 +29,7 @@ String LevelStr = "";
 switch(loginLevel){
 case "A" : LevelStr = "&#127800;"; break;
 case "U" : LevelStr = "&#127808;"; break;
+
 }
 %>
 <!DOCTYPE html>

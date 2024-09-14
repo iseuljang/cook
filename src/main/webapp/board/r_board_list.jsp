@@ -91,11 +91,11 @@ try{
 	
 	if(!searchType.equals("")){
 		if(searchType.equals("title")){
-			sqlTotal += "and title like concat('%',?,'%') ";
+			sql += "and title like concat('%',?,'%') ";
 		}else if(searchType.equals("nick")){
-			sqlTotal += "and unick like concat('%',?,'%') ";
+			sql += "and unick like concat('%',?,'%') ";
 		}else{
-			sqlTotal += "and content like concat('%',?,'%') ";
+			sql += "and content like concat('%',?,'%') ";
 		}
 	}
 	if(type.equals("N")){
@@ -122,87 +122,107 @@ try{
         <div class="article_inner">
             <h2>레시피게시판</h2>
             <div class="content_inner">
-                <form>
-                    <select name="sType" id="sType">
+                <form action="r_board_list.jsp" method="get" style="padding-bottom:30px;">
+                    <select name="searchType" id="sType">
 						<option value="title" <%= searchType.equals("title") ? "selected" : "" %>>제목</option>
 						<option value="content" <%= searchType.equals("content") ? "selected" : "" %>>내용</option>
 						<option value="nick" <%= searchType.equals("nick") ? "selected" : "" %>>작성자</option>
 					</select>
                     <input type="text" name="searchValue" id="search" value="<%= searchValue %>">
 					<button type="button" id="sBtn">검색하기</button>
-                </form>
-				<%
-				if(session.getAttribute("loginUserNo") != null){
-					%>
-					<a href="write.jsp?type=<%= type %>">
-					<button type="button" id="wBtn">글쓰기</button>
-					</a>
-					<br>
 					<%
-				}
-				%>
-				
-				<table>
+					if(session.getAttribute("loginUserNo") != null){
+						%>
+						<a href="write.jsp?type=<%= type %>" style="margin-left:110px;">
+						<button type="button" id="wBtn">글쓰기</button>
+						</a>
+						<br>
+						<%
+					}
+					%>
+                </form>
+				<table style="text-align:center;">
                     <thead>
 						<tr>
 							<th width="40px">번호</th>
-							<a href="view.jsp">
-							<th width="400px">제목</th>
-							</a>
-							<th width="150px">난이도</th>
+							<th width="300px">제목</th>
+							<th width="190px">난이도</th>
+							<th width="150px">작성자</th>
 							<th width="150px">작성일</th>
 							<th width="60px">조회수</th>
 						</tr>
 					</thead>
-				<tbody>
-				<%
-				int seqNo = total -((nowPage-1)*paging.getPerPage());
-				while(rs.next()){
-					String boardNo = "";
-					if(type.equals("N")){
-						boardNo = rs.getString("nno");
-					}else{
-						boardNo = rs.getString("bno");
-					}
-					%>
-					<tr>
-						<td><%= seqNo--%></td>
-						<td><a href="view.jsp?type=<%= type %>&no=<%= boardNo %>&nowPage=<%= nowPage %>&searchType=<%= searchType %>&searchValue=<%= searchValue %>"><%= rs.getString("title") %></a></td>
-						<%
-						if(type.equals("R")){
-							String starNum = rs.getString("star");
-							%>
-						<td>
-						<div class="star-rating" id="star">
-							<input id="star5" name="star" type="radio" value="5" <%= starNum.equals("5") ? "checked" : "" %> /><label for="star5">★</label>
-							<input id="star4" name="star" type="radio" value="4" <%= starNum.equals("4") ? "checked" : "" %>/><label for="star4">★</label>
-							<input id="star3" name="star" type="radio" value="3" <%= starNum.equals("3") ? "checked" : "" %>/><label for="star3">★</label>
-							<input id="star2" name="star" type="radio" value="2" <%= starNum.equals("2") ? "checked" : "" %>/><label for="star2">★</label>
-							<input id="star1" name="star" type="radio" value="1" <%= starNum.equals("1") ? "checked" : "" %>/><label for="star1">★</label>
-				        </div>
-						</td>
-							<%
+					<tbody>
+					<%
+					int seqNo = total -((nowPage-1)*paging.getPerPage());
+					while(rs.next()){
+						String boardNo = "";
+						if(type.equals("N")){
+							boardNo = rs.getString("nno");
+						}else{
+							boardNo = rs.getString("bno");
 						}
 						%>
-						<td><%= rs.getString("rdate") %></td>
-						<td><%= rs.getString("hit") %></td>
-					</tr>
-					<%
-				}
-				%>
-				</tbody>
+						<tr>
+							<td><%= seqNo--%></td>
+							<td><a href="view.jsp?type=<%= type %>&no=<%= boardNo %>&nowPage=<%= nowPage %>&searchType=<%= searchType %>&searchValue=<%= searchValue %>"><%= rs.getString("title") %></a></td>
+							<%
+							if(type.equals("R")){
+								String starNum = rs.getString("star");
+								%>
+							<td>
+							<div class="rating" id="star">
+								<input id="star5" name="star" type="radio" value="5" onclick="return false;" <%= starNum.equals("5") ? "checked" : "" %>/><label for="star5">★</label>
+								<input id="star4" name="star" type="radio" value="4" onclick="return false;" <%= starNum.equals("4") ? "checked" : "" %>/><label for="star4">★</label>
+								<input id="star3" name="star" type="radio" value="3" onclick="return false;" <%= starNum.equals("3") ? "checked" : "" %>/><label for="star3">★</label>
+								<input id="star2" name="star" type="radio" value="2" onclick="return false;" <%= starNum.equals("2") ? "checked" : "" %>/><label for="star2">★</label>
+								<input id="star1" name="star" type="radio" value="1" onclick="return false;" <%= starNum.equals("1") ? "checked" : "" %>/><label for="star1">★</label>
+					        </div>
+							</td>
+								<%
+							}
+							%>
+							<td><%= rs.getString("unick") %></td>
+							<td><%= rs.getString("rdate") %></td>
+							<td><%= rs.getString("hit") %></td>
+						</tr>
+						<%
+					}
+					%>
+					</tbody>
 				</table>
 			</div>
 			<!-- 페이징 영역 -->
             <div class="paging_inner">
-                <a href="">이전</a>
-                <a href="">1</a>
-                <a href="">2</a>
-                <a href="">3</a>
-                <a href="">4</a>
-                <a href="">5</a>
-                <a href="">6</a>
-                <a href="">다음</a>
+           	<%
+			if(paging.getStartPage() > 1){
+				//시작페이지가 1보다 큰 경우 이전 페이지 존재
+				%>
+				<!-- 시작 페이지 번호 이전 페이지로 이동 13->10 -->
+				<a href="list.jsp?nowPage=<%= paging.getStartPage()-1 %>&searchType=<%= searchType %>&searchValue=<%= searchValue %>">&lt;</a>
+				<%
+			}
+			
+			for(int i = paging.getStartPage(); i <= paging.getEndPage(); i++){
+				if(nowPage == i){
+					%>
+					<a style="color:red; font-weight:bold;"><%= i %></a>
+					<%
+				}else{
+					%>
+						<a href="r_board_list.jsp?type=<%= type %>&nowPage=<%= i %>&searchType=<%= searchType %>&searchValue=<%= searchValue %>"><%= i %></a>
+					<%
+				}
+			}
+			
+			if(paging.getLastPage() > paging.getEndPage()){
+				//전체 페이지번호 보다 현재 종료 페이지 번호가 더 작은 경우
+				%>
+				<!-- 시작 페이지 번호 이후 페이지로 이동 13->21 -->
+				<a href="r_board_list.jsp?type=<%= type %>&nowPage=<%= paging.getEndPage()+1 %>&searchType=<%= searchType %>&searchValue=<%= searchValue %>">&gt;</a>
+				<%
+			}
+			%>
             </div>
         </div>
     </article>
