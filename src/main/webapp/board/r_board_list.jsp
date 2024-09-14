@@ -43,7 +43,7 @@ try{
 	if(type.equals("N")){
 		sqlTotal = "select count(*) as total from notice_board b  ";
 	}else {
-		sqlTotal = "select count(*) as total from board b  ";
+		sqlTotal = "select count(*) as total from board b ";
 	}
 	sqlTotal += "inner join user u ";
 	sqlTotal += "on b.uno = u.uno ";
@@ -57,6 +57,13 @@ try{
 			sqlTotal += "and content like concat('%',?,'%') ";
 		}
 	}
+	
+	if(type.equals("F")){
+		sqlTotal += " and type='F' ";
+	}else if(type.equals("R")){
+		sqlTotal += " and type='R' ";
+	}
+	
 	psmtTotal = conn.prepareStatement(sqlTotal);
 	if(!searchType.equals("")){
 		psmtTotal.setString(1, searchValue);
@@ -120,7 +127,15 @@ try{
 <section>
     <article>
         <div class="article_inner">
-            <h2>레시피게시판</h2>
+       	<%
+		if(type.equals("N")){
+			%><h2>공지게시판</h2><%
+		}else if(type.equals("F")){
+			%><h2>자유게시판</h2><%
+		}else{
+			%><h2>레시피게시판</h2><%
+		}
+		%>
             <div class="content_inner">
                 <form action="r_board_list.jsp" method="get" style="padding-bottom:30px;">
                     <select name="searchType" id="sType">
@@ -169,14 +184,15 @@ try{
 							<%
 							if(type.equals("R")){
 								String starNum = rs.getString("star");
+								/* out.println("Star value: " + starNum);  */
 								%>
 							<td>
-							<div class="rating" id="star">
-								<input id="star5" name="star" type="radio" value="5" onclick="return false;" <%= starNum.equals("5") ? "checked" : "" %>/><label for="star5">★</label>
-								<input id="star4" name="star" type="radio" value="4" onclick="return false;" <%= starNum.equals("4") ? "checked" : "" %>/><label for="star4">★</label>
-								<input id="star3" name="star" type="radio" value="3" onclick="return false;" <%= starNum.equals("3") ? "checked" : "" %>/><label for="star3">★</label>
-								<input id="star2" name="star" type="radio" value="2" onclick="return false;" <%= starNum.equals("2") ? "checked" : "" %>/><label for="star2">★</label>
-								<input id="star1" name="star" type="radio" value="1" onclick="return false;" <%= starNum.equals("1") ? "checked" : "" %>/><label for="star1">★</label>
+							<div class="rating" id="star<%= boardNo %>">
+								<input id="star5_<%= boardNo %>" name="star<%= boardNo %>" type="radio" value="5" <%= starNum.equals("5") ? "checked" : "" %> disabled /><label for="star5_<%= boardNo %>">★</label>
+								<input id="star4_<%= boardNo %>" name="star<%= boardNo %>" type="radio" value="4" <%= starNum.equals("4") ? "checked" : "" %> disabled/><label for="star4_<%= boardNo %>">★</label>
+								<input id="star3_<%= boardNo %>" name="star<%= boardNo %>" type="radio" value="3" <%= starNum.equals("3") ? "checked" : "" %> disabled/><label for="star3_<%= boardNo %>">★</label>
+								<input id="star2_<%= boardNo %>" name="star<%= boardNo %>" type="radio" value="2" <%= starNum.equals("2") ? "checked" : "" %> disabled/><label for="star2_<%= boardNo %>">★</label>
+								<input id="star1_<%= boardNo %>" name="star<%= boardNo %>" type="radio" value="1" <%= starNum.equals("1") ? "checked" : "" %> disabled/><label for="star1_<%= boardNo %>">★</label>
 					        </div>
 							</td>
 								<%

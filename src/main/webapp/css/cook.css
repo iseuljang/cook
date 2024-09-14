@@ -125,7 +125,7 @@ html,body{
     justify-content: center;
 }
 body>*{
-    border: 1px solid black;
+    /* border: 1px solid black; */
     width: 1920px;
 }
 h1{
@@ -146,9 +146,9 @@ h1{
     width: 150px;
     height: 150px;
 }
-nav{
+/* nav{
     border: 1px solid black;
-}
+} */
 nav ul{
     margin: 0;
     padding: 0;
@@ -160,14 +160,14 @@ nav ul{
 nav li{
     width: 200px;
     text-align: center;
-    border: 1px solid black;
+    /* border: 1px solid black; */
 }
 
 section{
     width: 100%;
 }
 article{
-    border: 1px solid black;
+    /* border: 1px solid black; */
     width: 100%;;
     min-height: 500px;
     margin: 0px auto;
@@ -179,12 +179,24 @@ article h2{
     margin-bottom: 40px;
 }
 .article_inner{
-    margin-left: 80px;
+    margin-left: 40px;
 }
 .content_inner{
-    width: 90%;
-    border: 1px solid black;
+    width: 100%;
+    /* border: 1px solid black; */
 }
+.view_inner{
+    width: 90%;
+    border: 2px dashed #FFFBEC;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: white;
+    border-radius:20px;
+}
+
+.view_inner table{
+	margin-left:50px;
+}
+
 .content_inner>*{
     width: 100%;
 }
@@ -196,8 +208,13 @@ article h2{
     width: 80%;
 } */
 .paging_inner{
-    border: 1px solid black;
-    width: 90%;
+    /* border: 1px solid black; */
+    width: 100%;
+    text-align: center;
+}
+.comment_inner{
+    /* border: 1px solid black; */
+    width: 95%;
     text-align: center;
 }
 footer{
@@ -237,10 +254,10 @@ input {
     font-size:18px;
 }
 
-
 #jBtn,#lBtn,#resetBtn,#join,#sBtn,#listBtn,#wBtn,#cBtn{
 	border-radius:5px;
-	background-color:#FFA500;
+	/* background-color:#FFA500; */
+	background-color:#FF7F50;
 	color:white;
 	border:none;
 	font-size:18px;
@@ -249,7 +266,7 @@ input {
 	cursor:pointer;
 }
 
-#likeBtn{
+#likeBtn,#likedBtn{
 	background-color:white;
 	border:none;
 	outline:none;
@@ -259,7 +276,7 @@ input {
 
 #nomalBtn,#login{
 	border-radius:5px;
-	background-color:#FFA500;
+	background-color:#FF7F50;
 	color:white;
 	border:none;
 	font-size:18px;
@@ -289,15 +306,6 @@ input {
     width:100%;
 	border-radius:20px;
 	text-align:center;
-	/* border:1px solid #5D4037; */
-}
-
-#viewTd{
-	background-color:#FFFBEC;
-    width:90%;
-	height:90%;
-	border-radius:20px;
-	text-align:left;
 	/* border:1px solid #5D4037; */
 }
 
@@ -335,9 +343,10 @@ input {
     height: 45px;
     text-align: center;
     outline: none;
-    color:#5D4037;
+    color: #5D4037;
     font-weight: bold;
     line-height: 100%;
+    cursor:pointer;
 }
 /* 
 input[type="text"],input[type="password"],input[type="email"]{
@@ -473,7 +482,8 @@ input[type="text"],input[type="password"],input[type="email"]{
 }
 .rating label {
     color: #ccc; /* 비활성화된 별의 색 */
-    font-size: 24px;
+    font-size: 20px;
+    margin: 0 3px;
     padding: 0;
     cursor: pointer;
 }
