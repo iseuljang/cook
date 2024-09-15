@@ -35,6 +35,16 @@
 				}
 			});
 		});
+		
+		$("#file").on('change', function(){
+   		  var fileName = $("#file").val();
+   		  $(".upload-name").val(fileName);
+   		});
+		
+		$(".upload-name").on('click',function(){
+			$("#file").click();
+		});
+		
 	}
 	
 	
@@ -78,15 +88,11 @@
             return false;
         }
         
-        //이름 2글자이상
-        let userName = document.getElementById("uname");
-        if(userName.value == ""){
-            msg.innerHTML = "이름을 입력해주세요";
-            userName.focus();
-            return false;
-        }else if(userName.value.length < 2){
-            msg.innerHTML = "이름은 2글자 이상 입력해주세요";
-            userName.focus();
+        //이메일 입력확인
+        let mail = document.getElementById("uemail");
+        if(mail.value == ""){
+            msg.innerHTML = "이메일을 입력해주세요";
+            mail.focus();
             return false;
         }
         
@@ -101,13 +107,7 @@
             userNick.focus();
             return false;
         }
-    	//이메일 입력확인
-        let mail = document.getElementById("uemail");
-        if(mail.value == ""){
-            msg.innerHTML = "이메일을 입력해주세요";
-            mail.focus();
-            return false;
-        }
+    	
 		
         if(confirm("회원가입을 완료하시겠습니까?") == true)
     	{
@@ -120,56 +120,91 @@
 		let msg = document.getElementById("msg");
         msg.innerHTML = "";
 	}	
+	
+	function readURL(input) {
+		if (input.files && input.files[0]) {
+			var reader = new FileReader();
+			reader.onload = function(e) {
+			document.getElementById('preview').src = e.target.result;
+		};
+		reader.readAsDataURL(input.files[0]);
+		}else {
+			document.getElementById('preview').src = "";
+		}
+	}
 </script>
 <section>
     <article>
         <div class="article_inner">
+            <div class="join_title">
             <h2>회원가입</h2>
-            <div class="content_inner">
-				<form action="joinOk.jsp" method="post" id="joinFn">
-				<table style="border: none; align:left;" width="100%">
+            </div>
+            <div class="join_inner">
+				<form action="joinOk.jsp" method="post" id="joinFn" enctype="multipart/form-data">
+				<table>
                	    <tr>
-                         <td style="text-align: right;">아이디&nbsp;</td>
-                         <td>
-                             <input type="text" name="uid" id="uid" onkeydown="DoReset();">
-                         </td>
-                     </tr>
+                        <td>
+                            <div class="input-container">
+                                <i class="fas fa-user"></i>
+                                <input type="text" name="uid" id="uid" placeholder="아이디" onkeydown="DoReset();">
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="input-container">
+                                <i class="fas fa-lock"></i>
+                                <input type="password" name="upw" id="upw" placeholder="비밀번호" onkeydown="DoReset();">
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="input-container">
+                                <!-- <i class="fas fa-lock"></i> -->
+                                <i class="fas fa-check"></i>
+                           		<input type="password" name="upwcheck" id="upwcheck" placeholder="비밀번호확인" onkeydown="DoReset();">
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="input-container">
+                                <i class="fas fa-envelope"></i>
+		                        <input type="email" name="uemail" id="uemail" placeholder="이메일" onkeydown="DoReset();">
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="input-container">
+                                <i class="fas fa-user"></i>
+		                        <input type="text" name="unick" id="unick" placeholder="닉네임" onkeydown="DoReset();">
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="input-container">
+	                    		 <i class="fas fa-camera"></i> 
+	                             <img id="preview" class="circular-img" />
+	                             <div class="profil">
+	                                 <label for="file">
+	                                	 <input class="upload-name" value="프로필이미지" placeholder="프로필이미지" readonly>
+		                                 <input type="file" id="file" name="fname" onchange="readURL(this);">
+	                                 </label>
+	                             </div>
+                            </div>
+                        </td>
+                    </tr>
                      <tr>
-                         <td style="text-align: right;">비밀번호&nbsp;</td>
-                         <td>
-                             <input type="password" name="upw" id="upw" onkeydown="DoReset();">
-                         </td>
-                     </tr>
-                     <tr>
-                         <td style="text-align: right;">비밀번호 확인&nbsp;</td>
-                         <td>
-                             <input type="password" name="upwcheck" id="upwcheck" onkeydown="DoReset();">
-                         </td>
-                     </tr>
-                     <tr>
-                         <td style="text-align: right;">이름&nbsp;</td>
-                         <td>
-                             <input type="text" name="uname" id="uname" onkeydown="DoReset();">
-                         </td>
-                     </tr>
-                     <tr>
-                         <td style="text-align: right;">닉네임&nbsp;</td>
-                         <td>
-                         	<input type="text" name="unick" id="unick" onkeydown="DoReset();">
-                         </td>
-                     </tr>
-                     <tr>
-                         <td style="text-align: right;">이메일&nbsp;</td>
-                         <td><input type="email" name="uemail" id="uemail" onkeydown="DoReset();"></td>
-                     </tr>
-                     <tr>
-                     	<td colspan="2" style="text-align: center;">
-                         	<span id="msg" style="color:green;">&nbsp;</span>
+                     	<td style="text-align: center;">
+                         	<span id="msg" style="color:green;"></span>
                      	</td>
                      </tr>
                      <tr>
-                         <td colspan="2" style="text-align: center;">
-                             <button type="button" id="join" onclick="DoJoin();">가입하기</button>
+                         <td style="text-align: center;">
+                             <button type="button" class="join" onclick="DoJoin();">가입하기</button>
                              <button type="reset" id="resetBtn">취소</button>
                          </td>
                      </tr>

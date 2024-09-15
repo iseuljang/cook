@@ -43,9 +43,9 @@ try {
 // 추천 상태에 따라 적절한 이미지를 표시
 if (rState.equals("E")) {
     // 추천한 상태일 때
-    out.print("<img style='width:30px; cursor:pointer;' src='https://img.icons8.com/?size=100&id=12306&format=png&color=000000' onclick='recoAdd(" + bno + ", \"D\")' />");
+    out.print("<img style='width:30px; cursor:pointer;' src='https://img.icons8.com/?size=100&id=12306&format=png&color=5D4037' onclick='recoAdd(" + bno + ", \"D\")' />");
 } else {
     // 추천하지 않은 상태일 때
-    out.print("<img style='width:30px; cursor:pointer;' src='https://img.icons8.com/?size=100&id=87&format=png&color=EEEEEE' onclick='recoAdd(" + bno + ", \"E\")' />");
+    out.print("<img style='width:30px; cursor:pointer;' src='https://img.icons8.com/?size=100&id=87&format=png&color=000000' onclick='recoAdd(" + bno + ", \"E\")' />");
 }
 %>

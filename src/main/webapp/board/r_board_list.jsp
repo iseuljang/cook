@@ -20,6 +20,7 @@ if(type == null || type.equals("")){
 	type = "F";
 }
 
+
 int nowPage = 1;
 
 if(request.getParameter("nowPage") != null){
@@ -89,6 +90,7 @@ try{
 	}else {
 		sql = "select bno,title,unick,star, " 
 			+ " (select count(*) from comment where bno = b.bno and state='E') as cnt, "
+			+ " (select count(*) from recommend where bno = b.bno and state='E') as rCount, "
 			+ " date_format(b.rdate,'%Y-%m-%d') as rdate,hit "
 			+ " from board b "
 			+ " inner join user u " 
@@ -124,9 +126,37 @@ try{
 	
 	rs = psmt.executeQuery();
 %>
+<script>
+window.onload = function(){
+	$("#search").keyup(function(event){
+		if(event.keyCode == 13)	{	
+			//Enter문자가 눌려짐. keyCode 아스키코드. 13이 enter 
+			document.searchFn.submit();
+		}
+	});
+	
+	
+	$("#search").on('keyup',function(){
+		if($(this).val().length > 0){
+			$("#clearBtn").css("display","inline");
+		}else{
+			$("#clearBtn").css("display","none");
+		}
+	});
+	
+	$("#clearBtn").on('click',function(){
+	    $("#search").val('');  // 올바른 코드
+	    $(this).css("display","none");
+	});
+	
+}
+
+
+</script>
 <section>
     <article>
         <div class="article_inner">
+        	<div class="search_title">
        	<%
 		if(type.equals("N")){
 			%><h2>공지게시판</h2><%
@@ -136,25 +166,36 @@ try{
 			%><h2>레시피게시판</h2><%
 		}
 		%>
-            <div class="content_inner">
-                <form action="r_board_list.jsp" method="get" style="padding-bottom:30px;">
-                    <select name="searchType" id="sType">
-						<option value="title" <%= searchType.equals("title") ? "selected" : "" %>>제목</option>
-						<option value="content" <%= searchType.equals("content") ? "selected" : "" %>>내용</option>
-						<option value="nick" <%= searchType.equals("nick") ? "selected" : "" %>>작성자</option>
-					</select>
-                    <input type="text" name="searchValue" id="search" value="<%= searchValue %>">
-					<button type="button" id="sBtn">검색하기</button>
-					<%
-					if(session.getAttribute("loginUserNo") != null){
-						%>
-						<a href="write.jsp?type=<%= type %>" style="margin-left:110px;">
-						<button type="button" id="wBtn">글쓰기</button>
-						</a>
-						<br>
+        	</div>
+            <div class="search_inner">
+                <form action="r_board_list.jsp" method="get" name="searchFn" style="padding-bottom:30px;">
+                    <div class="search-wrapper">
+	                    <select name="searchType" id="sType">
+							<option value="title" <%= searchType.equals("title") ? "selected" : "" %>>제목</option>
+							<option value="content" <%= searchType.equals("content") ? "selected" : "" %>>내용</option>
+							<option value="nick" <%= searchType.equals("nick") ? "selected" : "" %>>작성자</option>
+						</select>
+						<div class="input-container" id="seach-container"
+						style="box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+					    background-color: white;
+					    border-radius: 40px;
+					    width:60%;
+					    ">
+	                        <i class="fas fa-search" id="searchIcon"></i>
+		                    <input type="text" name="searchValue" id="search" placeholder="검색" value="<%= searchValue %>">
+		                    <i class="fas fa-times" id="clearBtn"></i>
+	                    </div>
 						<%
-					}
-					%>
+						if(session.getAttribute("loginUserNo") != null){
+							%>
+							<a href="write.jsp?type=<%= type %>" style="margin-left:110px;">
+							<button type="button" id="wBtn">글쓰기</button>
+							</a>
+							<br>
+							<%
+						}
+						%>
+					</div>
                 </form>
 				<table style="text-align:center;">
                     <thead>
@@ -164,6 +205,7 @@ try{
 							<th width="190px">난이도</th>
 							<th width="150px">작성자</th>
 							<th width="150px">작성일</th>
+							<th width="60px">추천수</th>
 							<th width="60px">조회수</th>
 						</tr>
 					</thead>
@@ -200,6 +242,7 @@ try{
 							%>
 							<td><%= rs.getString("unick") %></td>
 							<td><%= rs.getString("rdate") %></td>
+							<td><%= rs.getString("rCount") %></td>
 							<td><%= rs.getString("hit") %></td>
 						</tr>
 						<%

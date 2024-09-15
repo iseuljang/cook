@@ -25,20 +25,45 @@ h1{
     text-align: center;
     padding-left: 700px;
 }
-.title_inner{
+/* .title_inner{
     position: relative;
     display: flex;
     width: 100%;
+} */
+
+.title_inner {
+    display: flex;
+    align-items: center; /* 수직 가운데 정렬 */
+    justify-content: space-between; /* 좌우 공간을 균등하게 분배 */
+    width: 100%;
 }
-.login{
+
+/* .login{
     position: absolute;
     right: 10px;
     top: 50px;
+} */
+
+/* 로그인 영역 스타일 */
+.login {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* 아이템 간격 */
 }
-.logo{
-    width: 150px;
-    height: 150px;
+
+/* logo와 preview 이미지 크기 맞추기 */
+.logo img {
+    width: 150px; /* 이미지 너비 */
+    height: 150px; /* 이미지 높이 */
+    border-radius: 50%; /* 원형 테두리 */
 }
+
+#previewProfil{
+	width: 90px; /* 이미지 너비 */
+    height: 90px; /* 이미지 높이 */
+    border-radius: 50%; /* 원형 테두리 */
+}
+
 /* nav{
     border: 1px solid black;
 } */
@@ -131,8 +156,14 @@ article h2{
     padding-top: 20px;
 }
 
+/* 회원가입 페이지 */
+.join_title,.join_inner{
+    width: 50%;
+    margin:auto;
+}
 
-/* 로그인 부분 */
+
+/* 로그인 페이지 */
 .login_inner,.login_title{
     width: 50%;
     margin:auto;
@@ -224,7 +255,7 @@ input {
 }
 
 
-#jBtn,#lBtn,#resetBtn,#join,#sBtn,#listBtn,#wBtn,#cBtn{
+#jBtn,#lBtn,#resetBtn,.join,#sBtn,#listBtn,#wBtn,#cBtn{
 	border-radius:5px;
 	/* background-color:#FFA500; */
 	background-color:#FF7F50;
@@ -268,37 +299,72 @@ input {
 	height:100%;
 }
 
-#search{
-	height: 25px;
-    border: 0;
-    border-radius: 5px;
-    outline: none;
-    background-color: #FFFBEC;
-    width: 40%;
-    height:50px;
-    color:#5D4037;
-    font-weight:bold;
-    font-size:20px;
-}
-
 #sType{
 	-webkit-appearance: none;  /* 크롬 화살표 없애기 */
     -moz-appearance: none; /* 파이어폭스 화살표 없애기 */
     appearance: none;  /* 화살표 없애기 */
     display: inline-block;
-    /* border: 1px solid #5D4037; */
     border:none;
-    background-color: #FFFBEC;
-    border-radius: 5px;
-    width: 100px;
-    height: 45px;
+    background-color: white;
+    width: 150px;
+    height: 60px;
     text-align: center;
     outline: none;
     color: #5D4037;
     font-weight: bold;
     line-height: 100%;
     cursor:pointer;
+    margin-right: 20px; 
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 40px;
+    font-size:18px;
 }
+/* view 페이지의 검색창 */
+.search-wrapper {
+    display: flex;
+    align-items: center; /* 수직 가운데 정렬 */
+    gap: 10px; /* 요소 간의 간격 설정 */
+}
+
+.search_inner,.search_title{
+    width: 100%;
+    margin:auto;
+}
+
+#search{
+	padding-right: 30px;
+	background-color: white;
+}
+
+#searchIcon{
+	margin-left:10px;
+}
+
+#clearBtn {
+    cursor: pointer;
+    display: none; /* 기본적으로는 숨김 */
+    margin-left:80px;
+}
+
+#search-container {
+    position: relative;
+    padding: 10px;
+}
+
+#search-container input {
+    padding-right: 30px;
+}
+
+#search-container clearBtn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    font-size: 18px;
+    color: #999;
+    display: none;
+}
+
 
 /* textarea */
 #mytextarea {
@@ -314,12 +380,11 @@ input {
 }
 /* 포커스 시 스타일링 */
 #mytextarea:focus {
-    border-color: #FFA500; /* 포커스 시 테두리 색상 */
     outline: none; /* 기본 포커스 아웃라인 제거 */
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* 포커스 시 그림자 */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-/* 첨부파일 css */
+/* 글쓰기 첨부파일 css */
 /* 기존 첨부파일 디자인 없애기 */
 .filebox input[type="file"] {
     position: absolute;
@@ -351,6 +416,68 @@ input {
     margin-left: 10px;
 }
 
+
+/* 회원가입 첨부파일 css */
+/* 기존 첨부파일 디자인 없애기 */
+.join_inner .input-container {
+    display: flex;
+    align-items: center;
+}
+
+.profil {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    border: 1px solid #dddddd;
+    width: 70%;
+    margin-left: 20px;
+    padding: 10px;
+    border-radius:5px;
+}
+
+.profil input[type="file"] {
+    position: absolute;
+    width: 0;
+    height: 0;
+    padding: 0;
+    overflow: hidden;
+    border: 0;
+    cursor: pointer; 
+}
+
+.profil .upload-name {
+    display: inline-block;
+    height: 40px;
+    padding: 0 10px;
+    vertical-align: middle;
+    width: 100%;
+    color: #999999;
+    margin-left: 20px;
+    cursor: pointer;
+}
+
+.profil label {
+    display: flex;
+    align-items: center;
+    height: 40px;
+    padding: 0 10px;
+    vertical-align: middle;
+    width: 100%;
+    color: #999999;
+    cursor: pointer;
+}
+
+.circular-img {
+	margin-left:10px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+    display: block; /* 이미지를 블록 요소로 설정하여 부모의 영향을 받지 않도록 */
+    background-color: white; /* 기본 배경색 설정 */
+    border: 1px solid #5D4037;  /* 원형 테두리 추가 (선택 사항) */
+}
+
 /* header 버튼 서브메뉴 */
 #menutableA button{
 	border-radius:5px;
@@ -374,6 +501,8 @@ input {
     border: none;
     display: inline-block;
     position: relative; /* 메뉴의 기준 위치 설정 */
+    margin-right:15px;
+    margin-bottom:10px;
 }
 
 /* menutableA 스타일 */

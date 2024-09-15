@@ -30,7 +30,8 @@ try{
 		//존재하는 회원
 		//세션에 로그인 정보를 기록
 		session.setAttribute("loginUserId", rs.getString("uid"));
-		session.setAttribute("loginUserName", rs.getString("uname"));
+		session.setAttribute("loginUserProfilF", rs.getString("fname"));
+		session.setAttribute("loginUserProfilP", rs.getString("pname"));
 		session.setAttribute("loginUserNick", rs.getString("unick"));
 		session.setAttribute("loginUserNo", rs.getString("uno"));
 		session.setAttribute("loginUserLevel", rs.getString("uauthor"));

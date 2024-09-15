@@ -60,6 +60,7 @@ String title = "";
 String content = "";
 String rdate = "";
 int hit = 0;
+String recoTotal = "";
 String star = "";
 String state = "";
 String topYn = "";
@@ -84,10 +85,12 @@ try{
 				+ "on b.uno = u.uno "
 				+ "where nno=?";
 	}else{
-		sqlBoard = "select b.*,unick from board b "
-				+ "inner join user u "
-				+ "on b.uno = u.uno "
-				+ "where bno=?";
+		sqlBoard = "select b.*,unick, "
+		+ "(select count(*) from recommend where bno = b.bno and state='E') as rCount "
+		+ " from board b "
+		+ " inner join user u "
+		+ " on b.uno = u.uno "
+		+ " where bno=?";
 	}
 	
 	psmt = conn.prepareStatement(sqlBoard); //사용할 쿼리 등록
@@ -100,6 +103,7 @@ try{
 			topYn = rs.getString("top_yn");
 		}else{
 			star = rs.getString("star");
+			recoTotal = rs.getString("rCount");
 		}
 		nick = rs.getString("unick");
 		uno = rs.getInt("uno");
@@ -357,7 +361,8 @@ function recoAdd(no, state) {
 					}
 					%>
 					<div style="font-size:16px; margin-top:5px;">
-					<%= LevelStr %><%= nick %>&nbsp;<%= rdate %>&nbsp;조회수&nbsp;<%= hit %>
+					<%= LevelStr %><%= nick %>&nbsp;<%= rdate %>&nbsp;
+					추천수&nbsp;<%= recoTotal %>&nbsp;조회수&nbsp;<%= hit %>
 					</div>
 					<br>
 					<%= content.replace("\n", "<br>") %>

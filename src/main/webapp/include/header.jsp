@@ -5,22 +5,24 @@
 <%@ page import="java.sql.*" %>
 <%@ page import="cook.*" %>
 <%
-String loginName;
+String loginFileF;
+String loginFileP;
 String loginNick;
 String loginLevel;
 String loginNo;
 String loginId;
 
-loginName = (String)session.getAttribute("loginUserName");
+loginFileF = (String)session.getAttribute("loginUserProfilF");
+loginFileP = (String)session.getAttribute("loginUserProfilP");
 loginNick = (String)session.getAttribute("loginUserNick");
 loginLevel = (String)session.getAttribute("loginUserLevel");
 loginNo = (String)session.getAttribute("loginUserNo");
 loginId = (String)session.getAttribute("loginUserId");
 
-if(loginName == null || loginLevel == null || loginNick == null ||
-loginName.equals("") || loginLevel.equals("") || loginNick.equals("")){
+if(loginFileF == null || loginLevel == null || loginNick == null ||
+loginFileF.equals("") || loginLevel.equals("") || loginNick.equals("")){
 	loginNick = "";
-	loginName = "";
+	loginFileF = "";
 	loginLevel = "";
 	loginNo = "";
 }
@@ -75,7 +77,36 @@ case "U" : LevelStr = "&#127808;"; break;
 		    if(session.getAttribute("loginUserNo") != null){
 		    %>
 		    <span id="menuA">
-		        [<%= LevelStr %> <%= loginNick %>]&nbsp;&nbsp;&nbsp;
+		        <%
+			    if(!loginFileF.equals("")) {
+			        // 이미지 파일 확장자 체크
+			        String[] imageExtensions = { "jpg", "jpeg", "png", "gif", "bmp" };
+			        String fileExtension = loginFileF.substring(loginFileF.lastIndexOf(".") + 1).toLowerCase();
+			        boolean isImage = false;
+			
+			        // 파일 확장자가 이미지인지 체크
+			        for (String ext : imageExtensions) {
+			            if (fileExtension.equals(ext)) {
+			                isImage = true;
+			                break;
+			            }
+			        }
+			        // 이미지 파일일 경우 미리보기 제공
+			        if(isImage){
+		            %>
+		            <img id="previewProfil" class="circular-img" style="border:none;" src="<%= request.getContextPath() %>/upload/<%= loginFileP %>" alt="첨부된 이미지" />
+		            <%
+			        }
+			    }else{
+			    	%>
+					<!-- <img id="previewProfil" class="circular-img" src="https://img.icons8.com/?size=100&id=fX8vkLDeFBha&format=png&color=000000" /> -->
+			    	<!-- <img id="previewProfil" class="circular-img" style="border:none;" src="https://img.icons8.com/?size=100&id=ulp2NT1Q9vQ8&format=png&color=FF7F50" /> -->
+			    	<img id="previewProfil" class="circular-img" 
+			    	style="border:none; width:120px; height:120px;" 
+			    	src="https://img.icons8.com/?size=100&id=115346&format=png&color=000000">
+			    	<%
+			    }
+			    %>
 		        <span id="menutableA">
 		            <a href="<%= request.getContextPath() %>/user/myinfo.jsp">
 		                <button id="infoBtn">내정보보기</button>
