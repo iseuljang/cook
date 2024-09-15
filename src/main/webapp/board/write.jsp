@@ -45,6 +45,18 @@ switch(type) {
     		return true;
     	}
 	}
+    
+	function readURL(input) {
+		if (input.files && input.files[0]) {
+			var reader = new FileReader();
+			reader.onload = function(e) {
+			document.getElementById('preview').src = e.target.result;
+		};
+		reader.readAsDataURL(input.files[0]);
+		}else {
+			document.getElementById('preview').src = "";
+		}
+	}
 </script>
 <section>
 	<article>
@@ -77,8 +89,9 @@ switch(type) {
                                  <div class="filebox">
                                      <input class="upload-name" value="첨부파일" placeholder="첨부파일" readonly>
                                      <label for="file">파일찾기</label>
-                                     <input type="file" id="file" name="fname">
+                                     <input type="file" id="file" name="fname" onchange="readURL(this);">
                                  </div>
+                                 <img id="preview" />
                              </td>
                          </tr>
                          <tr>

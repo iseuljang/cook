@@ -106,8 +106,8 @@ try {
     			+ "(?,?,?)";
     		psmtFile = conn.prepareStatement(sqlFile);
     		psmtFile.setString(1, bno);
-    		psmtFile.setString(2, phyname);
-    		psmtFile.setString(3, filename);
+    		psmtFile.setString(2, phyname); // 저장된 파일명 (UUID)
+    		psmtFile.setString(3, filename);// 실제 파일명
     		System.out.println(sqlFile);
     		psmtFile.executeUpdate();
     	}

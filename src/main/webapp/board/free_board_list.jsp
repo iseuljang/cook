@@ -60,36 +60,6 @@
 					<td>2024-09-11</td>
 					<td>0</td>
 				</tr>
-				<tr>
-					<td>6</td>
-					<td><a href="view.jsp">제목~~!~~~!</a></td>
-					<td>2024-09-11</td>
-					<td>0</td>
-				</tr>
-				<tr>
-					<td>7</td>
-					<td><a href="view.jsp">제목~~!~~~!</a></td>
-					<td>2024-09-11</td>
-					<td>0</td>
-				</tr>
-				<tr>
-					<td>8</td>
-					<td><a href="view.jsp">제목~~!~~~!</a></td>
-					<td>2024-09-11</td>
-					<td>0</td>
-				</tr>
-				<tr>
-					<td>9</td>
-					<td><a href="view.jsp">제목~~!~~~!</a></td>
-					<td>2024-09-11</td>
-					<td>0</td>
-				</tr>
-				<tr>
-					<td>10</td>
-					<td><a href="view.jsp">제목~~!~~~!</a></td>
-					<td>2024-09-11</td>
-					<td>0</td>
-				</tr>
 			</table>
 		</td>
 	</tr>

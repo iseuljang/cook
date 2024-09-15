@@ -40,40 +40,46 @@
 <section>
     <article>
         <div class="article_inner">
+            <div class="login_title">
             <h2>로그인</h2>
-            <div class="content_inner">
-				<form action="loginOk.jsp" method="post" id="loginFn">
-				<table style="border: none; align:left;" width="100%">
-              	    <tr>
-                        <td style="text-align: right;">아이디&nbsp;</td>
-                        <td>
-                            <input type="text" name="uid" id="uid" onkeydown="DoReset();">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style="text-align: right;">비밀번호&nbsp;</td>
-                        <td>
-                            <input type="password" name="upw" id="upw" onkeydown="DoReset();">
-                        </td>
-                    </tr>
-                    <tr>
-	                   	<td colspan="2" style="text-align: center;">
-	                       	<span id="msg" style="color:green;">&nbsp;</span>
-	                   	</td>
-                    </tr>
-                    <tr>
-                        <td colspan="2" style="text-align: center;">
-                            <button type="button" onclick="DoLogin();" id="login">로그인하기</button>
-                            <br>
-                            <a href="<%= request.getContextPath() %>/index.jsp">
-                            <button type="button" id="nomalBtn">비회원으로 이용하기</button>
-                            </a>
-                        </td>
-                    </tr>
-                </table>
+            </div>
+            <div class="login_inner">
+                <form action="loginOk.jsp" method="post" id="loginFn">
+                    <table>
+                        <tr>
+                            <td>
+                                <div class="input-container">
+                                    <i class="fas fa-user"></i>
+                                    <input type="text" name="uid" id="uid" placeholder="아이디" onkeydown="DoReset();">
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="input-container">
+                                    <i class="fas fa-lock"></i>
+                                    <input type="password" name="upw" id="upw" placeholder="비밀번호" onkeydown="DoReset();">
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span id="msg" style="color:green;">&nbsp;</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <button type="button" onclick="DoLogin();" id="login">로그인하기</button>
+                                <br>
+                                <a href="<%= request.getContextPath() %>/index.jsp">
+                                    <button type="button" id="nomalBtn">비회원으로 이용하기</button>
+                                </a>
+                            </td>
+                        </tr>
+                    </table>
                 </form>
-			</div>
+            </div>
         </div>
     </article>
-</section>		
+</section>	
 <%@ include file="../include/footer.jsp" %>

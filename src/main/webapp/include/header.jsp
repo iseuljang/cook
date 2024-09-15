@@ -39,6 +39,7 @@ case "U" : LevelStr = "&#127808;"; break;
 <title>Cook</title>
 <link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/css/cook.css"> 
 <script src="<%= request.getContextPath() %>/js/jquery-3.7.1.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 <script>
     $(document).ready(function(){
     	// menuA 클릭 시 menutableA 보이거나 숨김

@@ -72,6 +72,8 @@ String sqlFile = "";  // 첨부파일 조회용 SQL
 String sqlHit = "";   // 조회수 증가용 SQL
 String sqlComment = ""; // 댓글 조회용 SQL
 
+String recoState = "D";
+
 List<Comment> commentList = new ArrayList<>();
 
 try{
@@ -115,8 +117,7 @@ try{
 		psmtFile.setInt(1, Integer.parseInt(no));
 		rsFile = psmtFile.executeQuery();
 		
-		if(rsFile.next() == true)
-		{
+		if(rsFile.next()){
 			pname = rsFile.getString("pname");
 			fname = rsFile.getString("fname");
 		}
@@ -140,32 +141,6 @@ try{
 	psmtHit.executeUpdate();
 	
 	
-	/* 댓글조회 */
-	/* if(!type.equals("N")){
-		sqlComment = "select c.*,unick from comment c "
-				+ " inner join user u "
-				+ " on c.uno = u.uno "
-				+ " where c.bno=? and c.state='E' "
-				+ " order by cno desc ";
-	}
-	
-	psmtComment = conn.prepareStatement(sqlComment); //사용할 쿼리 등록
-	psmtComment.setInt(1, Integer.parseInt(no));
-		
-	rsComment = psmtComment.executeQuery();
-	
-	while(rsComment.next()){
-		Comment c = new Comment(
-				rsComment.getString("cno"),
-				rsComment.getString("no"),
-				rsComment.getString("uno"),
-				rsComment.getString("content"),
-				rsComment.getString("state"),
-				rsComment.getString("rdate"),
-				rsComment.getString("unick")
-				);
-		commentList.add(c);
-	} */
 	
 }catch(Exception e){
 	e.printStackTrace();
@@ -173,14 +148,15 @@ try{
 }finally{
 	DBConn.close(psmtHit, null);
 	DBConn.close(rsFile, psmtFile, null);
-	//DBConn.close(rsComment, psmtComment, null);
 	DBConn.close(rs, psmt, conn);
 }
 %>
 <script>
-//댓글 리스트
 window.onload = function(){
+	/* 댓글 리스트 */
 	loadComment();
+	/* 추천 부분 */
+	loadReco();
 }
 
 function loadComment() {
@@ -212,11 +188,9 @@ function commentAdd(){
 		datatype : "html",
 		success : function(result)
 		{
-			if (result.trim() === "OK") {
+			if(result.trim() === "OK") {
                 alert("댓글이 작성되었습니다.");
                 loadComment(); // 댓글 작성 후 댓글 리스트 갱신
-            }else {
-                alert("댓글 작성 중 오류가 발생했습니다.");
             }
 		}
 	});
@@ -235,13 +209,10 @@ function commentDel(cno){
 			cno     : cno
 		},
 		datatype : "html",
-		success : function(result)
-		{
+		success : function(result){
 			alert("댓글이 삭제되었습니다.");
 			loadComment();
-		}else {
-            alert("댓글 삭제 중 오류가 발생했습니다.");
-        }
+		}
 	});
 }
 
@@ -260,7 +231,7 @@ function commentUpdate(cno, no) {
     
     // 댓글을 textarea로 변경
     $("#comment" + cno + " td:nth-child(2)").html(
-        "<textarea id='edit_urnote" + cno + "' style='width:740px; height:80px; resize:none;'>" + rnote + "</textarea>"
+        "<textarea id='commentEdit" + cno + "' style='width:740px; height:80px; resize:none;'>" + rnote + "</textarea>"
     );
     
     // 버튼을 "완료" 및 "취소"로 변경
@@ -278,11 +249,11 @@ function commentCancel(cno) {
 
 // 댓글 저장 함수
 function commentUpdateSave(cno, no) {
-    var rnote = $("#edit_urnote" + cno).val();  // 수정된 댓글 내용 가져오기
+    var rnote = $("#commentEdit" + cno).val();  // 수정된 댓글 내용 가져오기
     
     if(rnote == "") {
         alert("댓글 내용을 입력해주세요.");
-        $("#edit_urnote" + cno).focus();
+        $("#commentEdit" + cno).focus();
         return;
     }
     
@@ -303,9 +274,30 @@ function commentUpdateSave(cno, no) {
     });
 }
 
-
-
-
+/* 추천 테이블 */
+function loadReco() 
+{
+    $.ajax({
+        url: "loadReco.jsp",
+        type: "get",
+        data: { no: "<%= no %>" },
+        success: function(data) 
+        {
+        	console.log(data);
+            $(".reco").html(data);
+        }
+    });
+}
+function recoAdd(no, state) {
+    $.ajax({
+        url: "recoAdd.jsp",
+        type: "post",
+        data: { no: no, state: state },
+        success: function() {
+            loadReco();  // 추천 상태를 다시 로드
+        }
+    });
+}
 
 </script>
 <section>
@@ -317,98 +309,87 @@ function commentUpdateSave(cno, no) {
 			</a>
             </h2>
             <div class="view_inner">
-				<table>
-					<tr>
-						<th align="right">제목&nbsp;</th>
-						<td id="viewTd"><%= title %></td>
-					</tr>
-					<%
+            	<div class="view_img">
+           		<%
+			    if(!fname.equals("")) {
+			        // 이미지 파일 확장자 체크
+			        String[] imageExtensions = { "jpg", "jpeg", "png", "gif", "bmp" };
+			        String fileExtension = fname.substring(fname.lastIndexOf(".") + 1).toLowerCase();
+			        boolean isImage = false;
+			
+			        // 파일 확장자가 이미지인지 체크
+			        for (String ext : imageExtensions) {
+			            if (fileExtension.equals(ext)) {
+			                isImage = true;
+			                break;
+			            }
+			        }
+			
+			        // 이미지 파일일 경우 미리보기 제공
+			        if(isImage){
+			            %>
+			            <img id="preview" src="<%= request.getContextPath() %>/upload/<%= pname %>" alt="첨부된 이미지" style="max-width: 100%; height: auto;" />
+			            <%
+			        }
+			    }
+			    %>
+            	</div>
+            	<div class="view_content">
+            		<div class="icon-container">
+						<div class="reco" style="width:30px; cursor:pointer;">
+						</div>
+						<a href="down.jsp?no=<%= no %>">
+						<img style="width:30px;" src="https://img.icons8.com/?size=100&id=gElSR9wTv6aF&format=png&color=5D4037">
+						</a>
+					</div>
+            		<p style="font-size:26px; margin:10px 0;"><%= title %></p>
+            		<%
 					if(type.equals("R")){
 					%>
-					<tr>
-						<th align="right">난이도&nbsp;</th>
-						<td id="viewTd">
-							<div class="rating" id="starview">
-								<input id="star5_view" name="starview" type="radio" value="5" <%= star.equals("5") ? "checked" : "" %> disabled /><label for="star5_view">★</label>
-								<input id="star4_view" name="starview" type="radio" value="4" <%= star.equals("4") ? "checked" : "" %> disabled/><label for="star4_view">★</label>
-								<input id="star3_view" name="starview" type="radio" value="3" <%= star.equals("3") ? "checked" : "" %> disabled/><label for="star3_view">★</label>
-								<input id="star2_view" name="starview" type="radio" value="2" <%= star.equals("2") ? "checked" : "" %> disabled/><label for="star2_view">★</label>
-								<input id="star1_view" name="starview" type="radio" value="1" <%= star.equals("1") ? "checked" : "" %> disabled/><label for="star1_view">★</label>
-					        </div>
-						</td>
-					</tr>		
+					<div class="rating" id="starview">
+						<input id="star5_view" name="starview" type="radio" value="5" <%= star.equals("5") ? "checked" : "" %> disabled /><label for="star5_view">★</label>
+						<input id="star4_view" name="starview" type="radio" value="4" <%= star.equals("4") ? "checked" : "" %> disabled/><label for="star4_view">★</label>
+						<input id="star3_view" name="starview" type="radio" value="3" <%= star.equals("3") ? "checked" : "" %> disabled/><label for="star3_view">★</label>
+						<input id="star2_view" name="starview" type="radio" value="2" <%= star.equals("2") ? "checked" : "" %> disabled/><label for="star2_view">★</label>
+						<input id="star1_view" name="starview" type="radio" value="1" <%= star.equals("1") ? "checked" : "" %> disabled/><label for="star1_view">★</label>
+			        </div>
 					<%
 					}
 					%>
-					<tr>
-						<th align="right">작성자&nbsp;</th>
-						<td id="viewTd"><%= nick %></td>
-					</tr>
-					<tr>
-						<th align="right">작성일&nbsp;</th>
-						<td id="viewTd"><%= rdate %></td>
-					</tr>
-					<tr>
-						<th align="right">조회수&nbsp; </th>
-						<td id="viewTd"><%= hit %></td>
-					</tr>
-					<tr>
-						<th align="right">첨부파일&nbsp;</th>
-						<td id="viewTd">
-						<%
-						if(!fname.equals(""))
-						{
-							%><a href="down.jsp?no=<%= no %>"><%= fname %></a><%
-						}else
-						{
-							%>첨부된 파일이 없습니다.<%
-						}
-						%>
-						</td>
-					</tr>
-					<tr>
-						<th align="right">내용&nbsp;</th>
-						<td id="viewTd">
-						<%= content.replace("\n", "<br>") %>
-						</td>
-					</tr>
-					<tr>
-						<td colspan="2" align="center">
-							<!-- 추천되지 않았을 때 -->
-							<button type="button" id="likeBtn">🤍 추천</button>
-							<!-- 추천되었을 때 -->
-							<button type="button" id="likedBtn">❤️ 추천됨</button>
-						</td>
-					</tr>
-				</table>
+					<div style="font-size:16px; margin-top:5px;">
+					<%= LevelStr %><%= nick %>&nbsp;<%= rdate %>&nbsp;조회수&nbsp;<%= hit %>
+					</div>
+					<br>
+					<%= content.replace("\n", "<br>") %>
+					<!-- 댓글위치 -->
+					<%
+					if(!type.equals("N")){
+					%>
+					<div class="comment_inner">
+						<form name="commentForm" method="post">
+						<table>
+							<tr>
+								<td colspan="3">
+									<input type="hidden" name="no" value="<%= no %>">
+									<input type="hidden" name="nowPage" value="<%= nowPage%>">
+									<input type="hidden" name="searchType" value="<%= searchType%>">
+									<input type="hidden" name="searchValue" value="<%= searchValue%>">
+									<input type="hidden" name="cno">
+									<input type="text" name="comment" size="50">
+								</td>
+								<td>
+									<button type="button" id="cBtn" onclick="submitComment();">저장</button>
+								</td>
+							</tr>
+					<%
+					}
+					%>
+						</table>
+						<div class="commentDiv"></div>	
+						</form> 
+					</div>
+            	</div>
 				</div>
-				<!-- 댓글위치 -->
-				<%
-				if(!type.equals("N")){
-				%>
-				<div class="comment_inner">
-					<form name="commentForm" method="post">
-					<table>
-						<tr>
-							<td colspan="3">
-								<input type="hidden" name="no" value="<%= no %>">
-								<input type="hidden" name="nowPage" value="<%= nowPage%>">
-								<input type="hidden" name="searchType" value="<%= searchType%>">
-								<input type="hidden" name="searchValue" value="<%= searchValue%>">
-								<input type="hidden" name="cno">
-								<input type="text" name="comment" size="50">
-							</td>
-							<td>
-								<button type="button" id="cBtn" onclick="submitComment();">저장</button>
-							</td>
-						</tr>
-				<%
-				}
-				%>
-					</table>
-					<div class="commentDiv"></div>	
-				</form> 
-			</div>
         </div>
     </article>
 </section>
