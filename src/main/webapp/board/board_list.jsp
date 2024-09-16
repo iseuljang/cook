@@ -168,7 +168,7 @@ window.onload = function(){
 		%>
         	</div>
             <div class="search_inner">
-                <form action="r_board_list.jsp" method="get" name="searchFn" style="padding-bottom:30px;">
+                <form action="board_list.jsp" method="get" name="searchFn" style="padding-bottom:30px;">
                     <div class="search-wrapper">
 	                    <select name="searchType" id="sType">
 							<option value="title" <%= searchType.equals("title") ? "selected" : "" %>>제목</option>
@@ -187,12 +187,21 @@ window.onload = function(){
 	                    </div>
 						<%
 						if(session.getAttribute("loginUserNo") != null){
-							%>
-							<a href="write.jsp?type=<%= type %>" style="margin-left:110px;">
-							<button type="button" id="wBtn">글쓰기</button>
-							</a>
-							<br>
-							<%
+							if(!type.equals("N")){
+								%>
+								<a href="write.jsp?type=<%= type %>" style="margin-left:110px;">
+								<button type="button" id="wBtn">글쓰기</button>
+								</a>
+								<br>
+								<%
+							}else if(session.getAttribute("loginUserLevel").equals("A")){
+								%>
+								<a href="write.jsp?type=<%= type %>" style="margin-left:110px;">
+								<button type="button" id="wBtn">글쓰기</button>
+								</a>
+								<br>
+								<%
+							}
 						}
 						%>
 					</div>
@@ -202,10 +211,22 @@ window.onload = function(){
 						<tr>
 							<th width="40px">번호</th>
 							<th width="300px">제목</th>
+							<%
+							if(type.equals("R")){
+							%>
 							<th width="190px">난이도</th>
+							<%
+							}
+							%>
 							<th width="150px">작성자</th>
 							<th width="150px">작성일</th>
+							<%
+							if(!type.equals("N")){
+							%>
 							<th width="60px">추천수</th>
+							<%
+							}
+							%>
 							<th width="60px">조회수</th>
 						</tr>
 					</thead>
@@ -242,7 +263,13 @@ window.onload = function(){
 							%>
 							<td><%= rs.getString("unick") %></td>
 							<td><%= rs.getString("rdate") %></td>
+							<%
+							if(!type.equals("N")){
+							%>
 							<td><%= rs.getString("rCount") %></td>
+							<%
+							}
+							%>
 							<td><%= rs.getString("hit") %></td>
 						</tr>
 						<%

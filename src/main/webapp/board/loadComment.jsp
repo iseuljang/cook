@@ -41,21 +41,19 @@ try {
 
 <!-- 댓글 출력 -->
 <%
-if (commentList.isEmpty()) {
-    out.println("<p>댓글이 없습니다.</p>");
-}else {
-     for (Comment c : commentList) { 
-     %>
-     <tr id="comment<%= c.getCno() %>">
-         <td><%= c.getUnick() %></td>
-         <td><%= c.getContent() %></td>
-         <td><%= c.getRdate() %></td>
-         <td>
-             <button onclick="commentUpdate(<%= c.getCno() %>, '<%= no %>')">수정</button>
-             <button onclick="commentDel(<%= c.getCno() %>)">삭제</button>
-         </td>
-     </tr>
-     <% 
-     } 
+if (!commentList.isEmpty()) {
+    for (Comment c : commentList) { 
+    %>
+    <tr id="comment<%= c.getCno() %>">
+        <td><%= c.getUnick() %></td>
+        <td><%= c.getContent() %></td>
+        <td><%= c.getRdate() %></td>
+        <td>
+            <button onclick="commentUpdate(<%= c.getCno() %>, '<%= no %>')">수정</button>
+            <button onclick="commentDel(<%= c.getCno() %>)">삭제</button>
+        </td>
+    </tr>
+    <% 
+    } 
 }
 %>

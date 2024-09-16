@@ -27,19 +27,24 @@ String title = multi.getParameter("title");
 String content  = multi.getParameter("content");
 
 //업로드된 파일명을 얻는다
+// 업로드된 파일명을 얻는다
 Enumeration files = multi.getFileNames();
-String fileid = (String) files.nextElement();
-String filename = (String) multi.getFilesystemName("fname");
-
+String filename = null;
 String phyname = null;
-if(filename != null)
-{
-	phyname = UUID.randomUUID().toString();
-	String srcName    = uploadPath + "/" + filename;
-	String targetName = uploadPath + "/" + phyname;
-	File srcFile    = new File(srcName);
-	File targetFile = new File(targetName);
-	srcFile.renameTo(targetFile);
+
+// 첨부파일이 있는 경우에만 처리
+if (files.hasMoreElements()) {
+    String fileid = (String) files.nextElement();
+    filename = multi.getFilesystemName(fileid);
+
+    if (filename != null) {
+        phyname = UUID.randomUUID().toString();
+        String srcName = uploadPath + "/" + filename;
+        String targetName = uploadPath + "/" + phyname;
+        File srcFile = new File(srcName);
+        File targetFile = new File(targetName);
+        srcFile.renameTo(targetFile);
+    }
 }
 
 

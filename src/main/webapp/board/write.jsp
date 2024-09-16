@@ -7,9 +7,9 @@ if(type == null || type.equals("")){
 	type = "R";
 }
 switch(type) {
-    case "N": path = "notice_board_list.jsp?type="; break;
+    case "N": path = "board_list.jsp?type="; break;
     case "F": path = "free_board_list.jsp?type="; break;
-    case "R": path = "r_board_list.jsp?type="; break;
+    case "R": path = "board_list.jsp?type="; break;
 }
 %>
 <script>
@@ -31,10 +31,11 @@ switch(type) {
 			$("#titleId").focus();
 			return false;
 		}
-		
-		if($('input:radio[name=star]').is(':checked') != true){
-			$("#msg").html("난이도를 선택해주세요.");
-			return false;
+		if(type == "R"){
+			if($('input:radio[name=star]').is(':checked') != true){
+				$("#msg").html("난이도를 선택해주세요.");
+				return false;
+			}
 		}
 		
 		
@@ -61,7 +62,15 @@ switch(type) {
 <section>
 	<article>
         <div class="article_inner">
-            <h2>레시피게시판</h2>
+        <%
+		if(type.equals("N")){
+			%><h2>공지게시판</h2><%
+		}else if(type.equals("F")){
+			%><h2>자유게시판</h2><%
+		}else{
+			%><h2>레시피게시판</h2><%
+		}
+		%>
             <div class="content_inner">
 	       		<form action="writeOk.jsp" method="post" id="writeForm" name="writeForm" enctype="multipart/form-data">
 		            <input type="hidden" name="type">
@@ -71,6 +80,9 @@ switch(type) {
                              <th align="right">제목&nbsp;</th>
                              <td><input type="text" name="title" id="titleId"></td>
                          </tr>
+                         <%
+                         if(type.equals("R")){
+                       		 %>
                          <tr>
                              <th align="right">난이도&nbsp;</th>
                              <td align="left">
@@ -83,6 +95,22 @@ switch(type) {
                                  </div>
                              </td>
                          </tr>
+                        	 <%
+                         }else if(type.equals("N")){
+                       	 %>
+                         <tr>
+                             <th align="right">상위노출여부&nbsp;</th>
+                             <td align="left">
+                             	 <div class="top_yn">
+                             	 <input type="radio" name="top_yn" value="Y" id="top_y"><label for="top_y">노출</label>
+                             	 <input type="radio" name="top_yn" value="N" id="top_n" checked><label for="top_n">비노출</label>
+                                 </div>
+                             </td>
+                         </tr>
+                       	 <%
+                         }
+                         if(!type.equals("N")){
+                        	 %>
                          <tr>
                              <th align="right">첨부파일&nbsp;</th>
                              <td align="left">
@@ -94,6 +122,9 @@ switch(type) {
                                  <img id="preview" />
                              </td>
                          </tr>
+                        	 <%
+                         }
+                         %>
                          <tr>
                              <th align="right">내용&nbsp;</th>
                              <td>

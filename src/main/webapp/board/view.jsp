@@ -32,13 +32,13 @@ String path = "";
 
 if(type.equals("N")){
 	boardName = "공지게시판";
-	path = "notice_board_list.jsp?type=";
+	path = "board_list.jsp?type=";
 }else if(type.equals("F")){
 	boardName = "자유게시판";
 	path = "free_board_list.jsp?type=";
 }else{
 	boardName = "레시피게시판";
-	path = "r_board_list.jsp?type=";
+	path = "board_list.jsp?type=";
 }
 
 
@@ -65,6 +65,7 @@ String star = "";
 String state = "";
 String topYn = "";
 
+String userPname = "";
 String pname = "";
 String fname = "";
 
@@ -80,12 +81,12 @@ List<Comment> commentList = new ArrayList<>();
 try{
 	conn = DBConn.conn();
 	if(type.equals("N")){
-		sqlBoard = "select b.*,unick from notice_board b "
+		sqlBoard = "select b.*,unick,pname from notice_board b "
 				+ "inner join user u "
 				+ "on b.uno = u.uno "
 				+ "where nno=?";
 	}else{
-		sqlBoard = "select b.*,unick, "
+		sqlBoard = "select b.*,unick,pname, "
 		+ "(select count(*) from recommend where bno = b.bno and state='E') as rCount "
 		+ " from board b "
 		+ " inner join user u "
@@ -105,6 +106,7 @@ try{
 			star = rs.getString("star");
 			recoTotal = rs.getString("rCount");
 		}
+		userPname = rs.getString("pname");
 		nick = rs.getString("unick");
 		uno = rs.getInt("uno");
 		title = rs.getString("title");
@@ -361,8 +363,36 @@ function recoAdd(no, state) {
 					}
 					%>
 					<div style="font-size:16px; margin-top:5px;">
-					<%= LevelStr %><%= nick %>&nbsp;<%= rdate %>&nbsp;
-					추천수&nbsp;<%= recoTotal %>&nbsp;조회수&nbsp;<%= hit %>
+						<div class="view_profil">
+					    <% 
+					    if (userPname != null && !userPname.isEmpty()) { 
+					    %>
+					        <!-- 프로필 이미지가 있을 경우 -->
+					        <img id="previewProfil" class="circular-img" 
+					             style="border:none; width:50px; height:50px;" 
+					             src="<%= request.getContextPath() %>/upload/<%= userPname %>" alt="프로필 이미지" />
+					    <% 
+					    }else {
+				    	%>
+					        <!-- 기본 프로필 이미지 -->
+					        <img id="previewProfil" class="circular-img" 
+					             style="border:none; width:50px; height:50px;" 
+					             src="https://img.icons8.com/?size=100&id=115346&format=png&color=000000" alt="기본 프로필 이미지">
+					    <% 
+					    } 
+					    %>
+						    <span><%= nick %></span>
+						</div>
+					&nbsp;
+					<%= rdate %>&nbsp;
+					<%
+					if(!type.equals("N")){
+					%>
+					추천수&nbsp;<%= recoTotal %>&nbsp;
+					<%
+					}
+					%>
+					조회수&nbsp;<%= hit %>
 					</div>
 					<br>
 					<%= content.replace("\n", "<br>") %>
@@ -386,13 +416,14 @@ function recoAdd(no, state) {
 									<button type="button" id="cBtn" onclick="submitComment();">저장</button>
 								</td>
 							</tr>
-					<%
-					}
-					%>
 						</table>
+						<!-- 댓글목록 출력 -->
 						<div class="commentDiv"></div>	
 						</form> 
 					</div>
+					<%
+					}
+					%>
             	</div>
 				</div>
         </div>
