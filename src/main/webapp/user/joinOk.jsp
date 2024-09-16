@@ -40,9 +40,6 @@ if(filename != null)
 	File srcFile    = new File(srcName);
 	File targetFile = new File(targetName);
 	srcFile.renameTo(targetFile);
-}else{
-	filename = "";
-	phyname = "";
 }
 
 

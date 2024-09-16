@@ -108,7 +108,7 @@ try{
 		}
 	}
 	if(type.equals("N")){
-		sql	+= "order by nno desc ";
+		sql	+= "order by top_yn desc, nno desc ";
 	}else{
 		sql	+= "order by bno desc ";
 	}
@@ -242,7 +242,18 @@ window.onload = function(){
 						}
 						%>
 						<tr>
-							<td><%= seqNo--%></td>
+						<%
+						if(type.equals("N") && rs.getString("top_yn").equals("Y")){
+							%>
+							<th>공지</th>
+							<%
+							seqNo--;
+						}else{
+							%>
+							<td><%= seqNo-- %></td>
+							<%
+						}
+						 %>
 							<td><a href="view.jsp?type=<%= type %>&no=<%= boardNo %>&nowPage=<%= nowPage %>&searchType=<%= searchType %>&searchValue=<%= searchValue %>"><%= rs.getString("title") %></a></td>
 							<%
 							if(type.equals("R")){
@@ -285,7 +296,7 @@ window.onload = function(){
 				//시작페이지가 1보다 큰 경우 이전 페이지 존재
 				%>
 				<!-- 시작 페이지 번호 이전 페이지로 이동 13->10 -->
-				<a href="list.jsp?nowPage=<%= paging.getStartPage()-1 %>&searchType=<%= searchType %>&searchValue=<%= searchValue %>">&lt;</a>
+				<a href="board_list.jsp?nowPage=<%= paging.getStartPage()-1 %>&searchType=<%= searchType %>&searchValue=<%= searchValue %>">&lt;</a>
 				<%
 			}
 			
@@ -296,7 +307,7 @@ window.onload = function(){
 					<%
 				}else{
 					%>
-						<a href="r_board_list.jsp?type=<%= type %>&nowPage=<%= i %>&searchType=<%= searchType %>&searchValue=<%= searchValue %>"><%= i %></a>
+						<a href="board_list.jsp?type=<%= type %>&nowPage=<%= i %>&searchType=<%= searchType %>&searchValue=<%= searchValue %>"><%= i %></a>
 					<%
 				}
 			}
@@ -305,7 +316,7 @@ window.onload = function(){
 				//전체 페이지번호 보다 현재 종료 페이지 번호가 더 작은 경우
 				%>
 				<!-- 시작 페이지 번호 이후 페이지로 이동 13->21 -->
-				<a href="r_board_list.jsp?type=<%= type %>&nowPage=<%= paging.getEndPage()+1 %>&searchType=<%= searchType %>&searchValue=<%= searchValue %>">&gt;</a>
+				<a href="board_list.jsp?type=<%= type %>&nowPage=<%= paging.getEndPage()+1 %>&searchType=<%= searchType %>&searchValue=<%= searchValue %>">&gt;</a>
 				<%
 			}
 			%>
