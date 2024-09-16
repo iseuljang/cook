@@ -107,6 +107,12 @@ try{
 			sql += "and content like concat('%',?,'%') ";
 		}
 	}
+	if(type.equals("F")){
+		sql += " and type='F' ";
+	}else if(type.equals("R")){
+		sql += " and type='R' ";
+	}
+	
 	if(type.equals("N")){
 		sql	+= "order by top_yn desc, nno desc ";
 	}else{
@@ -169,9 +175,10 @@ window.onload = function(){
         	</div>
             <div class="search_inner">
                 <form action="board_list.jsp" method="get" name="searchFn" style="padding-bottom:30px;">
+                    <input type="hidden" name="type" value="<%= type%>">
                     <div class="search-wrapper">
 	                    <select name="searchType" id="sType">
-							<option value="title" <%= searchType.equals("title") ? "selected" : "" %>>제목</option>
+							<option value="title" selected <%= searchType.equals("title") ? "selected" : "" %>>제목</option>
 							<option value="content" <%= searchType.equals("content") ? "selected" : "" %>>내용</option>
 							<option value="nick" <%= searchType.equals("nick") ? "selected" : "" %>>작성자</option>
 						</select>

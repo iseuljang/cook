@@ -31,7 +31,6 @@ String LevelStr = "";
 switch(loginLevel){
 case "A" : LevelStr = "&#127800;"; break;
 case "U" : LevelStr = "&#127808;"; break;
-
 }
 %>
 <!DOCTYPE html>
@@ -111,7 +110,7 @@ case "U" : LevelStr = "&#127808;"; break;
 	            <a href="<%= request.getContextPath() %>/user/myinfo.jsp">
 	                <div class="menu-container">
                            <!-- <i class="fas fa-id-badge"></i> -->
-                           <i class="fas fa-address-card"></i>
+                        <i class="fas fa-address-card"></i>
 		                <button id="infoBtn">내정보보기</button>
                     </div>
 	            </a>
@@ -145,7 +144,7 @@ case "U" : LevelStr = "&#127808;"; break;
 			</a>
 			</li>
             <li>
-			<a href="<%= request.getContextPath() %>/board/free_board_list.jsp?type=F">
+			<a href="<%= request.getContextPath() %>/board/board_list.jsp?type=F">
 			자유게시판
 			</a>
 			</li>

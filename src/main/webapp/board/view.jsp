@@ -32,13 +32,13 @@ String path = "";
 
 if(type.equals("N")){
 	boardName = "공지게시판";
-	path = "board_list.jsp?type=";
+	path = "board_list.jsp?type=N";
 }else if(type.equals("F")){
 	boardName = "자유게시판";
-	path = "free_board_list.jsp?type=";
+	path = "board_list.jsp?type=F";
 }else{
 	boardName = "레시피게시판";
-	path = "board_list.jsp?type=";
+	path = "board_list.jsp?type=R";
 }
 
 
@@ -310,12 +310,11 @@ function recoAdd(no, state) {
     <article>
         <div class="article_inner">
             <h2><%= boardName %>
-			<a href="<%= path %><%= type%>">
+			<a href="<%= path %>">
 				<button type="button" id="listBtn">글목록</button>
 			</a>
             </h2>
             <div class="view_inner">
-            	<div class="view_img">
            		<%
 			    if(!fname.equals("")) {
 			        // 이미지 파일 확장자 체크
@@ -333,20 +332,27 @@ function recoAdd(no, state) {
 			
 			        // 이미지 파일일 경우 미리보기 제공
 			        if(isImage){
-			            %>
-			            <img id="preview" src="<%= request.getContextPath() %>/upload/<%= pname %>" alt="첨부된 이미지" style="max-width: 100%; height: auto;" />
-			            <%
+		            %>
+	            <div class="view_img">
+		            <img id="preview" src="<%= request.getContextPath() %>/upload/<%= pname %>" alt="첨부된 이미지" style="max-width: 100%; height: auto;" />
+            	</div>
+		            <%
 			        }
 			    }
 			    %>
-            	</div>
-            	<div class="view_content">
+            	<div class="view_content" style="width: <%= fname.equals("") ? "100%" : "50%" %>;">
             		<div class="icon-container">
 						<div class="reco" style="width:30px; cursor:pointer;">
 						</div>
+						<%
+						if(pname != null && !pname.equals("")){
+							%>
 						<a href="down.jsp?no=<%= no %>">
 						<img style="width:30px;" src="https://img.icons8.com/?size=100&id=gElSR9wTv6aF&format=png&color=5D4037">
 						</a>
+							<%
+						}
+						%>
 					</div>
             		<p style="font-size:26px; margin:10px 0;"><%= title %></p>
             		<%
@@ -365,7 +371,7 @@ function recoAdd(no, state) {
 					<div style="font-size:16px; margin-top:5px;">
 						<div class="view_profil">
 					    <% 
-					    if (userPname != null && !userPname.isEmpty()) { 
+					    if(userPname != null && !userPname.isEmpty()) { 
 					    %>
 					        <!-- 프로필 이미지가 있을 경우 -->
 					        <img id="previewProfil" class="circular-img" 

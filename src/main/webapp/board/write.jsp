@@ -7,9 +7,9 @@ if(type == null || type.equals("")){
 	type = "R";
 }
 switch(type) {
-    case "N": path = "board_list.jsp?type="; break;
-    case "F": path = "free_board_list.jsp?type="; break;
-    case "R": path = "board_list.jsp?type="; break;
+    case "N": path = "board_list.jsp?type=N"; break;
+    case "F": path = "board_list.jsp?type=F"; break;
+    case "R": path = "board_list.jsp?type=R"; break;
 }
 %>
 <script>

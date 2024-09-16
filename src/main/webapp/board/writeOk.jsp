@@ -119,14 +119,14 @@ try {
     	%>
     	<script>
     		alert("게시글이 성공적으로 등록되었습니다.");
-    		location.href = "<%= path%><%= type%>";
+    		location.href = "<%= path%>";
     	</script>
     	<%
     } else {
         %>
     	<script>
     		alert("게시글 등록에 실패하였습니다.");
-    		location.href = "<%= path%><%= type%>";
+    		location.href = "<%= path%>";
     	</script>
     	<%
     }
