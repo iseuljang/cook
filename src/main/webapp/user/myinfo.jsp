@@ -27,10 +27,42 @@ String fname = "";
 
 String sql = ""; // 게시판 조회용 SQL
 
-
+String sqlUpdate = "";
+PreparedStatement psmtUpdate = null;	
 
 try{
 	conn = DBConn.conn();
+	// POST 요청으로 회원 정보 수정
+    if(request.getMethod().equalsIgnoreCase("POST")) {
+        String newNick = request.getParameter("unick");
+        Part filePart = request.getPart("fname"); // 프로필 파일
+
+        if(newNick != null && !newNick.trim().isEmpty()) {
+        	sqlUpdate = "UPDATE user SET unick=? WHERE uno=?";
+        	psmtUpdate = conn.prepareStatement(sqlUpdate);
+        	psmtUpdate.setString(1, newNick);
+        	psmtUpdate.setInt(2, Integer.parseInt(uno));
+        	psmtUpdate.executeUpdate();
+        }
+
+        // 파일 업로드 처리
+        if (filePart != null && filePart.getSize() > 0) {
+            String fileName = filePart.getSubmittedFileName();
+            String uploadPath = application.getRealPath("/upload") + "/" + fileName;
+            filePart.write(uploadPath);
+
+            sqlUpdate = "UPDATE user SET pname=? WHERE uno=?";
+            psmtUpdate = conn.prepareStatement(sqlUpdate);
+            psmtUpdate.setString(1, fileName);
+            psmtUpdate.setInt(2, Integer.parseInt(uno));
+            psmtUpdate.executeUpdate();
+        }
+
+        response.sendRedirect("myinfo.jsp");
+    }
+	
+	
+	
 	sql = "select * from user where uno=? and state='E' ";
 	
 	psmt = conn.prepareStatement(sql); //사용할 쿼리 등록
@@ -51,6 +83,7 @@ try{
 	e.printStackTrace();
 	out.print(e.getMessage());
 }finally{
+	DBConn.close(psmtUpdate, null);
 	DBConn.close(rs, psmt, conn);
 }
 %>
@@ -89,8 +122,6 @@ function readURL(input) {
 }
 
 function DoChange(){
-	
-	
 	if(confirm("회원정보를 변경하시겠습니까?") == true) {
 		$("#myinfoFn").submit();
 		return true;

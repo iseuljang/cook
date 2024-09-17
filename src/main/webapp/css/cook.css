@@ -274,16 +274,10 @@ input {
 }
 
 #recoDiv{
-	/* background-color:#FFFBEC;
-    width:200px;
-	height:200px;
-	border-radius:20px;
-	cursor:pointer; */
-	
 	width: 20%;
-	height: 200px;
+	height: 250px;
     display: flex; /* 가로로 배치 */
-    flex-direction: row; /* 기본 값으로 가로 배치 */
+    flex-direction: column; /* 세로로 배치 */
     justify-content: space-between; /* 요소 사이 간격을 균등하게 */
     align-items: flex-start; /* 컨텐츠를 상단에 맞춤 */
     border: 2px dashed #FFFBEC;
