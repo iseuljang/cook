@@ -4,8 +4,6 @@
 <%
 request.setCharacterEncoding("UTF-8");
 
-
-
 if(session.getAttribute("loginUserNo") == null || session.getAttribute("loginUserNo").equals("")){
 	response.sendRedirect( request.getContextPath() +"/index.jsp");
 }
@@ -27,47 +25,14 @@ String fname = "";
 
 String sql = ""; // 게시판 조회용 SQL
 
-String sqlUpdate = "";
-PreparedStatement psmtUpdate = null;	
-
 try{
 	conn = DBConn.conn();
-	// POST 요청으로 회원 정보 수정
-    if(request.getMethod().equalsIgnoreCase("POST")) {
-        String newNick = request.getParameter("unick");
-        Part filePart = request.getPart("fname"); // 프로필 파일
-
-        if(newNick != null && !newNick.trim().isEmpty()) {
-        	sqlUpdate = "UPDATE user SET unick=? WHERE uno=?";
-        	psmtUpdate = conn.prepareStatement(sqlUpdate);
-        	psmtUpdate.setString(1, newNick);
-        	psmtUpdate.setInt(2, Integer.parseInt(uno));
-        	psmtUpdate.executeUpdate();
-        }
-
-        // 파일 업로드 처리
-        if (filePart != null && filePart.getSize() > 0) {
-            String fileName = filePart.getSubmittedFileName();
-            String uploadPath = application.getRealPath("/upload") + "/" + fileName;
-            filePart.write(uploadPath);
-
-            sqlUpdate = "UPDATE user SET pname=? WHERE uno=?";
-            psmtUpdate = conn.prepareStatement(sqlUpdate);
-            psmtUpdate.setString(1, fileName);
-            psmtUpdate.setInt(2, Integer.parseInt(uno));
-            psmtUpdate.executeUpdate();
-        }
-
-        response.sendRedirect("myinfo.jsp");
-    }
-	
-	
 	
 	sql = "select * from user where uno=? and state='E' ";
 	
 	psmt = conn.prepareStatement(sql); //사용할 쿼리 등록
 	psmt.setInt(1, Integer.parseInt(uno));
-		
+	System.out.print(sql);
 	rs = psmt.executeQuery();
 	
 	if(rs.next()){
@@ -83,11 +48,11 @@ try{
 	e.printStackTrace();
 	out.print(e.getMessage());
 }finally{
-	DBConn.close(psmtUpdate, null);
 	DBConn.close(rs, psmt, conn);
 }
 %>
 <script>
+var IsDuplicate = false;
 window.onload = function(){
 	$("#unick").focus();
 	
@@ -104,6 +69,42 @@ window.onload = function(){
 		$('#preview').attr('src', '<%= request.getContextPath() %>/upload/<%= pname %>');
 	});
 	
+	$("#unick,#upw").keyup(function(event){
+		if(event.keyCode == 13)	{
+			DoChange();
+			return;
+		}
+	});
+	
+	
+	$("#unick").keyup(function(){
+		IsDuplicate = false;
+		usernick = $(this).val();
+		
+		$.ajax({
+			url : "nickCheck.jsp",
+			type : "post",
+			data : {unick : usernick},
+			dataType : "html",
+			success : function(result)
+			{
+				result = result.trim();
+				switch(result)
+				{
+				case "00" : 
+					$("#msg").html("닉네임 체크 오류입니다.");
+					break;
+				case "01" : 
+					$("#msg").html("중복된 닉네임입니다.");
+					IsDuplicate = true;
+					break;
+				case "02" : 
+					$("#msg").html("사용 가능한 닉네임입니다.");
+					break;
+				}
+			}
+		});
+	});
 }
 
 
@@ -121,17 +122,41 @@ function readURL(input) {
     }
 }
 
-function DoChange(){
+function DoChange()
+{
+	if($("#upw").val() == "") {
+		$("#upw").focus();
+		alert("비밀번호를 입력하세요");
+		return;
+	}
+	
+	if($("#unick").val() == "<%= nick %>") {
+		$("#unick").focus();
+		alert("닉네임 변경사항이 없습니다.");
+		return;
+	}
+	
+	if(IsDuplicate == true)	{
+		alert("중복된 닉네임입니다. 새로운 닉네임 입력하세요.");
+		$("#unick").focus();
+		return;
+	}
+	
 	if(confirm("회원정보를 변경하시겠습니까?") == true) {
 		$("#myinfoFn").submit();
 		return true;
 	}
 }
 
+function DoReset(){
+	let msg = document.getElementById("msg");
+    msg.innerHTML = "";
+}	
+
 </script>
 <section>
     <article>
-    	<form action="myinfo.jsp" method="post" id="myinfoFn" enctype="multipart/form-data">
+    	<form action="myinfoChange.jsp" method="post" id="myinfoFn" enctype="multipart/form-data">
         <div class="article_inner">
             <h2>회원정보</h2>
             <div class="view_inner">
@@ -154,14 +179,18 @@ function DoChange(){
 			    %>
             	<div class="view_content">
             		<p>닉네임 : 
-              		    <input type="text" name="unick" id="unick" placeholder="닉네임" value="<%= nick %>">
+              		    <input type="text" name="unick" id="unick" placeholder="<%= nick %>"  onkeydown="DoReset();">
 					</p>
 					<p>아이디 : <%= uid %></p>
 					<p>이메일 : <%= email %></p>
 					<p>회원등급 : <%= LevelStr %></p>
 					<p>가입일 : <%= rdate %></p>
+					<p>비밀번호 : 
+						<input type="password" name="upw" id="upw">
+					</p>
+					<span id="msg" style="color:green;"></span>
 					<div style="margin-top:60px;">
-		        	<button type="button" id="infoBtn" onclick="DoChange();">정보변경</button>
+		        	<button type="button" id="myinfoBtn" onclick="DoChange();">정보변경</button>
 		        	<button type="reset" id="resetBtn">취소</button>
 		        	</div>
 				</div>	

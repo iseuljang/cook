@@ -310,7 +310,7 @@ function recoAdd(no, state) {
     <article>
         <div class="article_inner">
             <h2><%= boardName %>
-			<a href="<%= path %>">
+			<a href="<%= path %>&nowPage=<%= nowPage %>&searchType=<%= searchType %>&searchValue=<%= searchValue %>">
 				<button type="button" id="listBtn">글목록</button>
 			</a>
             </h2>

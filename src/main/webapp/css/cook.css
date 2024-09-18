@@ -256,7 +256,7 @@ input {
 }
 
 
-#jBtn,#lBtn,#resetBtn,.join,#sBtn,#listBtn,#wBtn,#cBtn,#infoBtn{
+#jBtn,#lBtn,#resetBtn,.join,#sBtn,#listBtn,#wBtn,#cBtn,#myinfoBtn{
 	border-radius:5px;
 	/* background-color:#FFA500; */
 	background-color:#FF7F50;

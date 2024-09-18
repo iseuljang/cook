@@ -64,7 +64,7 @@ try{
         %>
 	<div id="recoDiv" style="text-align: center;">
 	    <a href="<%= request.getContextPath() %>/board/view.jsp?type=R&nowPage=1&no=<%= bno %>">
-        <img id="preview" style="border:none; width:100%; border-radius:5px;" 
+        <img id="preview" style="border:none; width:180px; max-height:180px; border-radius:5px;" 
         src="<%= request.getContextPath() %>/upload/<%= pname %>" alt="첨부된 이미지" style="max-width: 100%; height: auto;" />
         <div style="font-weight: bold; margin-top: 10px;">
         <%= title %>
