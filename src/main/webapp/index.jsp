@@ -8,7 +8,7 @@ ResultSet rs = null;
 
 String pname = "";
 String fname = "";
-String bno = "";
+String no = "";
 String star = "";
 String title = "";
 String count = "";
@@ -24,11 +24,9 @@ PreparedStatement psmtFile = null;
 ResultSet rsFile = null;	
 try{
 	conn = DBConn.conn();
-	sql = "select b.*,"
-	+ " (select count(*) from recommend where bno = b.bno and state='E') as count "
-	+ " from board b "
-	+ " inner join user u "
-	+ " on b.uno = u.uno "
+	sql = "select *, "
+	+ " (select count(*) from recommend where bno = board.bno and state='E') as count "
+	+ " from board "
 	+ " where type='R' "
 	+ " order by count desc limit 0,3 ";
 	
@@ -45,14 +43,14 @@ try{
 			<div id="indexDiv">
 <%
 	while(rs.next()){
-		bno = rs.getString("bno");
+		no = rs.getString("bno");
 		star = rs.getString("star");
 		title = rs.getString("title");
 		count = rs.getString("count");
 		sqlFile = "select pname, fname from attach where bno=?";
 		
 		psmtFile = conn.prepareStatement(sqlFile); //사용할 쿼리 등록
-		psmtFile.setString(1, bno);
+		psmtFile.setString(1, no);
 		rsFile = psmtFile.executeQuery();
 		
 		if(rsFile.next()){
@@ -63,23 +61,23 @@ try{
 		if(pname != null && !pname.isEmpty()) { 
         %>
 	<div id="recoDiv" style="text-align: center;">
-	    <a href="<%= request.getContextPath() %>/board/view.jsp?type=R&nowPage=1&no=<%= bno %>">
+	    <a href="<%= request.getContextPath() %>/board/view.jsp?type=R&nowPage=1&no=<%= no %>&searchType=&searchValue=">
         <img id="preview" style="border:none; width:180px; max-height:180px; border-radius:5px;" 
         src="<%= request.getContextPath() %>/upload/<%= pname %>" alt="첨부된 이미지" style="max-width: 100%; height: auto;" />
         <div style="font-weight: bold; margin-top: 10px;">
         <%= title %>
         </div>
-        <div class="rating" id="star_reco_<%= bno %>" style="margin-top: 5px;">
-			<input id="star5_reco_<%= bno %>" name="star_reco_<%= bno %>" type="radio" value="5" <%= star.equals("5") ? "checked" : "" %> disabled />
-			<label for="star5_reco_<%= bno %>">★</label>
-			<input id="star4_reco_<%= bno %>" name="star_reco_<%= bno %>" type="radio" value="4" <%= star.equals("4") ? "checked" : "" %> disabled/>
-			<label for="star4_reco_<%= bno %>">★</label>
-			<input id="star3_reco_<%= bno %>" name="star_reco_<%= bno %>" type="radio" value="3" <%= star.equals("3") ? "checked" : "" %> disabled/>
-			<label for="star3_reco_<%= bno %>">★</label>
-			<input id="star2_reco_<%= bno %>" name="star_reco_<%= bno %>" type="radio" value="2" <%= star.equals("2") ? "checked" : "" %> disabled/>
-			<label for="star2_reco_<%= bno %>">★</label>
-			<input id="star1_reco_<%= bno %>" name="star_reco_<%= bno %>" type="radio" value="1" <%= star.equals("1") ? "checked" : "" %> disabled/>
-			<label for="star1_reco_<%= bno %>">★</label>
+        <div class="rating" id="star_reco_<%= no %>" style="margin-top: 5px;">
+			<input id="star5_reco_<%= no %>" name="star_reco_<%= no %>" type="radio" value="5" <%= star.equals("5") ? "checked" : "" %> disabled />
+			<label for="star5_reco_<%= no %>">★</label>
+			<input id="star4_reco_<%= no %>" name="star_reco_<%= no %>" type="radio" value="4" <%= star.equals("4") ? "checked" : "" %> disabled/>
+			<label for="star4_reco_<%= no %>">★</label>
+			<input id="star3_reco_<%= no %>" name="star_reco_<%= no %>" type="radio" value="3" <%= star.equals("3") ? "checked" : "" %> disabled/>
+			<label for="star3_reco_<%= no %>">★</label>
+			<input id="star2_reco_<%= no %>" name="star_reco_<%= no %>" type="radio" value="2" <%= star.equals("2") ? "checked" : "" %> disabled/>
+			<label for="star2_reco_<%= no %>">★</label>
+			<input id="star1_reco_<%= no %>" name="star_reco_<%= no %>" type="radio" value="1" <%= star.equals("1") ? "checked" : "" %> disabled/>
+			<label for="star1_reco_<%= no %>">★</label>
         </div>
 		</a>
 	</div>
