@@ -97,11 +97,7 @@ article h2{
     margin-bottom: 40px;
 }
 .article_inner{
-<<<<<<< HEAD
     margin-left: 20px;
-=======
-    margin-left: 40px;
->>>>>>> 2b343ea79dfa498ebd10a21732d49a1bb284962f
 }
 .content_inner{
     width: 100%;
@@ -110,11 +106,7 @@ article h2{
 
 /* view_inner를 가로로 배치하는 플렉스박스 컨테이너로 설정 */
 .view_inner {
-<<<<<<< HEAD
     width: 95%;
-=======
-    width: 90%;
->>>>>>> 2b343ea79dfa498ebd10a21732d49a1bb284962f
     display: flex; /* 가로로 배치 */
     flex-direction: row; /* 기본 값으로 가로 배치 */
     justify-content: space-between; /* 요소 사이 간격을 균등하게 */
@@ -275,7 +267,6 @@ input {
 	height:40px;
 	cursor:pointer;
 }
-<<<<<<< HEAD
 /* 댓글 로드하는곳 버튼 */
 #buttonContainer {
     display: flex;             /* 가로 정렬을 위한 flexbox */
@@ -300,8 +291,6 @@ input {
 	color:white;
 	cursor:pointer;
 }
-=======
->>>>>>> 2b343ea79dfa498ebd10a21732d49a1bb284962f
 
 #indexDiv{
 	display: flex;
@@ -588,11 +577,7 @@ input {
     font-size:18px;
 }
 
-<<<<<<< HEAD
 /* menuA 스타일 header profil */
-=======
-/* menuA 스타일 */
->>>>>>> 2b343ea79dfa498ebd10a21732d49a1bb284962f
 #menuA {
     cursor: pointer;
     padding: 10px;
@@ -616,7 +601,6 @@ input {
     width: 160px;
     top: 100%; /* menuA 바로 아래 위치 */
     right: 0;   /* menuA의 왼쪽과 맞추어 정렬 */
-<<<<<<< HEAD
     z-index: 1000; /* 메뉴가 다른 요소들보다 위에 표시되도록 설정 */
 }
 
@@ -642,8 +626,6 @@ input {
     width: 120px;
     top: 100%; /* menuB 바로 아래 위치 */
     right: 0;   /* menuB의 왼쪽과 맞추어 정렬 */
-=======
->>>>>>> 2b343ea79dfa498ebd10a21732d49a1bb284962f
     z-index: 1000; /* 메뉴가 다른 요소들보다 위에 표시되도록 설정 */
 }
 
