@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<<<<<<< HEAD
 <%@ page import="java.sql.*" %>
 <%@ page import="cook.*" %>
 <%
@@ -55,15 +54,3 @@ if(method.equals("GET") || session.getAttribute("loginUserNo") == null){
 	alert("수정 실패했습니다.");
 	location.href = "view.jsp?no=<%= no%>&nowPage=<%= nowPage %>&type=<%= type%>&searchType=<%= searchType %>&searchValue=<%= searchValue %>";
 </script>
-=======
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
-<body>
-
-</body>
-</html>
->>>>>>> 2b343ea79dfa498ebd10a21732d49a1bb284962f

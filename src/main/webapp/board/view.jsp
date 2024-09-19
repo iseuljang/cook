@@ -182,7 +182,6 @@ function loadComment() {
 
 /* 댓글작성버튼 */
 function commentAdd(){
-<<<<<<< HEAD
 	let loginUno = '<%= session.getAttribute("loginUserNo") %>';
 	console.log(loginUno);
 	
@@ -201,31 +200,10 @@ function commentAdd(){
 	}else{
 		alert("로그인 후 등록 가능합니다");
 	}
-=======
-	if ($("#comment").val() == "") {
-        alert("댓글 내용을 입력하세요.");
-        return;
-    }	
-	
-	$.ajax({
-		type : "post",
-		url  : "commentAdd.jsp",
-		data: $("#commentForm").serialize(),
-		datatype : "html",
-		success : function(result)
-		{
-			if(result.trim() === "OK") {
-                alert("댓글이 작성되었습니다.");
-                loadComment(); // 댓글 작성 후 댓글 리스트 갱신
-            }
-		}
-	});
->>>>>>> 2b343ea79dfa498ebd10a21732d49a1bb284962f
 }
 
 /* 댓글삭제버튼 */
 function commentDel(cno){
-<<<<<<< HEAD
 	if(confirm("댓글을 삭제하시겠습니까?") == true) {
 		document.commentDelForm.action = "commentDel.jsp";
 		document.commentDelForm.nowPage.value = '<%= nowPage%>';
@@ -235,24 +213,6 @@ function commentDel(cno){
 		loadComment();
 		return;
 	}
-=======
-	if(confirm("댓글을 삭제하시겠습니까?") == false )	{
-		return;
-	}
-	$.ajax({
-		type : "post",
-		url  : "commentDel.jsp",
-		data : 
-		{
-			cno     : cno
-		},
-		datatype : "html",
-		success : function(result){
-			alert("댓글이 삭제되었습니다.");
-			loadComment();
-		}
-	});
->>>>>>> 2b343ea79dfa498ebd10a21732d49a1bb284962f
 }
 
 var originalHTML = "";   // 댓글 내용의 HTML을 저장
@@ -445,10 +405,7 @@ function recoAdd(no, state) {
 							<tr>
 								<td colspan="3">
 									<input type="hidden" name="no" value="<%= no %>">
-<<<<<<< HEAD
 									<input type="hidden" name="type" value="<%= type %>">
-=======
->>>>>>> 2b343ea79dfa498ebd10a21732d49a1bb284962f
 									<input type="hidden" name="nowPage" value="<%= nowPage%>">
 									<input type="hidden" name="searchType" value="<%= searchType%>">
 									<input type="hidden" name="searchValue" value="<%= searchValue%>">
@@ -456,11 +413,7 @@ function recoAdd(no, state) {
 									<input type="text" name="comment" size="50">
 								</td>
 								<td>
-<<<<<<< HEAD
 									<button type="button" id="cBtn" onclick="commentAdd();">댓글등록</button>
-=======
-									<button type="button" id="cBtn" onclick="submitComment();">저장</button>
->>>>>>> 2b343ea79dfa498ebd10a21732d49a1bb284962f
 								</td>
 							</tr>
 						</table>

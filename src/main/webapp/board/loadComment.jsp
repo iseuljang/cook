@@ -14,15 +14,11 @@ ResultSet rs = null;
 
 try {
     conn = DBConn.conn();
-<<<<<<< HEAD
     String sql = "SELECT cno,c.bno,c.uno,c.content,c.state, "
     +" DATE_FORMAT(c.rdate, '%y-%m-%d') AS rdate, "
     +" u.unick,u.pname FROM comment c "
     +" INNER JOIN user u "
 	+" ON c.uno = u.uno WHERE c.bno = ? AND c.state = 'E' ORDER BY c.cno DESC";
-=======
-    String sql = "SELECT c.*, u.unick FROM comment c INNER JOIN user u ON c.uno = u.uno WHERE c.bno = ? AND c.state = 'E' ORDER BY c.cno DESC";
->>>>>>> 2b343ea79dfa498ebd10a21732d49a1bb284962f
     psmt = conn.prepareStatement(sql);
     psmt.setInt(1, Integer.parseInt(no));
 
@@ -31,23 +27,15 @@ try {
     while (rs.next()) {
         Comment c = new Comment(
        		rs.getString("cno"),
-<<<<<<< HEAD
        		rs.getString("bno"),
-=======
-       		rs.getString("no"),
->>>>>>> 2b343ea79dfa498ebd10a21732d49a1bb284962f
        		rs.getString("uno"),
        		rs.getString("content"),
        		rs.getString("state"),
        		rs.getString("rdate"),
-<<<<<<< HEAD
        		rs.getString("unick"),
        		rs.getString("pname")
-=======
-       		rs.getString("unick")
->>>>>>> 2b343ea79dfa498ebd10a21732d49a1bb284962f
-        );
-        commentList.add(c);
+    	);
+    	commentList.add(c);
     }
 } catch (Exception e) {
     e.printStackTrace();
@@ -60,7 +48,6 @@ try {
 <%
 if (!commentList.isEmpty()) {
     for (Comment c : commentList) { 
-<<<<<<< HEAD
     	String cno = c.getCno();
     %>
     <tr id="comment<%= cno %>" style="font-size:14px;">
@@ -152,18 +139,6 @@ if (!commentList.isEmpty()) {
 		<input type="hidden" name="searchType">
 		<input type="hidden" name="searchValue">
     </form>
-=======
-    %>
-    <tr id="comment<%= c.getCno() %>">
-        <td><%= c.getUnick() %></td>
-        <td><%= c.getContent() %></td>
-        <td><%= c.getRdate() %></td>
-        <td>
-            <button onclick="commentUpdate(<%= c.getCno() %>, '<%= no %>')">수정</button>
-            <button onclick="commentDel(<%= c.getCno() %>)">삭제</button>
-        </td>
-    </tr>
->>>>>>> 2b343ea79dfa498ebd10a21732d49a1bb284962f
     <% 
     } 
 }
