@@ -26,6 +26,7 @@
 					{
 					case "00" : 
 						$("#msg").html("사용 가능한 아이디입니다.");
+						IsDuplicate = false;
 						break;
 					case "01" : 
 						$("#msg").html("중복된 아이디입니다.");
