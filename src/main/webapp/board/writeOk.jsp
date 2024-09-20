@@ -9,7 +9,8 @@
 <%
 request.setCharacterEncoding("UTF-8");
 //업로드가 가능한 최대 파일 크기를 지정한다.
-String uploadPath = "D:\\code\\awsJava\\workspace\\cook\\src\\main\\webapp\\upload";
+/* String uploadPath = "D:\\code\\awsJava\\workspace\\cook\\src\\main\\webapp\\upload"; */
+String uploadPath = "C:\\Users\\DEV\\Desktop\\JangAWS\\01.java\\workspace\\cook\\src\\main\\webapp\\upload";
 int size = 10 * 1024 * 1024;
 MultipartRequest multi;
 try
@@ -27,7 +28,6 @@ String title = multi.getParameter("title");
 String content  = multi.getParameter("content");
 
 //업로드된 파일명을 얻는다
-// 업로드된 파일명을 얻는다
 Enumeration files = multi.getFileNames();
 String filename = null;
 String phyname = null;

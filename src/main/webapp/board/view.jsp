@@ -204,15 +204,26 @@ function commentAdd(){
 
 /* 댓글삭제버튼 */
 function commentDel(cno){
-	if(confirm("댓글을 삭제하시겠습니까?") == true) {
-		document.commentDelForm.action = "commentDel.jsp";
-		document.commentDelForm.nowPage.value = '<%= nowPage%>';
-		document.commentDelForm.searchType.value = '<%= searchType%>';
-		document.commentDelForm.searchValue.value = '<%= searchValue%>';
-		document.commentDelForm.submit();
-		loadComment();
+	if(confirm("댓글을 삭제하시겠습니까?") == false )
+	{
 		return;
 	}
+	$.ajax({
+		type : "post",
+		url  : "commentDel.jsp",
+		data : 
+		{
+			cno     : cno,
+			no: <%= no%>, 
+			path:"no=<%= no%>&nowPage=<%= nowPage %>&type=<%= type%>&searchType=<%= searchType %>&searchValue=<%= searchValue %>"
+		},
+		datatype : "html",
+		success : function(result)
+		{
+			alert("댓글이 삭제되었습니다.");
+			loadComment();
+		}
+	});
 }
 
 var originalHTML = "";   // 댓글 내용의 HTML을 저장
@@ -224,26 +235,32 @@ function commentUpdate(cno, no) {
         return;
     }
 
-    var rnote = $("#comment" + cno + " td:nth-child(2)").text().trim();  // 댓글 내용 추출 (두 번째 <td>)
-    originalHTML = $("#comment" + cno + " td:nth-child(2)").html();      // 댓글 내용을 저장
-    originalBtn = $("#comment" + cno + " td:nth-child(4)").html();       // 수정/삭제 버튼 영역 저장
+    var rnote = $("#comment" + cno + " td #content").text().trim();   // 댓글 내용 추출 (두 번째 <td>)
+    originalHTML = $("#comment" + cno + " td #content").html();               // 댓글 내용을 저장
+    originalBtn = $("#comment" + cno + " td #menutableB"+cno).html();  // 수정/삭제 버튼 영역 저장
     
     // 댓글을 textarea로 변경
-    $("#comment" + cno + " td:nth-child(2)").html(
-        "<textarea id='commentEdit" + cno + "' style='width:740px; height:80px; resize:none;'>" + rnote + "</textarea>"
+    $("#comment" + cno + " td #content").html(
+        "<textarea id='commentEdit" + cno + "' style='width:300px; height:80px; resize:none;'>" + rnote + "</textarea>"
     );
     
     // 버튼을 "완료" 및 "취소"로 변경
-    $("#comment" + cno + " td:nth-child(4)").html(
-        `<span class='reply_btn' onclick='commentUpdateSave(${cno}, ${no})' id='btnEdit'>완료</span> 
-        <input type="reset" id="comment_reset" value="취소" onclick='commentCancel(${cno})'>`
+    $("#comment" + cno + " td #menutableB"+cno).html(
+    	`<div class="menu-container">
+    		<i class="fas fa-solid fa-check"></i>
+            <span onclick='commentUpdateSave(\${cno}, \${no})' id='cEdit'>완료</span>
+        </div>
+        <div class="menu-container">
+     	    <i class="fas fa-solid fa-circle-xmark"></i>
+            <span id="cReset" onclick='commentCancel(\${cno})'>취소</span>
+        </div>`
     );
 }
 
 // 댓글 수정 취소 함수
 function commentCancel(cno) {
-    $("#comment" + cno + " td:nth-child(2)").html(originalHTML);   // 원래 댓글 내용 복구
-    $("#comment" + cno + " td:nth-child(4)").html(originalBtn);    // 원래 버튼 복구
+    $("#comment" + cno + " td #content").html(originalHTML);      // 원래 댓글 내용 복구
+    $("#comment" + cno + " td #menutableB"+cno).html(originalBtn); // 원래 버튼 복구
 }
 
 // 댓글 저장 함수
@@ -262,13 +279,14 @@ function commentUpdateSave(cno, no) {
         data: {
             no: no,      // 게시물 번호
             comment: rnote,   // 수정된 댓글 내용
-            cno: cno     // 댓글 번호
+            cno: cno,     // 댓글 번호
+            path:"no=<%= no%>&nowPage=<%= nowPage %>&type=<%= type%>&searchType=<%= searchType %>&searchValue=<%= searchValue %>"
         },
         datatype: "html",
         success: function(result) {
             alert("댓글이 수정되었습니다.");
-            $("#comment" + cno + " td:nth-child(2)").html('<span>' + rnote + '</span>');  // 수정된 댓글 내용 표시
-            $("#comment" + cno + " td:nth-child(4)").html(originalBtn);  // 수정 후 버튼 복구
+            $("#comment" + cno + " td #content").html('<span>' + rnote + '</span>');  // 수정된 댓글 내용 표시
+            $("#comment" + cno + " td #menutableB"+cno).html(originalBtn);  // 수정 후 버튼 복구
         }
     });
 }
@@ -298,14 +316,54 @@ function recoAdd(no, state) {
     });
 }
 
+
+function DoDelete() {
+    if (confirm("게시글을 삭제하시겠습니까?") == false) {
+        return;
+    }
+
+    $.ajax({
+        url: "delete.jsp",
+        type: "post",
+        data: {
+            no: "<%= no %>",   // 게시물 번호
+            type: "<%= type %>",
+            path: "&nowPage=<%= nowPage %>&type=<%= type%>&searchType=<%= searchType %>&searchValue=<%= searchValue %>"
+        },
+        success: function(result) {
+            alert("삭제되었습니다.");
+            location.href = "board_list.jsp?type=<%= type%>&nowPage=<%= nowPage %>&searchType=<%= searchType %>&searchValue=<%= searchValue %>";
+        },
+        error: function(xhr, status, error) {
+            alert("에러 발생: " + error);
+        }
+    });
+}
+
+
 </script>
 <section>
     <article>
         <div class="article_inner">
             <h2><%= boardName %>
 			<a href="<%= path %>&nowPage=<%= nowPage %>&searchType=<%= searchType %>&searchValue=<%= searchValue %>">
-				<button type="button" id="listBtn">글목록</button>
+				<button type="button" id="viewBtn">글목록</button>
 			</a>
+			<%
+			if(session.getAttribute("loginUserNo") != null && uno == Integer.parseInt((String)session.getAttribute("loginUserNo"))){
+			%>
+			<a style="margin-left: <%= type.equals("R")  ? "360px" : "410px" %>;" 
+			href="modify.jsp?type=<%= type %>&no=<%= no%>&nowPage=<%= nowPage %>&searchType=<%= searchType %>&searchValue=<%= searchValue %>">
+				<button type="button" id="viewBtn">수정</button>
+			</a>
+				<button type="button" id="viewBtn" onclick="DoDelete();">삭제</button>
+			<%
+			}else if(session.getAttribute("loginUserLevel") != null && session.getAttribute("loginUserLevel").equals("A")){
+				%>
+				<button type="button" id="viewBtn" style="margin-left:540px;" onclick="DoDelete();">삭제</button>
+				<%
+			}
+			%>
             </h2>
             <div class="view_inner">
            		<%
@@ -336,6 +394,7 @@ function recoAdd(no, state) {
             	<div class="view_content" style="width: <%= fname.equals("") ? "100%" : "50%" %>;">
             		<div class="icon-container">
 						<div class="reco" style="width:30px; cursor:pointer;">
+						<!-- 추천표시되는곳 -->
 						</div>
 						<%
 						if(pname != null && !pname.equals("")){
