@@ -95,6 +95,10 @@
    - 기존 댓글내용과 수정, 삭제버튼을 저장하여 취소 버튼 클릭시 기존 모습으로 되돌아간다
  ![comment_modify](https://github.com/iseuljang/cook/blob/main/screen/comment_modify_button_change.jpg)
 
+ - **프로필링크**
+   - 로그인 후 프로필 사진 클릭시 메뉴바가 나타나 회원가입 때 기입한 정보를 확인하는 내정보보기 페이지로 이동하거나 로그아웃을 할 수 있다
+ ![header_profil](https://github.com/iseuljang/cook/blob/main/screen/header_profil.jpg)
+
  - **내정보보기(회원)**
  ![myinfo_user](https://github.com/iseuljang/cook/blob/main/screen/myinfo_user.jpg)
 
