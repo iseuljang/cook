@@ -65,6 +65,9 @@
  - **자유게시판**
  ![free_board_list](https://github.com/iseuljang/cook/blob/main/screen/free_board.jpg)
 
+ - **자유게시판(관리자)**
+ ![free_board_list_admin](https://github.com/iseuljang/cook/blob/main/screen/free_board_admin.jpg)
+
  - **자유게시판 글쓰기**
    - 자유게시판과 레시피 게시판은 첨부파일을 등록할 수도 있고, 등록하지 않을 수도 있다  
  ![free_board_write](https://github.com/iseuljang/cook/blob/main/screen/free_board_write.jpg)
