@@ -48,7 +48,11 @@ try{
 	}
 	sqlTotal += "inner join user u ";
 	sqlTotal += "on b.uno = u.uno ";
-	sqlTotal += " where b.state='E' ";
+	if(session.getAttribute("loginUserLevel") != null && session.getAttribute("loginUserLevel").equals("A")){
+		sqlTotal += " where (b.state='E' or b.state='D') ";
+	}else{
+		sqlTotal += " where b.state='E' ";
+	}
 	if(!searchType.equals("")){
 		if(searchType.equals("title")){
 			sqlTotal += "and title like concat('%',?,'%') ";
@@ -67,7 +71,7 @@ try{
 	
 	psmtTotal = conn.prepareStatement(sqlTotal);
 	if(!searchType.equals("")){
-		psmtTotal.setString(1, searchValue);
+		psmtTotal.setString(1, searchValue.replace("\"","&quot;"));
 	}
 	rsTotal = psmtTotal.executeQuery();
 	
@@ -81,21 +85,25 @@ try{
 	//데이터 출력에 필요한 게시글 데이터 조회 쿼리 영역
 	String sql = "";
 	if(type.equals("N")){
-		sql = "select nno,title,unick, " 
-				+ " date_format(n.rdate,'%Y-%m-%d') as rdate,hit,top_yn "
-				+ " from notice_board n "
+		sql = "select nno,title,unick,b.state, " 
+				+ " date_format(b.rdate,'%Y-%m-%d') as rdate,hit,top_yn "
+				+ " from notice_board b "
 				+ " inner join user u " 
-				+ " on n.uno = u.uno "
-				+ " where n.state='E' ";
+				+ " on b.uno = u.uno ";
 	}else {
-		sql = "select bno,title,unick,star, " 
+		sql = "select bno,title,unick,star,b.state, " 
 			+ " (select count(*) from comment where bno = b.bno and state='E') as cnt, "
 			+ " (select count(*) from recommend where bno = b.bno and state='E') as rCount, "
 			+ " date_format(b.rdate,'%Y-%m-%d') as rdate,hit "
 			+ " from board b "
 			+ " inner join user u " 
-			+ " on b.uno = u.uno "
-			+ " where b.state='E' ";
+			+ " on b.uno = u.uno ";
+	}
+	
+	if(session.getAttribute("loginUserLevel") != null && session.getAttribute("loginUserLevel").equals("A")){
+		sql += " where (b.state='E' or b.state='D') ";
+	}else{
+		sql += " where b.state='E' ";
 	}
 	
 	if(!searchType.equals("")){
@@ -122,7 +130,7 @@ try{
 	sql += "limit ?,?";
 	psmt = conn.prepareStatement(sql);
 	if(!searchType.equals("")){
-		psmt.setString(1, searchValue);
+		psmt.setString(1, searchValue.replace("\"","&quot;"));
 		psmt.setInt(2, paging.getStart());
 		psmt.setInt(3, paging.getPerPage());
 	}else{
@@ -161,7 +169,7 @@ window.onload = function(){
 </script>
 <section>
     <article>
-        <div class="article_inner">
+        <div class="board_inner">
         	<div class="search_title">
        	<%
 		if(type.equals("N")){
@@ -217,7 +225,7 @@ window.onload = function(){
                     <thead>
 						<tr>
 							<th width="40px">번호</th>
-							<th width="300px">제목</th>
+							<th width="<%= type.equals("R") ? "300px" : "490px" %>">제목</th>
 							<%
 							if(type.equals("R")){
 							%>
@@ -261,7 +269,13 @@ window.onload = function(){
 							<%
 						}
 						 %>
-							<td><a href="view.jsp?type=<%= type %>&no=<%= boardNo %>&nowPage=<%= nowPage %>&searchType=<%= searchType %>&searchValue=<%= searchValue %>"><%= rs.getString("title") %></a></td>
+							<td>
+								<a style="color: <%= rs.getString("state").equals("D") ? "red" : "#5D4037" %>;
+								text-decoration: <%= rs.getString("state").equals("D") ?  "line-through" : "none"%>;" 
+								href="view.jsp?type=<%= type %>&no=<%= boardNo %>&nowPage=<%= nowPage %>&searchType=<%= searchType %>&searchValue=<%= searchValue %>">
+								<%= rs.getString("title") %>
+								</a>
+							</td>
 							<%
 							if(type.equals("R")){
 								String starNum = rs.getString("star");

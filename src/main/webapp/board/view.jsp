@@ -18,7 +18,7 @@ if(no == null || no.equals("")){
 	%>
 	<script>
 		alert("잘못된 접근입니다");
-		location.href = "<%= request.getContextPath() %>/list.jsp";
+		location.href = "<%= request.getContextPath() %>/board_list.jsp?type=<%= type%>";
 	</script>
 	<%
 }
@@ -392,6 +392,9 @@ function DoDelete() {
 			    }
 			    %>
             	<div class="view_content" style="width: <%= fname.equals("") ? "100%" : "50%" %>;">
+            		<%
+            		if(!type.equals("N")){
+           			%>
             		<div class="icon-container">
 						<div class="reco" style="width:30px; cursor:pointer;">
 						<!-- 추천표시되는곳 -->
@@ -406,6 +409,9 @@ function DoDelete() {
 						}
 						%>
 					</div>
+           			<%
+            		}
+            		%>
             		<p style="font-size:26px; margin:10px 0;"><%= title %></p>
             		<%
 					if(type.equals("R")){
@@ -451,9 +457,12 @@ function DoDelete() {
 					}
 					%>
 					조회수&nbsp;<%= hit %>
-					</div>
-					<br>
-					<%= content.replace("\n", "<br>") %>
+					</div><br>
+<%-- <%
+String board_content = content.replace("\n", "<br>").replace("<", "&lt;").replace(">", "&gt;");
+%>
+   <%= board_content %> --%>
+<div style="white-space: pre-wrap;"><%= content.replace("<", "&lt;").replace(">", "&gt;").replace("\"","&quot;") %></div>
 					<!-- 댓글위치 -->
 					<%
 					if(!type.equals("N")){
