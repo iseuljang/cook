@@ -59,7 +59,8 @@
 
  - **공지게시판 상세조회**
    - 댓글을 달 수 없다
- ![notice_board_view](https://github.com/iseuljang/cook/blob/main/screen/notice_board_view.jpg)
+   - 추천할 수 없다
+ ![notice_board_view](https://github.com/iseuljang/cook/blob/main/screen/notice_board_view_noreco.jpg)
 
  - **자유게시판**
  ![free_board_list](https://github.com/iseuljang/cook/blob/main/screen/free_board.jpg)
