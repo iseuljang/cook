@@ -3,6 +3,7 @@
 <%@ include file="../include/header.jsp" %>
 <script>
 	let IsDuplicate = false;
+	let NickDuplicate = false;
 	window.onload = function(){
 		/* alert("js"); */
 		/* document.getElementById("uid").focus(); */
@@ -31,6 +32,36 @@
 					case "01" : 
 						$("#msg").html("중복된 아이디입니다.");
 						IsDuplicate = true;
+						break;
+					}
+				}
+			});
+		});
+		
+		$("#unick").keyup(function(){
+			NickDuplicate = false;
+			usernick = $(this).val();
+			
+			$.ajax({
+				url : "nickCheck.jsp",
+				type : "post",
+				data : {unick : usernick},
+				dataType : "html",
+				success : function(result)
+				{
+					result = result.trim();
+					switch(result)
+					{
+					case "00" : 
+						$("#msg").html("닉네임 체크 오류입니다.");
+						break;
+					case "01" : 
+						$("#msg").html("중복된 닉네임입니다.");
+						NickDuplicate = true;
+						break;
+					case "02" : 
+						$("#msg").html("사용 가능한 닉네임입니다.");
+						NickDuplicate = false;
 						break;
 					}
 				}
@@ -107,6 +138,10 @@
             msg.innerHTML = "닉네임은 2글자 이상 입력해주세요";
             userNick.focus();
             return false;
+        }else if(NickDuplicate == true){
+        	msg.innerHTML = "이미 사용중인 닉네임입니다";
+        	userNick.focus();
+        	return false;
         }
     	
 		

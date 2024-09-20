@@ -4,7 +4,7 @@
 <%@ page import="cook.*" %>
 <%
 if(request.getMethod().equals("GET")){
-	response.sendRedirect("myinfo.jsp");
+	response.sendRedirect(request.getContextPath()+"/index.jsp");
 }
 request.setCharacterEncoding("UTF-8");
 String unick = request.getParameter("unick");
