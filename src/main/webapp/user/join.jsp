@@ -68,14 +68,32 @@
 			});
 		});
 		
-		$("#file").on('change', function(){
-   		  var fileName = $("#file").val();
-   		  $(".upload-name").val(fileName);
-   		});
 		
-		$(".upload-name").on('click',function(){
-			$("#file").click();
-		});
+		$(".deleteFile").css("display","none");
+   		
+    	$("#file").on('change', function(){
+   		    var fileName = $("#file").val();
+   		    $(".upload-name").val(fileName);
+   		  
+ 		  	// 새 파일이 선택된 경우 삭제 체크박스 보이기
+ 	   		$(".deleteFile").show(); // 체크박스를 보이게 함
+ 	  	 	$("#preview").show();
+ 	   		$("input[name='deleteFile']").prop('checked', false); // 체크 해제
+   		});
+    	
+    	$(".upload-name").on('click',function(){
+    		$("#file").click();
+    	});
+    	
+    	$("input[name='deleteFile']").click(function(){
+    		if($(this).is(':checked')) {
+    			$(".upload-name").val("첨부파일");
+    			$("#file").val("");
+    			$(".deleteFile").css("display","none");
+    			$("#preview").css("display","none");
+    	        document.getElementById('preview').src = "";
+    	    }
+    	});
 		
 	}
 	
@@ -224,7 +242,12 @@
                             <div class="input-container">
 	                    		 <i class="fas fa-camera"></i> 
 	                             <img id="preview" class="circular-img" />
-	                             <div class="profil">
+	                             <!-- 첨부파일 삭제 여부 체크박스 추가 -->
+                                 <div class="deleteFile" style="margin-left:10px;">
+		                          	 <input type="checkbox" name="deleteFile" value="Y" id="deleteFile">
+		                          	 <label for="deleteFile"><i class="fas fa-solid fa-circle-xmark"></i></label>
+	                             </div>
+	                             <div class="profil" style="width:250px;">
 	                                 <label for="file">
 	                                	 <input class="upload-name" value="프로필이미지" placeholder="프로필이미지" readonly>
 		                                 <input type="file" id="file" name="fname" onchange="readURL(this);">

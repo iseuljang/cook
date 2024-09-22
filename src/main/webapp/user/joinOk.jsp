@@ -12,7 +12,9 @@ if(request.getMethod().equals("GET")){
 	response.sendRedirect("join.jsp");
 }
 request.setCharacterEncoding("UTF-8");
-String uploadPath = "D:\\code\\awsJava\\workspace\\cook\\src\\main\\webapp\\upload";
+/* String uploadPath = "D:\\code\\awsJava\\workspace\\cook\\src\\main\\webapp\\upload"; */
+String uploadPath = "C:\\Users\\DEV\\Desktop\\JangAWS\\01.java\\workspace\\cook\\src\\main\\webapp\\upload"; 
+
 int size = 10 * 1024 * 1024;
 MultipartRequest multi;
 try
@@ -28,20 +30,30 @@ try
 
 //업로드된 파일명을 얻는다
 Enumeration files = multi.getFileNames();
-String fileid = (String)files.nextElement();
-String filename = (String)multi.getFilesystemName("fname");
+String filename = null;			//원본파일
+String phyname = null;			//바뀐이름
 
-String phyname = null;
-if(filename != null)
-{
-	phyname = UUID.randomUUID().toString();
-	String srcName    = uploadPath + "/" + filename;
-	String targetName = uploadPath + "/" + phyname;
-	File srcFile    = new File(srcName);
-	File targetFile = new File(targetName);
-	srcFile.renameTo(targetFile);
+if (files.hasMoreElements()) {
+    String fileid = (String) files.nextElement();
+    filename = multi.getFilesystemName(fileid);
+
+	if (filename != null) {
+        System.out.println("업로드된 파일 이름: " + filename);
+        phyname = UUID.randomUUID().toString(); // UUID 생성
+        String srcName = uploadPath + "/" + filename;
+        String targetName = uploadPath + "/" + phyname;
+        
+        File srcFile = new File(srcName);
+        File targetFile = new File(targetName);
+        
+        boolean renamed = srcFile.renameTo(targetFile);
+        if (!renamed) {
+            System.out.println("파일 이름 변경 실패");
+        } else {
+            System.out.println("파일 이름 변경 성공: " + phyname);
+        }
+    }
 }
-
 
 String uid = multi.getParameter("uid");
 String upw = multi.getParameter("upw");
@@ -62,7 +74,9 @@ try{
 	psmt.setString(2, upw);
 	psmt.setString(3, unick);
 	psmt.setString(4, uemail);
+	if(phyname == null) phyname = "";
 	psmt.setString(5, phyname);
+	if(filename == null) filename = "";
 	psmt.setString(6, filename);
 	
 	int result = psmt.executeUpdate();
