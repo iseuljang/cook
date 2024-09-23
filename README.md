@@ -63,7 +63,7 @@
  ![notice_board_view](https://github.com/iseuljang/cook/blob/main/screen/notice_board_view_noreco.jpg)
 
  - **자유게시판**
- ![free_board_list](https://github.com/iseuljang/cook/blob/main/screen/free_board.jpg)
+ ![free_board_list](https://github.com/iseuljang/cook/blob/main/screen/free_board_list.jpg)
 
  - **자유게시판(관리자)**
  ![free_board_list_admin](https://github.com/iseuljang/cook/blob/main/screen/free_board_admin.jpg)
@@ -73,41 +73,47 @@
  ![free_board_write](https://github.com/iseuljang/cook/blob/main/screen/free_board_write.jpg)
 
  - **자유게시판 상세조회(작성자)**
- ![free_board_view_user](https://github.com/iseuljang/cook/blob/main/screen/free_board_view_user.jpg)
+ ![free_board_view_user](https://github.com/iseuljang/cook/blob/main/screen/free_board_comment.jpg)
 
  - **자유게시판 상세조회(작성자 아닌경우)**
- ![free_board_view_other_user](https://github.com/iseuljang/cook/blob/main/screen/free_board_view_other_user.jpg)
+ ![free_board_view_other_user](https://github.com/iseuljang/cook/blob/main/screen/free_board_comment_other.jpg)
 
  - **자유게시판 상세조회(관리자)**
    - 관리자는 본인이 작성한 글이 아니더라도 삭제할 수 있다
- ![free_board_view_admin](https://github.com/iseuljang/cook/blob/main/screen/free_board_admin_delete.jpg)
+ ![free_board_view_admin](https://github.com/iseuljang/cook/blob/main/screen/admin_free_board_view.jpg)
  
  - **레시피게시판**
  ![recipe_board_list](https://github.com/iseuljang/cook/blob/main/screen/recipe_board.jpg)
-
+ 
  - **레시피게시판 글쓰기**
  ![recipe_board_write](https://github.com/iseuljang/cook/blob/main/screen/recipe_board_write.jpg)
 
  - **레시피게시판 상세조회**
- ![recipe_board_view](https://github.com/iseuljang/cook/blob/main/screen/recipe_board_view.jpg)
+ ![recipe_board_view](https://github.com/iseuljang/cook/blob/main/screen/recipe_board_view_comment.jpg)
 
  - **댓글**
- ![comment_modify_delete_button](https://github.com/iseuljang/cook/blob/main/screen/comment_button.jpg)
+ ![comment_modify_delete_button](https://github.com/iseuljang/cook/blob/main/screen/comment_button_first.jpg)
 
  - **댓글 수정**
    - 댓글 수정시 기존 댓글 내용이 출력되는 span 태그를 textarea로 바꾸며 수정과 삭제버튼을 완료와 취소 버튼으로 변경한다
    - 기존 댓글내용과 수정, 삭제버튼을 저장하여 취소 버튼 클릭시 기존 모습으로 되돌아간다
  ![comment_modify](https://github.com/iseuljang/cook/blob/main/screen/comment_modify_button_change.jpg)
 
- - **프로필링크**
+ - **회원 프로필링크**
    - 로그인 후 프로필 사진 클릭시 메뉴바가 나타나 회원가입 때 기입한 정보를 확인하는 내정보보기 페이지로 이동하거나 로그아웃을 할 수 있다
  ![header_profil](https://github.com/iseuljang/cook/blob/main/screen/header_profil.jpg)
+ 
+ - **관리자 프로필링크**
+![header_profil](https://github.com/iseuljang/cook/blob/main/screen/myinfo_admin_add.jpg)
 
  - **내정보보기(회원)**
  ![myinfo_user](https://github.com/iseuljang/cook/blob/main/screen/myinfo_user.jpg)
 
  - **내정보보기(관리자)**
  ![myinfo_admin](https://github.com/iseuljang/cook/blob/main/screen/myinfo_admin.jpg)
+
+- **신고게시판**
+ ![complain_list](https://github.com/iseuljang/cook/blob/main/screen/complain_list.jpg)
 
 
 
