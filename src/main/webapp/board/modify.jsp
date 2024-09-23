@@ -155,25 +155,61 @@ try{
     	        document.getElementById('preview').src = "";
     	    }
     	});
+    	
+    	smartEditor(); 
+    }
+    
+	let oEditors = [];
+	
+    smartEditor = function() {
+        nhn.husky.EZCreator.createInIFrame({
+            oAppRef: oEditors,
+            elPlaceHolder: "editorTxt0", //textarea에 부여한 아이디와 동일해야한다.
+            sSkinURI: "<%= request.getContextPath() %>/static/SmartEditor2Skin.html", //자신의 프로젝트에 맞게 경로 수
+            fCreator: "createSEditor2"
+        })
     }
     
     function DoModify(){
-		if($("#titleId").val() == ""){
-			$("#msg").html("제목을 입력해주세요.");
-			$("#titleId").focus();
-			return false;
-		}
-		if(type == "R"){
-			if($('input:radio[name=star]').is(':checked') != true){
-				$("#msg").html("난이도를 선택해주세요.");
-				return false;
-			}
-		}
-		
-		if(confirm("게시글을 수정하시겠습니까?") == true) {
-			document.modifyForm.submit();
-    		return true;
-    	}
+		oEditors.getById["editorTxt0"].exec("UPDATE_CONTENTS_FIELD", []); // 스마트에디터 업데이트
+	    let content = document.getElementById("editorTxt0").value;
+		let star = 0;
+		// 내용이 비어 있는지 확인
+	    if (content == '<p>&nbsp;</p>') {
+	        alert("내용을 입력해주세요.");
+	        oEditors.getById["editorTxt0"].exec("FOCUS");
+	        return false;
+	    } else {
+	        if ($("#titleId").val() == "") {
+	            $("#msg").html("제목을 입력해주세요.");
+	            $("#titleId").focus();
+	            return false;
+	        }
+	        
+	        // 레시피 게시판일 경우 난이도 체크
+	        if(type == "R") {
+	            if(!$('input:radio[name=starview]').is(':checked')) {
+	                $("#msg").html("난이도를 선택해주세요.");
+	                return false;
+	            }else {
+	                star = $('input:radio[name=starview]:checked').val();
+	            }
+	        }
+
+	        // star 값이 0보다 클 경우에만 writeForm에 값 추가
+	        if(star > 0) {
+	            $("<input>").attr({
+	                type: "hidden",
+	                name: "starview",
+	                value: star
+	            }).appendTo("#writeForm");
+	        }
+
+	        // 확인 후 폼 제출
+	        if(confirm("게시글을 수정하시겠습니까?")) {
+	            $("#modifyForm").submit(); // form 제출
+	        }
+	    }
 	}
     
     function readURL(input) {
@@ -271,7 +307,13 @@ try{
                          <tr>
                              <th align="right">내용&nbsp;</th>
                              <td>
-                                 <textarea name="content" id="mytextarea" rows="10" cols="50"><%= content.replace("<br>","\n") %></textarea>
+								<!-- <textarea name="content" id="mytextarea" rows="10" cols="50"></textarea> -->
+                                 <div id="smarteditor">
+								   <textarea name="editorTxt" id="editorTxt0"
+								             rows="20" cols="20"
+								             style="max-width: 600px"
+								   ><%= content %></textarea>
+								  </div>
                              </td>
                          </tr>
                          <tr>

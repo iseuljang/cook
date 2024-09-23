@@ -25,7 +25,8 @@ try
 }
 
 String title = multi.getParameter("title");
-String content  = multi.getParameter("content");
+String content  = multi.getParameter("editorTxt");
+System.out.print("content: "+content);
 
 //업로드된 파일명을 얻는다
 Enumeration files = multi.getFileNames();
@@ -54,6 +55,10 @@ if (type == null || type.equals("")) {
     type = "R";
 }
 
+if(session.getAttribute("loginUserNo") == null || session.getAttribute("loginUserNo").equals("")){
+	response.sendRedirect("write.jsp");
+	return;
+}
 String uno = (String) session.getAttribute("loginUserNo");
 String star = multi.getParameter("star");
 if (star == null) {

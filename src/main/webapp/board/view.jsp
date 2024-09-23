@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file="../include/header.jsp" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%
 request.setCharacterEncoding("UTF-8");
 
@@ -327,6 +328,7 @@ function commentUpdate(cno, no) {
 function commentCancel(cno) {
     $("#comment" + cno + " td #content").html(originalHTML);      // 원래 댓글 내용 복구
     $("#comment" + cno + " td #menutableB"+cno).html(originalBtn); // 원래 버튼 복구
+    $("#menutableB"+ cno).hide();
 }
 
 // 댓글 저장 함수
@@ -541,7 +543,8 @@ function DoDelete() {
 String board_content = content.replace("\n", "<br>").replace("<", "&lt;").replace(">", "&gt;");
 %>
    <%= board_content %> --%>
-<div style="white-space: pre-wrap;"><%= content.replace("<", "&lt;").replace(">", "&gt;").replace("\"","&quot;") %></div>
+<c:set var="content" value="<%= content%>" />
+<div style="white-space: pre-wrap;"><c:out value="${content}" escapeXml="false" /></div>
 					<!-- 댓글위치 -->
 					<%
 					if(!type.equals("N")){
