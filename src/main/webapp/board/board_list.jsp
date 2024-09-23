@@ -235,11 +235,12 @@ window.onload = function(){
 							}
 							%>
 							<th width="150px">작성자</th>
-							<th width="180px">작성일</th>
+							<th width="150px">작성일</th>
 							<%
 							if(!type.equals("N")){
 							%>
-							<th width="60px">추천수</th>
+							<th width="50px">추천</th>
+							<th width="50px">댓글</th>
 							<%
 							}
 							%>
@@ -252,11 +253,13 @@ window.onload = function(){
 					while(rs.next()){
 						int cpTotal = 0;
 						String boardNo = "";
+						int cnt = 0;
 						if(type.equals("N")){
 							boardNo = rs.getString("nno");
 						}else{
 							boardNo = rs.getString("bno");
 							cpTotal = rs.getInt("cpTotal");
+							cnt = rs.getInt("cnt");
 						}
 						%>
 						<tr>
@@ -307,6 +310,7 @@ window.onload = function(){
 							if(!type.equals("N")){
 							%>
 							<td><%= rs.getString("rCount") %></td>
+							<td><%= rs.getString("cnt") %></td>
 							<%
 							}
 							%>

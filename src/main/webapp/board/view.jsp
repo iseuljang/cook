@@ -567,7 +567,8 @@ String board_content = content.replace("\n", "<br>").replace("<", "&lt;").replac
 									    align-items: center; 
 									    gap: 10px;
 									    ">
-											<i class="fas fa-solid fa-comment" id="searchIcon"></i>
+											<!-- <i class="fas fa-solid fa-comment" id="searchIcon"></i> -->
+											<i class="fas solid fa-comment-dots" id="searchIcon"></i>
 											<input type="text" name="comment" id="comment" placeholder="댓글"	 size="50">
 											<i class="fas fa-times" id="clearBtn"></i>
 		              			        </div>
