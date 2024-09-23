@@ -49,6 +49,7 @@ try {
 if (!commentList.isEmpty()) {
     for (Comment c : commentList) { 
     	String cno = c.getCno();
+    	String uno = c.getUno();
     %>
     <tr id="comment<%= cno %>" style="font-size:14px;">
         <td  colspan="2">
@@ -85,12 +86,19 @@ if (!commentList.isEmpty()) {
 	        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 5px; margin-left: 70px; font-size: 12px; color: #999;">
 	            <!-- 작성일 -->
 	            <span><%= c.getRdate() %></span>
-	
+	            <%
+	            if(session.getAttribute("loginUserNo") != null && session.getAttribute("loginUserNo").equals(uno)){
+            	%>
 	            <script>
 	       		// menuB 클릭 시 menutableB 보이거나 숨김
 	            $("#menuB<%= cno %>").click(function(event){
-	                $("#menutableB<%= cno %>").toggle(); // 토글로 보이기/숨기기
-	                event.stopPropagation();   // 이벤트 전파 막기
+	            	let loginUno = '<%= session.getAttribute("loginUserNo") %>';
+	            	console.log(loginUno);
+	            	
+	            	if(loginUno != 'null'){
+		                $("#menutableB<%= cno %>").toggle(); // 토글로 보이기/숨기기
+		                event.stopPropagation();   // 이벤트 전파 막기
+	            	}
 	            });
 
 	            // 문서의 다른 곳 클릭하면 메뉴 숨김
@@ -122,6 +130,9 @@ if (!commentList.isEmpty()) {
 			  	  	</span>
 		  	    </div>
 		  	    </form>
+            	<%
+	            }
+	            %>
 	        </div>
     	</td>
     </tr>
