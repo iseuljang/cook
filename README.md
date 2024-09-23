@@ -97,7 +97,7 @@
  - **댓글 수정**
    - 댓글 수정시 기존 댓글 내용이 출력되는 span 태그를 textarea로 바꾸며 수정과 삭제버튼을 완료와 취소 버튼으로 변경한다
    - 기존 댓글내용과 수정, 삭제버튼을 저장하여 취소 버튼 클릭시 기존 모습으로 되돌아간다
- ![comment_modify](https://github.com/iseuljang/cook/blob/main/screen/comment_modify_button_change.jpg)
+ ![comment_modify](https://github.com/iseuljang/cook/blob/main/screen/comment_button_second.jpg)
 
  - **회원 프로필링크**
    - 로그인 후 프로필 사진 클릭시 메뉴바가 나타나 회원가입 때 기입한 정보를 확인하는 내정보보기 페이지로 이동하거나 로그아웃을 할 수 있다
