@@ -86,7 +86,7 @@ try{
 	String sql = "";
 	if(type.equals("N")){
 		sql = "select nno,title,unick,b.state, " 
-				+ " date_format(b.rdate,'%Y-%m-%d') as rdate,hit,top_yn "
+				+ " date_format(b.rdate,'%Y.%m.%d') as rdate,hit,top_yn "
 				+ " from notice_board b "
 				+ " inner join user u " 
 				+ " on b.uno = u.uno ";
@@ -95,7 +95,7 @@ try{
 			+ " (select count(*) from comment where bno = b.bno and state='E') as cnt, "
 			+ " (select count(*) from recommend where bno = b.bno and state='E') as rCount, "
 			+ " (select count(*) from complaint where bno = b.bno and state='E') as cpTotal, "
-			+ " date_format(b.rdate,'%Y-%m-%d') as rdate,hit "
+			+ " date_format(b.rdate,'%Y.%m.%d') as rdate,hit "
 			+ " from board b "
 			+ " inner join user u " 
 			+ " on b.uno = u.uno ";
@@ -226,7 +226,7 @@ window.onload = function(){
                     <thead>
 						<tr>
 							<th width="40px">번호</th>
-							<th width="<%= type.equals("R") ? "300px" : "490px" %>">제목</th>
+							<th width="<%= type.equals("R") ? "250px" : "490px" %>">제목</th>
 							<%
 							if(type.equals("R")){
 							%>
@@ -235,7 +235,7 @@ window.onload = function(){
 							}
 							%>
 							<th width="150px">작성자</th>
-							<th width="150px">작성일</th>
+							<th width="180px">작성일</th>
 							<%
 							if(!type.equals("N")){
 							%>

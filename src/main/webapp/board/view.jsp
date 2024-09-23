@@ -36,9 +36,12 @@ if(type.equals("N")){
 }else if(type.equals("F")){
 	boardName = "자유게시판";
 	path = "board_list.jsp?type=F";
-}else{
+}else if(type.equals("R")){
 	boardName = "레시피게시판";
 	path = "board_list.jsp?type=R";
+}else if(type.equals("C")){
+	boardName = "신고게시판";
+	path = "complain_list.jsp?type=C";
 }
 
 
@@ -81,13 +84,18 @@ List<Comment> commentList = new ArrayList<>();
 try{
 	conn = DBConn.conn();
 	if(type.equals("N")){
-		sqlBoard = "select b.*,unick,pname from notice_board b "
+		sqlBoard = "select nno,top_yn,title,content,b.state,b.uno, "
+				+ " date_format(b.rdate,'%Y.%m.%d %H:%i') as rdate,hit, "
+				+" unick,pname "
+				+" from notice_board b "
 				+ "inner join user u "
 				+ "on b.uno = u.uno "
 				+ "where nno=?";
 	}else{
-		sqlBoard = "select b.*,unick,pname, "
-		+ "(select count(*) from recommend where bno = b.bno and state='E') as rCount "
+		sqlBoard = "select bno,star,title,content,b.state,b.uno, "
+		+ " date_format(b.rdate,'%Y.%m.%d %H:%i') as rdate,hit, "
+		+ " unick,pname, "
+		+ " (select count(*) from recommend where bno = b.bno and state='E') as rCount "
 		+ " from board b "
 		+ " inner join user u "
 		+ " on b.uno = u.uno "
@@ -404,10 +412,20 @@ function DoDelete() {
     <article>
         <div class="article_inner">
             <h2><%= boardName %>
-			<a href="<%= path %>&nowPage=<%= nowPage %>&searchType=<%= searchType %>&searchValue=<%= searchValue %>">
-				<button type="button" id="viewBtn">글목록</button>
-			</a>
-			<%
+            <%
+            if(!type.equals("C")){
+	            %>
+				<a href="<%= path %>&nowPage=<%= nowPage %>&searchType=<%= searchType %>&searchValue=<%= searchValue %>">
+					<button type="button" id="viewBtn">글목록</button>
+				</a>
+				<%
+            }else{
+            	%>
+				<a href="<%= request.getContextPath() %>/user/<%= path %>&nowPage=<%= nowPage %>&searchType=<%= searchType %>&searchValue=<%= searchValue %>">
+					<button type="button" id="viewBtn">글목록</button>
+				</a>
+				<%
+            }
 			if(session.getAttribute("loginUserNo") != null && uno == Integer.parseInt((String)session.getAttribute("loginUserNo"))){
 			%>
 			<a style="margin-left: <%= type.equals("R")  ? "360px" : "410px" %>;" 
@@ -457,7 +475,7 @@ function DoDelete() {
 						<div class="reco" style="width:30px; cursor:pointer;">
 						<!-- 추천표시되는곳 -->
 						</div>
-						<div class="complain" style="width:30px; cursor:pointer;">
+						<div class="complain" style="width:30px; cursor:pointer; margin-bottom:5px;">
 						<!-- 신고버튼표시되는곳 -->
 						</div>
 						<%

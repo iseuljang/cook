@@ -15,7 +15,8 @@ ResultSet rs = null;
 try {
     conn = DBConn.conn();
     String sql = "SELECT cno,c.bno,c.uno,c.content,c.state, "
-    +" DATE_FORMAT(c.rdate, '%y-%m-%d') AS rdate, "
+    /* +" DATE_FORMAT(c.rdate, '%y년 %m월 %d일') AS rdate, " */
+    +" DATE_FORMAT(c.rdate, '%Y.%m.%d %H:%i') AS rdate, "
     +" u.unick,u.pname FROM comment c "
     +" INNER JOIN user u "
 	+" ON c.uno = u.uno WHERE c.bno = ? AND c.state = 'E' ORDER BY c.cno DESC";
