@@ -241,7 +241,8 @@
                         <td>
                             <div class="input-container">
 	                    		 <i class="fas fa-camera"></i> 
-	                             <img id="preview" class="circular-img" />
+	                             <img id="preview" class="circular-img"
+	                             style="max-width:150px; max-height:150px; border-radius:5px;" />
 	                             <!-- 첨부파일 삭제 여부 체크박스 추가 -->
                                  <div class="deleteFile" style="margin-left:10px;">
 		                          	 <input type="checkbox" name="deleteFile" value="Y" id="deleteFile">
