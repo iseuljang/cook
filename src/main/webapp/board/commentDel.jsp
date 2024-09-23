@@ -11,15 +11,12 @@ if(no == null || no.equals("")){
     return;
 }
 String cno = request.getParameter("cno");
-String nowPage = request.getParameter("nowPage");
-String type = request.getParameter("type");
-String searchType  = request.getParameter("searchType");
-String searchValue  = request.getParameter("searchValue");
+String path = request.getParameter("path");
 if(method.equals("GET") || session.getAttribute("loginUserNo") == null){
 	%>
 	<script>
 		alert("잘못된 접근입니다.");
-		location.href = "view.jsp?no=<%= no%>&nowPage=<%= nowPage %>&type=<%= type%>&searchType=<%= searchType %>&searchValue=<%= searchValue %>";
+		location.href = "view.jsp?<%= path%>";
 	</script>
 	<%
 }else{
@@ -40,6 +37,7 @@ if(method.equals("GET") || session.getAttribute("loginUserNo") == null){
 		if(result > 0){
 			//삭제완료
 			System.out.println("댓글삭제완료:"+sql);
+			return;
 		}
 	}catch(Exception e){
 		e.printStackTrace();
@@ -49,7 +47,3 @@ if(method.equals("GET") || session.getAttribute("loginUserNo") == null){
 	}
 }
 %>
-<script>
-	alert("삭제 실패했습니다.");
-	location.href = "view.jsp?no=<%= no%>&nowPage=<%= nowPage %>&type=<%= type%>&searchType=<%= searchType %>&searchValue=<%= searchValue %>";
-</script>

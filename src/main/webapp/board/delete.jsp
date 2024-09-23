@@ -45,6 +45,7 @@ if(method.equals("GET") || session.getAttribute("loginUserNo") == null){
 		if(result > 0){
 			//삭제완료
 			System.out.println("게시글삭제완료:"+sql);
+			return;
 		}
 	}catch(Exception e){
 		e.printStackTrace();

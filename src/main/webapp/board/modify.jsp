@@ -121,15 +121,40 @@ try{
 %>
 <script>
 	let type = "";
+	let fileName = "";
     window.onload = function() {
     	$("#titleId").focus();
     	type = '<%= type %>';
+    	fileName = '<%= pname %>';
     	console.log(type);
    		
+    	if(fileName == null || fileName == ""){
+    		$(".deleteFile").css("display","none");
+    		$("#preview").css("display","none");
+    	}
+    	
     	$("#file").on('change', function(){
-   		  var fileName = $("#file").val();
-   		  $(".upload-name").val(fileName);
+	   		var fileName = $("#file").val();
+	   		$(".upload-name").val(fileName);
+   		  
+  		 	// 새 파일이 선택된 경우 삭제 체크박스 보이기
+   	   		$(".deleteFile").show(); // 체크박스를 보이게 함
+   	  	 	$("#preview").show();
+   	   		$("input[name='deleteFile']").prop('checked', false); // 체크 해제
    		});
+    	
+    	$(".upload-name").on('click',function(){
+    		$("#file").click();
+    	});
+    	
+    	$("input[name='deleteFile']").click(function(){
+    		if($(this).is(':checked')) {
+    			$(".upload-name").val("첨부파일");
+    			$(".deleteFile").css("display","none");
+    			$("#preview").css("display","none");
+    	        document.getElementById('preview').src = "";
+    	    }
+    	});
     }
     
     function DoModify(){
@@ -151,17 +176,21 @@ try{
     	}
 	}
     
-	function readURL(input) {
-		if (input.files && input.files[0]) {
-			var reader = new FileReader();
-			reader.onload = function(e) {
-			document.getElementById('preview').src = e.target.result;
-		};
-		reader.readAsDataURL(input.files[0]);
-		}else {
-			document.getElementById('preview').src = "";
-		}
-	}
+    function readURL(input) {
+        if(input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                // input-container에 있는 이미지 변경
+                document.getElementById('preview').src = e.target.result;
+            };
+            reader.readAsDataURL(input.files[0]);
+        }else {
+            // 파일이 없을 경우 이미지 초기화
+            document.getElementById('preview').src = "<%= request.getContextPath() %>/upload/<%= pname %>";
+        }
+    }
+	
+	
 </script>
 <section>
 	<article>
@@ -215,46 +244,34 @@ try{
                        	 <%
                          }
                          if(!type.equals("N")){
-                        	 if(pname != null && !pname.isEmpty()) { 
-                        	 %>
-                        	 <tr>
-	                             <th align="right">첨부파일&nbsp;</th>
-	                             <td align="left">
-	                             	<div class="view_img">
-					                <div class="profil" style="margin-bottom:10px;">
-					                    <label for="file">
-					                     	 <input class="upload-name" style="background-color:white;" value="첨부파일" readonly>
-					                	    <input type="file" id="file" name="fname" onchange="readURL(this);">
-					                    </label>
-					                </div>
-	                                 <img id="preview"  
-						             src="<%= request.getContextPath() %>/upload/<%= pname %>" alt="첨부된 이미지" 
-						             style="max-width: 100%; height: auto;" />
-					                </div>
-	                             </td>
-                         	</tr>
-	                         <%
-	                         }else{
-	                          	%>
-                          	<tr>
+                         %>
+                         <tr>
                              <th align="right">첨부파일&nbsp;</th>
                              <td align="left">
-                                 <div class="filebox">
-                                     <input class="upload-name" value="첨부파일" placeholder="첨부파일" readonly>
-                                     <label for="file">파일찾기</label>
-                                     <input type="file" id="file" name="fname" onchange="readURL(this);">
+                                 <div class="profil" 
+                                 style="margin-top:20px; width:200px;">
+                                 <label for="file">
+			                     	 <input class="upload-name" style="background-color:white;" value="첨부파일" readonly>
+			                	     <input type="file" id="file" name="fname" onchange="readURL(this);">
+	                     		 </label>
                                  </div>
-                                 <img id="preview" />
+                                 <!-- 첨부파일 삭제 여부 체크박스 추가 -->
+                                 <div class="deleteFile">
+		                          	 <input type="checkbox" name="deleteFile" value="Y" id="deleteFile">
+		                          	 <label for="deleteFile"><i class="fas fa-solid fa-circle-xmark"></i></label>
+	                             </div>
+                                 <img id="preview"  
+                                     src="<%= request.getContextPath() %>/upload/<%= pname %>" alt="첨부된 이미지" 
+                                     style="max-width:150px; max-height:150px; border-radius:5px;" />
                              </td>
-                         	</tr>
-                          	<%
-                       		}
+                         </tr>
+                         <%
                          }
                          %>
                          <tr>
                              <th align="right">내용&nbsp;</th>
                              <td>
-                                 <textarea name="content" id="mytextarea" rows="10" cols="50"><%= content %></textarea>
+                                 <textarea name="content" id="mytextarea" rows="10" cols="50"><%= content.replace("<br>","\n") %></textarea>
                              </td>
                          </tr>
                          <tr>

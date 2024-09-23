@@ -13,15 +13,12 @@ if(no == null || no.equals("")){
 }
 
 String content = request.getParameter("comment");
-String type = request.getParameter("type");
-String nowPage = request.getParameter("nowPage");
-String searchType = request.getParameter("searchType");
-String searchValue = request.getParameter("searchValue");
+String path = request.getParameter("path");
 if(method.equals("GET") || session.getAttribute("loginUserNo") == null){
 	%>
 	<script>
 		alert("잘못된 접근입니다.");
-		location.href = "view.jsp?no=<%= no%>&type=<%= type%>&nowPage=<%= nowPage %>&searchType=<%= searchType %>&searchValue=<%= searchValue %>";
+		location.href = path;
 	</script>
 	<%
 }else{
@@ -41,18 +38,13 @@ if(method.equals("GET") || session.getAttribute("loginUserNo") == null){
 		psmt = conn.prepareStatement(sql);
 		psmt.setString(1, uno);
 		psmt.setString(2, no);
-		psmt.setString(3, content);
+		psmt.setString(3, content.replace("'", "''").replace("<", "&lt;").replace(">", "&gt;").replace("\"","&quot;"));
 		
 		int result = psmt.executeUpdate();
 		
 		if(result > 0){
 			//등록완료
-			%>
-			<script>
-				alert("등록이 완료되었습니다");
-				location.href = "view.jsp?no=<%= no%>&type=<%= type%>&nowPage=<%= nowPage %>&searchType=<%= searchType %>&searchValue=<%= searchValue %>";
-			</script>
-			<%
+			System.out.println("댓글등록완료:" + sql);
 		}
 	}catch(Exception e){
 		e.printStackTrace();
@@ -62,7 +54,3 @@ if(method.equals("GET") || session.getAttribute("loginUserNo") == null){
 	}
 }
 %>
-<script>
-	alert("등록을 실패했습니다");
-	location.href = "view.jsp?no=<%= no%>&type=<%= type%>&nowPage=<%= nowPage %>&searchType=<%= searchType %>&searchValue=<%= searchValue %>";
-</script>

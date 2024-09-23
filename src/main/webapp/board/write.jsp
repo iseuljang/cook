@@ -17,12 +17,32 @@ switch(type) {
     window.onload = function() {
     	$("#titleId").focus();
     	type = '<%= type %>';
+    	$(".deleteFile").css("display","none");
     	console.log(type);
    		
     	$("#file").on('change', function(){
-   		  var fileName = $("#file").val();
-   		  $(".upload-name").val(fileName);
+   		    var fileName = $("#file").val();
+   		    $(".upload-name").val(fileName);
+   		  
+ 		  	// 새 파일이 선택된 경우 삭제 체크박스 보이기
+ 	   		$(".deleteFile").show(); // 체크박스를 보이게 함
+ 	  	 	$("#preview").show();
+ 	   		$("input[name='deleteFile']").prop('checked', false); // 체크 해제
    		});
+    	
+    	$(".upload-name").on('click',function(){
+    		$("#file").click();
+    	});
+    	
+    	$("input[name='deleteFile']").click(function(){
+    		if($(this).is(':checked')) {
+    			$(".upload-name").val("첨부파일");
+    			$("#file").val("");
+    			$(".deleteFile").css("display","none");
+    			$("#preview").css("display","none");
+    	        document.getElementById('preview').src = "";
+    	    }
+    	});
     }
     
     function DoWrite(){
@@ -114,12 +134,19 @@ switch(type) {
                          <tr>
                              <th align="right">첨부파일&nbsp;</th>
                              <td align="left">
-                                 <div class="filebox">
-                                     <input class="upload-name" value="첨부파일" placeholder="첨부파일" readonly>
-                                     <label for="file">파일찾기</label>
-                                     <input type="file" id="file" name="fname" onchange="readURL(this);">
+                                 <div class="profil" 
+                                 style="margin-top:20px; width:200px;">
+                                 <label for="file">
+			                     	 <input class="upload-name" style="background-color:white;" value="첨부파일" readonly>
+			                	     <input type="file" id="file" name="fname" onchange="readURL(this);">
+	                     		 </label>
                                  </div>
-                                 <img id="preview" />
+                                 <!-- 첨부파일 삭제 여부 체크박스 추가 -->
+                                 <div class="deleteFile">
+		                          	 <input type="checkbox" name="deleteFile" value="Y" id="deleteFile">
+		                          	 <label for="deleteFile"><i class="fas fa-solid fa-circle-xmark"></i></label>
+	                             </div>
+                                 <img id="preview" style="max-width:150px; max-height:150px; border-radius:5px;" />
                              </td>
                          </tr>
                         	 <%

@@ -94,6 +94,7 @@ try{
 		sql = "select bno,title,unick,star,b.state, " 
 			+ " (select count(*) from comment where bno = b.bno and state='E') as cnt, "
 			+ " (select count(*) from recommend where bno = b.bno and state='E') as rCount, "
+			+ " (select count(*) from complaint where bno = b.bno and state='E') as cpTotal, "
 			+ " date_format(b.rdate,'%Y-%m-%d') as rdate,hit "
 			+ " from board b "
 			+ " inner join user u " 
@@ -249,11 +250,13 @@ window.onload = function(){
 					<%
 					int seqNo = total -((nowPage-1)*paging.getPerPage());
 					while(rs.next()){
+						int cpTotal = 0;
 						String boardNo = "";
 						if(type.equals("N")){
 							boardNo = rs.getString("nno");
 						}else{
 							boardNo = rs.getString("bno");
+							cpTotal = rs.getInt("cpTotal");
 						}
 						%>
 						<tr>
@@ -274,6 +277,11 @@ window.onload = function(){
 								text-decoration: <%= rs.getString("state").equals("D") ?  "line-through" : "none"%>;" 
 								href="view.jsp?type=<%= type %>&no=<%= boardNo %>&nowPage=<%= nowPage %>&searchType=<%= searchType %>&searchValue=<%= searchValue %>">
 								<%= rs.getString("title") %>
+								<%
+								if(cpTotal > 0){
+									%><span style="color:red; font-size:16px;">[ 신고 <%= cpTotal %> ]</span><%
+								}
+								%>
 								</a>
 							</td>
 							<%

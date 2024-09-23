@@ -163,7 +163,53 @@ window.onload = function(){
 	loadComment();
 	/* 추천 부분 */
 	loadReco();
+	/* 신고 부분 */
+	loadComplain();
+	
+	$("#comment").on('keydown', function(event) {
+		if(event.key === 'Enter') {
+	        commentAdd();
+	    }
+		
+		if($(this).val().length > 0){
+			$("#clearBtn").css("display","inline");
+		}else{
+			$("#clearBtn").css("display","none");
+		}
+	});
+	
+	$("#clearBtn").on('click',function(){
+	    $("#comment").val('');  
+	    $(this).css("display","none");
+	});
 }
+
+/* 신고 테이블 */
+function loadComplain() 
+{
+    $.ajax({
+        url: "loadComplain.jsp",
+        type: "get",
+        data: { no: "<%= no %>" },
+        success: function(data) 
+        {
+        	console.log(data);
+            $(".complain").html(data);
+        }
+    });
+}
+
+function complainAdd(no, state) {
+    $.ajax({
+        url: "complainAdd.jsp",
+        type: "post",
+        data: { no: no, state: state },
+        success: function() {
+        	loadComplain();  // 신고 상태를 다시 로드
+        }
+    });
+}
+
 
 function loadComment() {
     $.ajax({
@@ -186,17 +232,29 @@ function commentAdd(){
 	console.log(loginUno);
 	
 	if(loginUno != 'null'){
-		if ($("#comment").val() == "") {
+		if($("#comment").val() == "") {
 	        alert("댓글 내용을 입력하세요.");
 	        return;
 	    }	
 		
-		if(confirm("댓글을 작성하시겠습니까?") == true){
-			document.commentForm.action = "commentAdd.jsp";
-			document.commentForm.submit();
-			loadComment();
-			return;
-		}
+		$.ajax({
+			type : "post",
+			url  : "commentAdd.jsp",
+			data : 
+			{
+				comment     : $("#comment").val(),
+				no: <%= no%>, 
+				path:"no=<%= no%>&nowPage=<%= nowPage %>&type=<%= type%>&searchType=<%= searchType %>&searchValue=<%= searchValue %>"
+			},
+			datatype : "html",
+			success : function(result)
+			{
+				alert("댓글이 작성되었습니다.");
+				loadComment();
+				$("#comment").val() = "";
+			}
+		});
+		
 	}else{
 		alert("로그인 후 등록 가능합니다");
 	}
@@ -213,7 +271,7 @@ function commentDel(cno){
 		url  : "commentDel.jsp",
 		data : 
 		{
-			cno     : cno,
+			cno  : cno,
 			no: <%= no%>, 
 			path:"no=<%= no%>&nowPage=<%= nowPage %>&type=<%= type%>&searchType=<%= searchType %>&searchValue=<%= searchValue %>"
 		},
@@ -399,6 +457,9 @@ function DoDelete() {
 						<div class="reco" style="width:30px; cursor:pointer;">
 						<!-- 추천표시되는곳 -->
 						</div>
+						<div class="complain" style="width:30px; cursor:pointer;">
+						<!-- 신고버튼표시되는곳 -->
+						</div>
 						<%
 						if(pname != null && !pname.equals("")){
 							%>
@@ -478,11 +539,25 @@ String board_content = content.replace("\n", "<br>").replace("<", "&lt;").replac
 									<input type="hidden" name="searchType" value="<%= searchType%>">
 									<input type="hidden" name="searchValue" value="<%= searchValue%>">
 									<input type="hidden" name="cno">
-									<input type="text" name="comment" size="50">
+									<div class="search-wrapper">
+										<div class="input-container" id="seach-container"
+										style="box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+									    background-color: white;
+									    border-radius: 40px;
+									    width:100%;
+									    display: flex;
+									    align-items: center; 
+									    gap: 10px;
+									    ">
+											<i class="fas fa-solid fa-comment" id="searchIcon"></i>
+											<input type="text" name="comment" id="comment" placeholder="댓글"	 size="50">
+											<i class="fas fa-times" id="clearBtn"></i>
+		              			        </div>
+	              			        </div>
 								</td>
-								<td>
+								<!-- <td>
 									<button type="button" id="cBtn" onclick="commentAdd();">댓글등록</button>
-								</td>
+								</td> -->
 							</tr>
 						</table>
 						<!-- 댓글목록 출력 -->

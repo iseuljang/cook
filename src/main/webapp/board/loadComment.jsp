@@ -77,8 +77,8 @@ if (!commentList.isEmpty()) {
        
 			
 			
-			<div style="margin-top: 5px; margin-left: 70px;">
-                <%= c.getContent() %> <!-- 댓글 내용 -->
+			<div style="margin-top: 5px; margin-left: 70px;" id="content">
+                <span><%= c.getContent() %></span>
             </div>
     	
 	    	<!-- 작성일 및 수정/삭제 버튼 -->
@@ -103,6 +103,7 @@ if (!commentList.isEmpty()) {
 	                event.stopPropagation();   // 이벤트 전파 막기
 	            });
 	            </script>
+	            <form>
 	            <div style="display: flex; align-items: center; gap: 10px;"> 
 		            <span id="menuB<%= cno %>" class="menuB" style="display: flex; align-items: center; gap: 10px;">
 		            	<i class="fas fa-solid fa-bars"></i>
@@ -110,31 +111,23 @@ if (!commentList.isEmpty()) {
 			                <div class="menu-container">
 		                        <i class="fas fa-solid fa-pen-nib"></i>
 				                <span id="cModify" 
-		                        onclick="commentUpdate('<%= cno %>', '<%= no %>')">수정</span>
+		                        onclick="commentUpdate(<%= cno %>, '<%= no %>')">수정</span>
 		                    </div>
 			                <div class="menu-container">
 		                        <i class="fas fa-solid fa-eraser"></i>
 				                <span id="cDelete"
-	                      		 onclick="commentDel('<%= cno %>')">삭제</span>
+	                      		 onclick="commentDel(<%= cno %>)">삭제</span>
 		                    </div>
 				        </span>
-			  	  </span>
-		  	  </div>
+			  	  	</span>
+		  	    </div>
+		  	    </form>
 	        </div>
     	</td>
     </tr>
-    <form name="commentModifyForm" action="commentModify.jsp" method="post">
-    	<input type="hidden" name="cno" value=<%= cno %>>
-		<input type="hidden" name="no" value="<%= no%>">
-		<input type="hidden" name="nowPage">
-		<input type="hidden" name="searchType">
-		<input type="hidden" name="searchValue">
-		<input type="hidden" name="comment" value="<%= c.getContent() %>">
-    </form>
-    
     <form name="commentDelForm" action="commentDel.jsp" method="post">
-		<input type="hidden" name="cno" value=<%= cno %>>
-		<input type="hidden" name="no" value="<%= no%>">
+		<input type="hidden" name="cno" value="<%= cno %>">
+		<input type="hidden" name="no" value="<%= no %>">
 		<input type="hidden" name="nowPage">
 		<input type="hidden" name="searchType">
 		<input type="hidden" name="searchValue">
