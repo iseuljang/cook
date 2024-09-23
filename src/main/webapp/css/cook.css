@@ -423,6 +423,13 @@ input {
 	background-color: white;
 }
 
+
+#comment{
+	padding-right: 40px;
+	background-color: white;
+}
+
+
 #searchIcon{
 	margin-left:10px;
 }
