@@ -7,21 +7,16 @@
 <%
 String loginFileF;
 String loginFileP;
-String loginNick;
 String loginLevel;
 String loginNo;
-String loginId;
 
 loginFileF = (String)session.getAttribute("loginUserProfilF");
 loginFileP = (String)session.getAttribute("loginUserProfilP");
-loginNick = (String)session.getAttribute("loginUserNick");
 loginLevel = (String)session.getAttribute("loginUserLevel");
 loginNo = (String)session.getAttribute("loginUserNo");
-loginId = (String)session.getAttribute("loginUserId");
 
-if(loginFileF == null || loginLevel == null || loginNick == null ||
-loginFileF.equals("") || loginLevel.equals("") || loginNick.equals("")){
-	loginNick = "";
+if(loginFileF == null || loginLevel == null ||
+loginFileF.equals("") || loginLevel.equals("")){
 	loginFileF = "";
 	loginLevel = "";
 	loginNo = "";
@@ -41,6 +36,7 @@ case "U" : LevelStr = "&#127808;"; break;
 <link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/css/cook.css"> 
 <script src="<%= request.getContextPath() %>/js/jquery-3.7.1.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<script type="text/javascript" src="<%= request.getContextPath() %>/static/js/HuskyEZCreator.js"></script>
 <script>
     $(document).ready(function(){
     	// menuA 클릭 시 menutableA 보이거나 숨김
@@ -58,6 +54,15 @@ case "U" : LevelStr = "&#127808;"; break;
         $("#menutableA").click(function(event){
             event.stopPropagation();   // 이벤트 전파 막기
         });
+        
+        $("nav a").click(function() {
+            // 모든 <a> 태그에서 기존 클래스 제거
+            $("nav a").removeClass("active");
+
+            // 클릭한 <a> 태그에 클래스 추가
+            $(this).addClass("active");
+        });
+        
     });
 </script>
 </head>
@@ -114,6 +119,19 @@ case "U" : LevelStr = "&#127808;"; break;
 		                <button id="infoBtn">내정보보기</button>
                     </div>
 	            </a>
+	            <%
+	            if(session.getAttribute("loginUserLevel") != null && session.getAttribute("loginUserLevel").equals("A")){
+            	%>
+	            <a href="<%= request.getContextPath() %>/user/complain_list.jsp">
+	                <div class="menu-container">
+                        <!-- <i class="fas fa-cog"></i> 톱니바퀴 아이콘 -->
+                        <img style='width:20px; cursor:pointer;' src='https://img.icons8.com/?size=100&id=8773&format=png&color=5D4037' />
+		                <button id="logoutBtn">신고게시글</button>
+                    </div>
+	            </a>	
+            	<%
+	            }
+	            %>
 	            <a href="<%= request.getContextPath() %>/user/logout.jsp">
 	                <div class="menu-container">
                            <i class="fas fa-sign-out-alt"></i>
@@ -136,20 +154,52 @@ case "U" : LevelStr = "&#127808;"; break;
 	    %>
             </div>
         </div>
+	<%
+	/* 
+	현재 페이지 URL 가져오기
+	request.getServletPath() 메서드를 사용하여 현재 요청된 서블릿의 경로를 가져옵니다. 
+	이 경로를 사용하여 현재 페이지를 식별합니다.
+	*/
+	String currentPage = request.getServletPath();
+	%>
     <nav>
        <ul>
            <li>
-           	<a href="<%= request.getContextPath() %>/board/board_list.jsp?type=N">
+<!-- 
+request.getContextPath() 
+: 웹 애플리케이션의 컨텍스트 경로를 동적으로 가져옵니다. 
+이 경로를 사용하여 상대 경로를 절대 경로로 변환합니다.
+
+class="currentPage.contains("/board/board_list.jsp") 
+&& request.getParameter("type") != null 
+&& request.getParameter("type").equals("N") ? "active" : "">"
+: 조건부로 active 클래스를 추가합니다.
+
+currentPage.contains("/board/board_list.jsp")
+: 현재 페이지 URL이 /board/board_list.jsp를 포함하는지 확인합니다.
+
+조건이 참일 경우, active 클래스를 추가하여 링크를 활성화 상태로 만듭니다.
+ -->
+           	<a href="<%= request.getContextPath() %>/board/board_list.jsp?type=N" 
+           	class="<%= currentPage.contains("/board/board_list.jsp") 
+           	&& request.getParameter("type") != null 
+           	&& request.getParameter("type").equals("N") ? "active" : "" %>">
 			공지게시판
 			</a>
 			</li>
             <li>
-			<a href="<%= request.getContextPath() %>/board/board_list.jsp?type=F">
+			<a href="<%= request.getContextPath() %>/board/board_list.jsp?type=F"
+			class="<%= currentPage.contains("/board/board_list.jsp") 
+           	&& request.getParameter("type") != null 
+           	&& request.getParameter("type").equals("F") ? "active" : "" %>">
 			자유게시판
 			</a>
 			</li>
 			<li>
-			<a href="<%= request.getContextPath() %>/board/board_list.jsp?type=R">
+			<a href="<%= request.getContextPath() %>/board/board_list.jsp?type=R"
+			class="<%= currentPage.contains("/board/board_list.jsp") 
+           	&& request.getParameter("type") != null 
+           	&& request.getParameter("type").equals("R") ? "active" : "" %>">
 				레시피게시판
 			</a>
 			</li>
