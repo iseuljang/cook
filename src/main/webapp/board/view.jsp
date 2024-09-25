@@ -168,18 +168,27 @@ try{
 %>
 <script>
 window.onload = function(){
+	/* $("#comment").on('keydown', function(event) {
+		if(event.key === 'Enter') {
+	        commentAdd();
+	    }
+	}); */
 	/* 댓글 리스트 */
 	loadComment();
 	/* 추천 부분 */
 	loadReco();
 	/* 신고 부분 */
 	loadComplain();
+		
+	$("#comment").on('keydown', function(event) {
+		if(event.key === 'Enter')
+		{	//Enter문자가 눌려짐. keyCode 아스키코드. 13이 enter 
+			commentAdd();
+			return false;
+		}
+	});
 	
 	$("#comment").on('keydown', function(event) {
-		if(event.key === 'Enter') {
-	        commentAdd();
-	    }
-		
 		if($(this).val().length > 0){
 			$("#clearBtn").css("display","inline");
 		}else{
@@ -236,38 +245,33 @@ function loadComment() {
 }
 
 /* 댓글작성버튼 */
-function commentAdd(){
-	let loginUno = '<%= session.getAttribute("loginUserNo") %>';
-	console.log(loginUno);
-	
-	if(loginUno != 'null'){
-		if($("#comment").val() == "") {
-	        alert("댓글 내용을 입력하세요.");
-	        return;
-	    }	
-		
-		$.ajax({
-			type : "post",
-			url  : "commentAdd.jsp",
-			data : 
-			{
-				comment     : $("#comment").val(),
-				no: <%= no%>, 
-				path:"no=<%= no%>&nowPage=<%= nowPage %>&type=<%= type%>&searchType=<%= searchType %>&searchValue=<%= searchValue %>"
-			},
-			datatype : "html",
-			success : function(result)
-			{
-				alert("댓글이 작성되었습니다.");
-				loadComment();
-				$("#comment").val() = "";
-			}
-		});
-		
-	}else{
-		alert("로그인 후 등록 가능합니다");
-	}
+function commentAdd() {
+    if ($("#comment").val() == "") {
+        alert("댓글 내용을 입력하세요.");
+        return;
+    }
+
+    $.ajax({
+        type: "post",
+        url: "commentAdd.jsp",
+        data: {
+            comment: $("#comment").val(),
+            no: <%= no %>,
+            path: "no=<%= no%>&nowPage=<%= nowPage %>&type=<%= type%>&searchType=<%= searchType %>&searchValue=<%= searchValue %>"
+        },
+        datatype: "html",
+        success: function (result) {
+            console.log(result);  // 결과 확인
+            alert("댓글이 작성되었습니다.");
+            loadComment();
+            $("#comment").val('');  // 댓글 입력 필드 초기화
+        },
+        error: function () {
+            alert("댓글 작성 중 오류가 발생했습니다.");
+        }
+    });
 }
+
 
 /* 댓글삭제버튼 */
 function commentDel(cno){
@@ -560,6 +564,28 @@ String board_content = content.replace("\n", "<br>").replace("<", "&lt;").replac
 									<input type="hidden" name="searchType" value="<%= searchType%>">
 									<input type="hidden" name="searchValue" value="<%= searchValue%>">
 									<input type="hidden" name="cno">
+									<%
+									if(session.getAttribute("loginUserNo") == null || session.getAttribute("loginUserNo").equals("")){
+									%>
+									<div class="search-wrapper">
+									<div class="input-container" id="seach-container"
+									style="box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+								    background-color: white;
+								    border-radius: 40px;
+								    width:100%;
+								    display: flex;
+								    align-items: center; 
+								    gap: 10px;
+								    ">
+										<!-- <i class="fas fa-solid fa-comment" id="searchIcon"></i> -->
+										<i class="fas solid fa-comment-dots" style="margin-left:10px;"></i>
+										<input type="text" name="comment" placeholder="댓글"	
+										style="padding-right: 40px;	background-color: white;" size="50" readonly>
+	              			        </div>
+              			       		</div>
+									<%
+									}else{
+									%>
 									<div class="search-wrapper">
 										<div class="input-container" id="seach-container"
 										style="box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -576,6 +602,9 @@ String board_content = content.replace("\n", "<br>").replace("<", "&lt;").replac
 											<i class="fas fa-times" id="clearBtn"></i>
 		              			        </div>
 	              			        </div>
+									<%
+									}
+									%>
 								</td>
 								<!-- <td>
 									<button type="button" id="cBtn" onclick="commentAdd();">댓글등록</button>
