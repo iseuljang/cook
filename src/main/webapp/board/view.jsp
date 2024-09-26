@@ -40,9 +40,17 @@ if(type.equals("N")){
 }else if(type.equals("R")){
 	boardName = "레시피게시판";
 	path = "board_list.jsp?type=R";
-}else if(type.equals("C")){
-	boardName = "신고게시판";
-	path = "complain_list.jsp?type=C";
+}
+
+String kind = request.getParameter("kind");
+if(kind == null || kind.equals("")){
+	kind = "";
+}
+
+if(kind.equals("C")){
+	path = request.getContextPath()+"/user/complain_list.jsp?kind=C";
+}else if(kind.equals("M")){
+	path = request.getContextPath()+"/user/reco_list.jsp?kind=M";
 }
 
 
@@ -418,20 +426,10 @@ function DoDelete() {
     <article>
         <div class="article_inner">
             <h2><%= boardName %>
-            <%
-            if(!type.equals("C")){
-	            %>
-				<a href="<%= path %>&nowPage=<%= nowPage %>&searchType=<%= searchType %>&searchValue=<%= searchValue %>">
-					<button type="button" id="viewBtn">글목록</button>
-				</a>
-				<%
-            }else{
-            	%>
-				<a href="<%= request.getContextPath() %>/user/<%= path %>&nowPage=<%= nowPage %>&searchType=<%= searchType %>&searchValue=<%= searchValue %>">
-					<button type="button" id="viewBtn">글목록</button>
-				</a>
-				<%
-            }
+			<a href="<%= path %>&nowPage=<%= nowPage %>&searchType=<%= searchType %>&searchValue=<%= searchValue %>">
+				<button type="button" id="viewBtn">글목록</button>
+			</a>
+			<%
 			if(session.getAttribute("loginUserNo") != null && uno == Integer.parseInt((String)session.getAttribute("loginUserNo"))){
 			%>
 			<a style="margin-left: <%= type.equals("R")  ? "360px" : "410px" %>;" 
@@ -442,7 +440,7 @@ function DoDelete() {
 			<%
 			}else if(session.getAttribute("loginUserLevel") != null && session.getAttribute("loginUserLevel").equals("A")){
 				%>
-				<button type="button" id="viewBtn" style="margin-left:540px;" onclick="DoDelete();">삭제</button>
+				<button type="button" id="viewBtn" style="margin-left:<%= type.equals("R")  ? "500px" : "540px" %>;" onclick="DoDelete();">삭제</button>
 				<%
 			}
 			%>
