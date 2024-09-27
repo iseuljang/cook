@@ -119,6 +119,13 @@ case "U" : LevelStr = "&#127808;"; break;
 		                <button id="infoBtn">내정보보기</button>
                     </div>
 	            </a>
+	            <a href="<%= request.getContextPath() %>/user/reco_list.jsp">
+	                <div class="menu-container">
+                        <!-- <i class="fas fa-solid fa-bookmark"></i> -->
+                        <i class="fas fa-solid fa-heart"></i>
+		                <button id="infoBtn">추천목록</button>
+                    </div>
+	            </a>
 	            <%
 	            if(session.getAttribute("loginUserLevel") != null && session.getAttribute("loginUserLevel").equals("A")){
             	%>
