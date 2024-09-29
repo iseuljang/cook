@@ -164,6 +164,14 @@ window.onload = function(){
 	    $(this).css("display","none");
 	});
 	
+	
+	$(".list_tr").mouseover(function(event){
+		/* $(this).css('background-color','#EEE'); */
+		$(this).css('background-color','#FFFBEC');
+	})
+	.mouseout(function(event){
+		$(this).css('background-color','white');
+	});
 }
 
 
@@ -262,11 +270,12 @@ window.onload = function(){
 							cnt = rs.getInt("cnt");
 						}
 						%>
-						<tr>
+						<tr class="list_tr">
 						<%
 						if(type.equals("N") && rs.getString("top_yn").equals("Y")){
 							%>
-							<th>공지</th>
+							<!-- <th>공지</th> -->
+							<th>★</th>
 							<%
 							seqNo--;
 						}else{
@@ -329,7 +338,9 @@ window.onload = function(){
 				//시작페이지가 1보다 큰 경우 이전 페이지 존재
 				%>
 				<!-- 시작 페이지 번호 이전 페이지로 이동 13->10 -->
-				<a href="board_list.jsp?nowPage=<%= paging.getStartPage()-1 %>&searchType=<%= searchType %>&searchValue=<%= searchValue %>">&lt;</a>
+				<a href="board_list.jsp?type=<%= type %>&nowPage=<%= paging.getStartPage()-1 %>&searchType=<%= searchType %>&searchValue=<%= searchValue %>">
+					<img style="width:25px; " src="https://img.icons8.com/?size=100&id=LeIi2nYOolQt&format=png&color=5D4037">
+				</a>
 				<%
 			}
 			
@@ -340,7 +351,7 @@ window.onload = function(){
 					<%
 				}else{
 					%>
-						<a href="board_list.jsp?type=<%= type %>&nowPage=<%= i %>&searchType=<%= searchType %>&searchValue=<%= searchValue %>"><%= i %></a>
+					<a href="board_list.jsp?type=<%= type %>&nowPage=<%= i %>&searchType=<%= searchType %>&searchValue=<%= searchValue %>"><%= i %></a>
 					<%
 				}
 			}
@@ -349,7 +360,9 @@ window.onload = function(){
 				//전체 페이지번호 보다 현재 종료 페이지 번호가 더 작은 경우
 				%>
 				<!-- 시작 페이지 번호 이후 페이지로 이동 13->21 -->
-				<a href="board_list.jsp?type=<%= type %>&nowPage=<%= paging.getEndPage()+1 %>&searchType=<%= searchType %>&searchValue=<%= searchValue %>">&gt;</a>
+				<a href="board_list.jsp?type=<%= type %>&nowPage=<%= paging.getEndPage()+1 %>&searchType=<%= searchType %>&searchValue=<%= searchValue %>">
+					<img style="width:25px; " src="https://img.icons8.com/?size=100&id=4r5HpCBBbNn8&format=png&color=5D4037">
+				</a>
 				<%
 			}
 			%>
