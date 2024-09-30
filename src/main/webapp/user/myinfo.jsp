@@ -187,9 +187,6 @@ function DoReset(){
         <div class="article_inner">
             <h2>회원정보</h2>
             <div class="view_inner">
-           		<%
-           		if(pname != null && !pname.isEmpty()) { 
-	            %>
 	            <div class="view_img">
 	            	<!-- 첨부파일 삭제 여부 체크박스 추가 -->
                     <div class="deleteFile">
@@ -198,17 +195,14 @@ function DoReset(){
                     </div>
 		            <img id="preview" class="circular-img"
 		            style="border:none; width:250px; height:250px; border-radius:50%;" 
-		            src="<%= request.getContextPath() %>/upload/<%= pname %>" alt="첨부된 이미지" style="max-width: 100%; height: auto;" />
-	                <div class="profil" style="margin-top:20px;">
+		            src="<%= pname != null && !pname.equals("") ? request.getContextPath()+"/upload/" + pname : "" %>" alt="첨부된 이미지" style="max-width: 100%; height: auto;" />
+	                <div class="profil" style="margin-top:<%= pname != null || pname.equals("") ? "20px" : "280px" %>;">
 	                    <label for="file">
 	                     	 <input class="upload-name" style="background-color:white;" value="프로필이미지" readonly>
 	                	    <input type="file" id="file" name="fname" onchange="readURL(this);">
 	                    </label>
 	                </div>
             	</div>
-	            <%
-		        }
-			    %>
             	<div class="view_content" style="width: <%= pname != null || pname.equals("") ? "100%" : "40%" %>; ">
             		<p>닉네임 : 
               		    <input type="text" name="unick" id="unick" placeholder="<%= nick %>"  onkeydown="DoReset();">

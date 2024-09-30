@@ -8,7 +8,7 @@
 <%
 request.setCharacterEncoding("UTF-8");
 
-String uploadPath = "D:\\code\\awsJava\\workspace\\cook\\src\\main\\webapp\\upload";
+String uploadPath = "C:\\Users\\DEV\\Desktop\\JangAWS\\01.java\\workspace\\cook\\src\\main\\webapp\\upload";
 int size = 10 * 1024 * 1024; // 최대 10MB 파일 허용
 
 MultipartRequest multi;
@@ -22,8 +22,8 @@ try {
 
 // 업로드된 파일명 가져오기
 Enumeration files = multi.getFileNames();
-String filename = null;
-String phyname = null;
+String filename = null;			//원본파일
+String phyname = null;			//바뀐이름
 
 if (files.hasMoreElements()) {
     String fileid = (String) files.nextElement();
@@ -46,16 +46,21 @@ if (files.hasMoreElements()) {
         }
     }
 }
-
+if(session.getAttribute("loginUserNo") == null || session.getAttribute("loginUserNo").equals("")){
+	response.sendRedirect(request.getContextPath()+"/index.jsp");
+    return;
+}
 String uno = (String) session.getAttribute("loginUserNo");
-String uid = (String) session.getAttribute("loginUserId");
 String upw = multi.getParameter("upw");
-String unick = multi.getParameter("unick");
-
 if (upw == null || upw.trim().isEmpty()) {
     System.out.println("비밀번호가 전송되지 않았습니다.");
     out.println("<script>alert('비밀번호를 입력하세요.'); history.back();</script>");
     return;
+}
+String unick = multi.getParameter("unick");
+String deleteFile = multi.getParameter("deleteFile"); // 체크박스 값
+if(deleteFile == null || deleteFile.equals("")){
+	deleteFile = "N";
 }
 
 Connection conn = null;
@@ -69,9 +74,9 @@ try {
     conn = DBConn.conn(); // DB 연결
 
     // 비밀번호 체크
-    String sql = "SELECT * FROM user WHERE uid = ? AND upw = md5(?) AND state = 'E'";
+    String sql = "SELECT * FROM user WHERE uno = ? AND upw = md5(?) AND state = 'E'";
     psmt = conn.prepareStatement(sql);
-    psmt.setString(1, uid);
+    psmt.setString(1, uno);
     psmt.setString(2, upw);
     
     System.out.println("비밀번호 확인 SQL: " + sql);
@@ -79,8 +84,18 @@ try {
     rs = psmt.executeQuery();
 
     if (rs.next()) {
-        // 파일 업로드 처리
-        if (filename != null) {
+        // 파일 삭제 처리
+        if (deleteFile.equals("Y")) {
+            String sqlDelete = "UPDATE user SET pname = '', fname = '' WHERE uno = ?";
+            psmtFile = conn.prepareStatement(sqlDelete);
+            psmtFile.setInt(1, Integer.parseInt(uno));
+            int deleteCount = psmtFile.executeUpdate();
+            System.out.println("프로필 삭제 SQL: " + sqlDelete);
+            System.out.println("프로필 삭제 결과: " + deleteCount);
+            session.setAttribute("loginUserProfilF", null);
+            session.setAttribute("loginUserProfilP", null);
+        } else if (filename != null) {
+            // 파일 업로드 처리
             String sqlFile = "UPDATE user SET pname = ?, fname = ? WHERE uno = ?";
             psmtFile = conn.prepareStatement(sqlFile);
             psmtFile.setString(1, phyname); // 저장된 파일명 (UUID)
@@ -96,7 +111,7 @@ try {
                 session.setAttribute("loginUserProfilP", phyname);
             }
         }
-        
+
         // 닉네임 업데이트 처리
         if (unick != null && !unick.trim().isEmpty()) {
             String sqlUpdate = "UPDATE user SET unick = ? WHERE uno = ?";
@@ -117,10 +132,10 @@ try {
     } else {
         out.println("<script>alert('비밀번호가 일치하지 않습니다.'); history.back();</script>");
     }
-}catch (Exception e) {
+} catch (Exception e) {
     e.printStackTrace();
     out.println("<script>alert('회원정보 변경 중 오류가 발생했습니다.'); history.back();</script>");
-}finally {
+} finally {
     DBConn.close(rs, psmt, null);
     DBConn.close(psmtFile, null);
     DBConn.close(psmtUpdate, conn);

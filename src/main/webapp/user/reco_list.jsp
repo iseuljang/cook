@@ -3,6 +3,13 @@
 <%@ include file="../include/header.jsp" %>
 <%
 request.setCharacterEncoding("UTF-8");
+
+if(session.getAttribute("loginUserNo") == null || session.getAttribute("loginUserNo").equals("")){
+	response.sendRedirect(request.getContextPath()+"/index.jsp");
+	return;
+}
+String uno = (String)session.getAttribute("loginUserNo");
+
 String searchType = request.getParameter("searchType");
 String searchValue = request.getParameter("searchValue");
 
@@ -18,10 +25,12 @@ String type = request.getParameter("type");
 if(type == null || type.equals("")){
 	type = "R";
 }
+
 String kind = request.getParameter("kind");
 if(kind == null || kind.equals("")){
-	kind = "C";
+	kind = "M";
 }
+
 
 String board_type = "";
 
@@ -45,26 +54,28 @@ try{
 	
 	//페이징에 필요한 게시글 전체 갯수 쿼리 영역
 	String sqlTotal = "";
-	sqlTotal = "select count(distinct b.bno) as total from board b "
-			 + " inner join user u "
-			 + " on b.uno = u.uno "
-			 + " inner join complaint c "
-			 + " on b.bno = c.bno ";
+	sqlTotal = " select count(*) as total from recommend r "
+			+ " inner join board b "
+			+ " on b.bno = r.bno "
+			+ " inner join user u "
+			+ " on b.uno = u.uno "
+			+ " where r.uno = ? and r.state='E'  ";
 	
 	
 	if(!searchType.equals("")){
 		if(searchType.equals("title")){
-			sqlTotal += " where title like concat('%',?,'%') ";
+			sqlTotal += " and b.title like concat('%',?,'%') ";
 		}else if(searchType.equals("nick")){
-			sqlTotal += " where unick like concat('%',?,'%') ";
+			sqlTotal += " and u.unick like concat('%',?,'%') ";
 		}else{
-			sqlTotal += " where content like concat('%',?,'%') ";
+			sqlTotal += " and b.content like concat('%',?,'%') ";
 		}
 	}
 	
 	psmtTotal = conn.prepareStatement(sqlTotal);
+	psmtTotal.setString(1,uno);
 	if(!searchType.equals("")){
-		psmtTotal.setString(1, searchValue.replace("\"","&quot;"));
+		psmtTotal.setString(2, searchValue.replace("\"","&quot;"));
 	}
 	rsTotal = psmtTotal.executeQuery();
 	
@@ -85,7 +96,7 @@ try{
 		+ " from board b "
 		+ " inner join user u " 
 		+ " on b.uno = u.uno "
-		+ " where (select count(*) from complaint where bno = b.bno and state='E') > 0  ";
+		+ " where bno in (select bno from recommend where uno = ? and state='E' ) ";
 	
 	if(!searchType.equals("")){
 		if(searchType.equals("title")){
@@ -101,13 +112,14 @@ try{
 	
 	sql += "limit ?,?";
 	psmt = conn.prepareStatement(sql);
+	psmt.setString(1,uno);
 	if(!searchType.equals("")){
-		psmt.setString(1, searchValue.replace("\"","&quot;"));
+		psmt.setString(2, searchValue.replace("\"","&quot;"));
+		psmt.setInt(3, paging.getStart());
+		psmt.setInt(4, paging.getPerPage());
+	}else{
 		psmt.setInt(2, paging.getStart());
 		psmt.setInt(3, paging.getPerPage());
-	}else{
-		psmt.setInt(1, paging.getStart());
-		psmt.setInt(2, paging.getPerPage());
 	}
 	
 	rs = psmt.executeQuery();
@@ -151,10 +163,10 @@ window.onload = function(){
     <article>
         <div class="board_inner">
         	<div class="search_title">
-			<h2>신고게시글 목록</h2>
+			<h2>추천 목록</h2>
         	</div>
             <div class="search_inner">
-                <form action="complain_list.jsp" method="get" name="searchFn" style="padding-bottom:30px;">
+                <form action="reco_list.jsp" method="get" name="searchFn" style="padding-bottom:30px;">
                     <div class="search-wrapper">
 	                    <select name="searchType" id="sType">
 							<option value="title" selected <%= searchType.equals("title") ? "selected" : "" %>>제목</option>
@@ -190,7 +202,6 @@ window.onload = function(){
 					int seqNo = total -((nowPage-1)*paging.getPerPage());
 					while(rs.next()){
 						board_type = rs.getString("type");
-						int cpTotal = rs.getInt("cpTotal");
 						String boardNo = rs.getString("bno");
 						%>
 						<tr class="list_tr">
@@ -213,11 +224,6 @@ window.onload = function(){
 									<input id="star1_<%= boardNo %>" name="star<%= boardNo %>" type="radio" value="1" <%= starNum.equals("1") ? "checked" : "" %> disabled/><label for="star1_<%= boardNo %>">★</label>
 						        </div>
 								<%
-								}
-								%>
-								<%
-								if(cpTotal > 0){
-									%><span style="color:red; font-size:16px;">[ 신고 <%= cpTotal %> ]</span><%
 								}
 								%>
 								</a>
