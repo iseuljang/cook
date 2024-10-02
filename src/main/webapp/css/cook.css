@@ -8,7 +8,8 @@ a{
 html,body{
     margin: 0px;
     padding: 0px;
-    background-color: #FFFBEC;
+    /* background-color: #FFFBEC; */
+    background-color: white;
     color: #5D4037;
     font-weight: bold;
     font-size: 18px;
@@ -191,7 +192,9 @@ nav a.active{
     border: 0;
     border-radius: 5px;
     outline: none;
-    background-color: #FFFBEC;
+    /* background-color: #FFFBEC; */
+    /* background-color: #EDEDED; */
+    background-color: #F0F8FF;
     color:#5D4037;
     font-weight:bold;
     font-size:18px;
@@ -205,17 +208,25 @@ nav a.active{
 
 /* 버튼 스타일 */
 #login, #nomalBtn {
-    border-radius: 5px;
-    background-color: #FF7F50;
-    color: white;
+    border-radius: 10px;
+    /* background-color: #FF7F50;
+    color: white; */
+    background-color: #5D4037;
+	color:white;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     border: none;
     font-size: 20px; /* 버튼 글씨 크기 증가 */
     width: 100%;
     height: 50px; /* 버튼 높이 증가 */
     cursor: pointer;
     margin-bottom: 10px; /* 버튼 사이의 간격 증가 */
+    font-weight:bold;
 }
 
+#login:active, #nomalBtn:active{
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2); /* 클릭 시 그림자 줄임 */
+    transform: translateY(2px); /* 살짝 눌리는 효과 */
+}
 
 .paging_inner{
     width: 100%;
@@ -260,7 +271,9 @@ input {
     border: 0;
     border-radius: 5px;
     outline: none;
-    background-color: #FFFBEC;
+    /* background-color: #FFFBEC; */
+    /* background-color: #EDEDED; */
+    background-color: #F0F8FF;
     /* height:40px; */
     color:#5D4037;
     font-weight:bold;
@@ -275,17 +288,28 @@ input {
 
 
 #jBtn,#lBtn,#resetBtn,.join,#sBtn,#viewBtn,#wBtn,#cBtn,#myinfoBtn{
-	border-radius:5px;
+	border-radius:10px;
 	/* background-color:#FFA500; */
-	background-color:#FF7F50;
+	/* background-color:#FF7F50; */
 	/* background-color:#5D4037; */
+	/* color:white; */
+	background-color: #5D4037;
 	color:white;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 	border:none;
 	font-size:18px;
+	font-weight:bold;
 	width:120px;
 	height:40px;
 	cursor:pointer;
+	transition: background-color 0.3s ease, color 0.3s ease; /* 트랜지션 추가 */
 }
+
+#jBtn:active, #lBtn:active, #resetBtn:active, .join:active, #sBtn:active, #viewBtn:active, #wBtn:active, #cBtn:active, #myinfoBtn:active {
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2); /* 클릭 시 그림자 줄임 */
+    transform: translateY(2px); /* 살짝 눌리는 효과 */
+}
+
 /* 댓글 로드하는곳 버튼 */
 #buttonContainer {
     display: flex;             /* 가로 정렬을 위한 flexbox */
