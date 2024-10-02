@@ -465,7 +465,8 @@ function DoDelete() {
 			        if(isImage){
 		            %>
 	            <div class="view_img">
-		            <img id="preview" src="<%= request.getContextPath() %>/upload/<%= pname %>" alt="첨부된 이미지" style="max-width: 100%; height: auto;" />
+		            <img id="preview" src="<%= request.getContextPath() %>/upload/<%= pname %>" alt="첨부된 이미지" 
+		            style="max-width: 100%; height: auto;" />
             	</div>
 		            <%
 			        }

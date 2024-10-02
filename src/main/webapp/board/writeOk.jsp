@@ -10,7 +10,12 @@
 request.setCharacterEncoding("UTF-8");
 //업로드가 가능한 최대 파일 크기를 지정한다.
 /* String uploadPath = "D:\\code\\awsJava\\workspace\\cook\\src\\main\\webapp\\upload"; */
-String uploadPath = "C:\\Users\\DEV\\Desktop\\JangAWS\\01.java\\workspace\\cook\\src\\main\\webapp\\upload";
+//String uploadPath = "C:\\Users\\DEV\\Desktop\\JangAWS\\01.java\\workspace\\cook\\src\\main\\webapp\\upload";
+
+//실제 실행되고 있는 웹서버에서 폴더의 '실제'경로를 가져오는 메소드
+String uploadPath = request.getServletContext().getRealPath("/upload");
+System.out.println("서버의 업로드 폴더 경로 : " + uploadPath);
+
 int size = 10 * 1024 * 1024;
 MultipartRequest multi;
 try
