@@ -149,8 +149,8 @@ window.onload = function(){
 	
 	
 	$(".list_tr").mouseover(function(event){
-		/* $(this).css('background-color','#EEE'); */
-		$(this).css('background-color','#FFFBEC');
+		/* $(this).css('background-color','#FFFBEC'); */
+		$(this).css('background-color','#EEE');
 	})
 	.mouseout(function(event){
 		$(this).css('background-color','white');
@@ -247,7 +247,7 @@ window.onload = function(){
 				//시작페이지가 1보다 큰 경우 이전 페이지 존재
 				%>
 				<!-- 시작 페이지 번호 이전 페이지로 이동 13->10 -->
-				<a href="complain_list.jsp?type=<%= type %>&nowPage=<%= paging.getStartPage()-1 %>&searchType=<%= searchType %>&searchValue=<%= searchValue %>">&lt;</a>
+				<a href="reco_list.jsp?type=<%= type %>&nowPage=<%= paging.getStartPage()-1 %>&searchType=<%= searchType %>&searchValue=<%= searchValue %>">&lt;</a>
 				<%
 			}
 			
@@ -258,7 +258,7 @@ window.onload = function(){
 					<%
 				}else{
 					%>
-						<a href="complain_list.jsp?type=<%= type %>&nowPage=<%= i %>&searchType=<%= searchType %>&searchValue=<%= searchValue %>"><%= i %></a>
+						<a href="reco_list.jsp?type=<%= type %>&nowPage=<%= i %>&searchType=<%= searchType %>&searchValue=<%= searchValue %>"><%= i %></a>
 					<%
 				}
 			}
@@ -267,7 +267,7 @@ window.onload = function(){
 				//전체 페이지번호 보다 현재 종료 페이지 번호가 더 작은 경우
 				%>
 				<!-- 시작 페이지 번호 이후 페이지로 이동 13->21 -->
-				<a href="complain_list.jsp?type=<%= type %>&nowPage=<%= paging.getEndPage()+1 %>&searchType=<%= searchType %>&searchValue=<%= searchValue %>">&gt;</a>
+				<a href="reco_list.jsp?type=<%= type %>&nowPage=<%= paging.getEndPage()+1 %>&searchType=<%= searchType %>&searchValue=<%= searchValue %>">&gt;</a>
 				<%
 			}
 			%>

@@ -137,8 +137,8 @@ window.onload = function(){
 	
 	
 	$(".list_tr").mouseover(function(event){
-		/* $(this).css('background-color','#EEE'); */
-		$(this).css('background-color','#FFFBEC');
+		/* $(this).css('background-color','#FFFBEC'); */
+		$(this).css('background-color','#EEE');
 	})
 	.mouseout(function(event){
 		$(this).css('background-color','white');

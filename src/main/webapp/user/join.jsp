@@ -11,66 +11,74 @@
 		$("#uid").focus();
 		
 		
-		$("#uid").keydown(function(){
-			
-			userid = $(this).val();
-			
-			$.ajax({
-				url : "idCheck.jsp",
-				type : "post",
-				data : {uid : userid},
-				dataType : "html",
-				success : function(result)
-				{
-					result = result.trim();
-					switch(result)
-					{
-					case "00" : 
-						$("#msg").html("사용 가능한 아이디입니다.");
-						IsDuplicate = false;
-						break;
-					case "01" : 
-						$("#msg").html("중복된 아이디입니다.");
-						IsDuplicate = true;
-						break;
-					}
-				}
-			});
+		$("#uid").on("input", function() {
+		    var userid = $(this).val();
+		    
+		    // 아이디 길이가 4자 이상일 때에만 검증 요청
+		    if(userid.length >= 4) {
+		        $.ajax({
+		            url: "idCheck.jsp",
+		            type: "post",
+		            data: { uid: userid },
+		            dataType: "html",
+		            success: function(result) {
+		                result = result.trim();
+		                switch(result) {
+		                    case "00":
+		                        $("#msg").html("사용 가능한 아이디입니다.");
+		                        IsDuplicate = false;
+		                        break;
+		                    case "01":
+		                        $("#msg").html("중복된 아이디입니다.");
+		                        IsDuplicate = true;
+		                        break;
+		                }
+		            }
+		        });
+		    }else {
+		        $("#msg").html("아이디는 4자 이상이어야 합니다.");
+		    }
 		});
+
 		
-		$("#unick").keyup(function(){
-			NickDuplicate = false;
-			usernick = $(this).val();
-			
-			$.ajax({
-				url : "nickCheck.jsp",
-				type : "post",
-				data : {unick : usernick},
-				dataType : "html",
-				success : function(result)
-				{
-					result = result.trim();
-					switch(result)
-					{
-					case "00" : 
-						$("#msg").html("닉네임 체크 오류입니다.");
-						break;
-					case "01" : 
-						$("#msg").html("중복된 닉네임입니다.");
-						NickDuplicate = true;
-						break;
-					case "02" : 
-						$("#msg").html("사용 가능한 닉네임입니다.");
-						NickDuplicate = false;
-						break;
-					}
-				}
-			});
+		$("#unick").on("input", function() {
+		    NickDuplicate = false;
+		    var usernick = $(this).val();
+		    
+		    // 닉네임이 2글자 이상일 때 검증 요청
+		    if (usernick.length >= 2) {
+		        $.ajax({
+		            url: "nickCheck.jsp",
+		            type: "post",
+		            data: { unick: usernick },
+		            dataType: "html",
+		            success: function(result) {
+		                result = result.trim();
+		                switch(result) {
+		                    case "00":
+		                        $("#msg").html("닉네임 체크 오류입니다.");
+		                        break;
+		                    case "01":
+		                        $("#msg").html("중복된 닉네임입니다.");
+		                        NickDuplicate = true;
+		                        break;
+		                    case "02":
+		                        $("#msg").html("사용 가능한 닉네임입니다.");
+		                        NickDuplicate = false;
+		                        break;
+		                }
+		            }
+		        });
+		    } else {
+		        // 닉네임이 2글자 미만일 경우 메시지 표시
+		        $("#msg").html("닉네임은 2글자 이상이어야 합니다.");
+		    }
 		});
+
 		
 		
 		$(".deleteFile").css("display","none");
-   		
+		$("#preview").css("display","none");
     	$("#file").on('change', function(){
    		    var fileName = $("#file").val();
    		    $(".upload-name").val(fileName);
@@ -140,8 +148,13 @@
         
         //이메일 입력확인
         let mail = document.getElementById("uemail");
+        var emailPattern = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
         if(mail.value == ""){
             msg.innerHTML = "이메일을 입력해주세요";
+            mail.focus();
+            return false;
+        }else if(!emailPattern.test(mail.value)){
+        	msg.innerHTML = "유효한 이메일 주소를 입력하세요";
             mail.focus();
             return false;
         }
@@ -163,8 +176,7 @@
         }
     	
 		
-        if(confirm("회원가입을 완료하시겠습니까?") == true)
-    	{
+        if(confirm("회원가입을 완료하시겠습니까?") == true) {
     		$("#joinFn").submit();
     		return true;
     	}
@@ -241,18 +253,18 @@
                         <td>
                             <div class="input-container">
 	                    		 <i class="fas fa-camera"></i> 
-	                             <img id="preview" class="circular-img"
-	                             style="max-width:150px; max-height:150px; border-radius:5px;" />
-	                             <!-- 첨부파일 삭제 여부 체크박스 추가 -->
-                                 <div class="deleteFile" style="margin-left:10px;">
-		                          	 <input type="checkbox" name="deleteFile" value="Y" id="deleteFile">
-		                          	 <label for="deleteFile"><i class="fas fa-solid fa-circle-xmark"></i></label>
-	                             </div>
 	                             <div class="profil" style="width:250px;">
 	                                 <label for="file">
 	                                	 <input class="upload-name" value="프로필이미지" placeholder="프로필이미지" readonly>
 		                                 <input type="file" id="file" name="fname" onchange="readURL(this);">
 	                                 </label>
+	                             </div>
+	                             <img id="preview" class="circular-img"
+	                             style="max-width:150px; max-height:150px; border-radius:50%;" />
+	                             <!-- 첨부파일 삭제 여부 체크박스 추가 -->
+                                 <div class="deleteFile" style="margin-left:10px;">
+		                          	 <input type="checkbox" name="deleteFile" value="Y" id="deleteFile">
+		                          	 <label for="deleteFile"><i class="fas fa-solid fa-circle-xmark"></i></label>
 	                             </div>
                             </div>
                         </td>
