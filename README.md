@@ -8,8 +8,11 @@
   - [개발기간](#개발기간)
   - [개발환경](#개발환경)
   - [페이지 설명](#페이지-설명)
+<!--
   - [트러블 슈팅](#트러블-슈팅)
   - [개선할 부분](#개선할-부분)
+
+-->
 
 <br>
 
@@ -115,7 +118,7 @@
  ![complain_list](https://github.com/iseuljang/cook/blob/main/screen/complain_list.jpg)
 
 
-
+<!--
 
 <br>
 
@@ -150,6 +153,7 @@
  
 <br>
 
+-->
      
 <div align="right">
   
