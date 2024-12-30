@@ -39,83 +39,83 @@
 
  - **메인 페이지**
    - 레시피 게시판에서 추천수가 많은 게시글 3개를 보여준다
- ![index](https://github.com/iseuljang/cook/blob/main/screen/index.jpg)
+ ![index](https://github.com/iseuljang/cook/blob/main/capture/main.jpg)
 
  - **회원가입**
    - 회원가입할 때 프로필 사진은 등록해도 되고, 등록하지 않아도 상관없다   
- ![join](https://github.com/iseuljang/cook/blob/main/screen/join.jpg)
+ ![join](https://github.com/iseuljang/cook/blob/main/capture/join.jpg)
    - 이미 사용중인 아이디는 사용할 수 없다
- ![join_idCheck](https://github.com/iseuljang/cook/blob/main/screen/join_idCheck.jpg)
+ ![join_idCheck](https://github.com/iseuljang/cook/blob/main/capture/join_idcheck.jpg)
    - 이미 사용중인 닉네임은 사용할 수 없다
- ![join_nickCheck](https://github.com/iseuljang/cook/blob/main/screen/join_nickCheck.jpg)
+ ![join_nickCheck](https://github.com/iseuljang/cook/blob/main/capture/join_nickcheck.jpg)
 
  - **로그인**
- ![login](https://github.com/iseuljang/cook/blob/main/screen/login.jpg)
+ ![login](https://github.com/iseuljang/cook/blob/main/capture/login.jpg)
 
  - **공지게시판**
- ![notice_board_list](https://github.com/iseuljang/cook/blob/main/screen/notice_board.jpg)
+ ![notice_board_list](https://github.com/iseuljang/cook/blob/main/capture/notice.jpg)
 
  - **공지게시판 글쓰기**
    - 공지게시판은 관리자만 등록할 수 있고 첨부파일을 등록할 수 없다
- ![notice_board_write](https://github.com/iseuljang/cook/blob/main/screen/notice_board_write.jpg)
+ ![notice_board_write](https://github.com/iseuljang/cook/blob/main/capture/notice_write.jpg)
 
  - **공지게시판 상세조회**
    - 댓글을 달 수 없다
    - 추천할 수 없다
- ![notice_board_view](https://github.com/iseuljang/cook/blob/main/screen/notice_board_view_noreco.jpg)
+ ![notice_board_view](https://github.com/iseuljang/cook/blob/main/capture/notice_view.jpg)
 
  - **자유게시판**
- ![free_board_list](https://github.com/iseuljang/cook/blob/main/screen/free_board_list.jpg)
+ ![free_board_list](https://github.com/iseuljang/cook/blob/main/capture/free.jpg)
 
  - **자유게시판(관리자)**
- ![free_board_list_admin](https://github.com/iseuljang/cook/blob/main/screen/free_board_admin.jpg)
+ ![free_board_list_admin](https://github.com/iseuljang/cook/blob/main/capture/free(admin).jpg)
 
  - **자유게시판 글쓰기**
    - 자유게시판과 레시피 게시판은 첨부파일을 등록할 수도 있고, 등록하지 않을 수도 있다  
- ![free_board_write](https://github.com/iseuljang/cook/blob/main/screen/free_board_write.jpg)
+ ![free_board_write](https://github.com/iseuljang/cook/blob/main/capture/free_write.jpg)
 
  - **자유게시판 상세조회(작성자)**
- ![free_board_view_user](https://github.com/iseuljang/cook/blob/main/screen/free_board_comment.jpg)
+ ![free_board_view_user](https://github.com/iseuljang/cook/blob/main/capture/free_view(writer).jpg)
 
  - **자유게시판 상세조회(작성자 아닌경우)**
- ![free_board_view_other_user](https://github.com/iseuljang/cook/blob/main/screen/free_board_comment_other.jpg)
+ ![free_board_view_other_user](https://github.com/iseuljang/cook/blob/main/capture/free_view(other).jpg)
 
  - **자유게시판 상세조회(관리자)**
    - 관리자는 본인이 작성한 글이 아니더라도 삭제할 수 있다
- ![free_board_view_admin](https://github.com/iseuljang/cook/blob/main/screen/admin_free_board_view.jpg)
+ ![free_board_view_admin](https://github.com/iseuljang/cook/blob/main/capture/free_view(admin).jpg)
  
  - **레시피게시판**
- ![recipe_board_list](https://github.com/iseuljang/cook/blob/main/screen/recipe_board.jpg)
+ ![recipe_board_list](https://github.com/iseuljang/cook/blob/main/capture/recipe.jpg)
  
  - **레시피게시판 글쓰기**
- ![recipe_board_write](https://github.com/iseuljang/cook/blob/main/screen/recipe_board_write.jpg)
+ ![recipe_board_write](https://github.com/iseuljang/cook/blob/main/capture/recipe_write.jpg)
 
  - **레시피게시판 상세조회**
- ![recipe_board_view](https://github.com/iseuljang/cook/blob/main/screen/recipe_board_view_comment.jpg)
+ ![recipe_board_view](https://github.com/iseuljang/cook/blob/main/capture/recipe_view.jpg)
 
  - **댓글**
- ![comment_modify_delete_button](https://github.com/iseuljang/cook/blob/main/screen/comment_button_first.jpg)
+ ![comment_modify_delete_button](https://github.com/iseuljang/cook/blob/main/capture/comment.jpg)
 
  - **댓글 수정**
    - 댓글 수정시 기존 댓글 내용이 출력되는 span 태그를 textarea로 바꾸며 수정과 삭제버튼을 완료와 취소 버튼으로 변경한다
    - 기존 댓글내용과 수정, 삭제버튼을 저장하여 취소 버튼 클릭시 기존 모습으로 되돌아간다
- ![comment_modify](https://github.com/iseuljang/cook/blob/main/screen/comment_button_second.jpg)
+ ![comment_modify](https://github.com/iseuljang/cook/blob/main/capture/comment_modify.jpg)
 
  - **회원 프로필링크**
    - 로그인 후 프로필 사진 클릭시 메뉴바가 나타나 회원가입 때 기입한 정보를 확인하는 내정보보기 페이지로 이동하거나 로그아웃을 할 수 있다
- ![header_profil](https://github.com/iseuljang/cook/blob/main/screen/header_profil.jpg)
+ ![header_profil](https://github.com/iseuljang/cook/blob/main/capture/menubar.jpg)
  
  - **관리자 프로필링크**
-![header_profil](https://github.com/iseuljang/cook/blob/main/screen/myinfo_admin_add.jpg)
+![header_profil](https://github.com/iseuljang/cook/blob/main/capture/menubar(admin).jpg)
 
  - **내정보보기(회원)**
- ![myinfo_user](https://github.com/iseuljang/cook/blob/main/screen/myinfo_user.jpg)
+ ![myinfo_user](https://github.com/iseuljang/cook/blob/main/capture/profile_modify.jpg)
 
  - **내정보보기(관리자)**
- ![myinfo_admin](https://github.com/iseuljang/cook/blob/main/screen/myinfo_admin.jpg)
+ ![myinfo_admin](https://github.com/iseuljang/cook/blob/main/capture/profile_modify(admin).jpg)
 
 - **신고게시판**
- ![complain_list](https://github.com/iseuljang/cook/blob/main/screen/complain_list.jpg)
+ ![complain_list](https://github.com/iseuljang/cook/blob/main/capture/complain.jpg)
 
 
 <!--
