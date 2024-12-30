@@ -94,7 +94,7 @@
  ![recipe_board_view](https://github.com/iseuljang/cook/blob/main/capture/recipe_view.jpg)
 
  - **댓글**
- ![comment_modify_delete_button](https://github.com/iseuljang/cook/blob/main/capture/comment.jpg)
+![image](https://github.com/user-attachments/assets/5a457c8e-f464-4dc3-81eb-6450ad9d6ec2)
 
  - **댓글 수정**
    - 댓글 수정시 기존 댓글 내용이 출력되는 span 태그를 textarea로 바꾸며 수정과 삭제버튼을 완료와 취소 버튼으로 변경한다
@@ -113,6 +113,10 @@
 
  - **내정보보기(관리자)**
  ![myinfo_admin](https://github.com/iseuljang/cook/blob/main/capture/profile_modify(admin).jpg)
+
+ - **추천게시글**
+ ![recommend](https://github.com/user-attachments/assets/291715cb-d0ea-43b1-ae50-cf24f5c7f3ff)
+
 
 - **신고게시판**
  ![complain_list](https://github.com/iseuljang/cook/blob/main/capture/complain.jpg)
