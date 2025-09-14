@@ -6,7 +6,8 @@
 
 🔗 완성된 웹 애플리케이션 보기
 -
-<a href="http://3.39.239.157:8080/cook" target="_blank">요리레시피게시판</a>
+
+<a href="cookrecipe.up.railway.app" target="_blank">cookrecipe.up.railway.app</a>
 
 <br>
 
