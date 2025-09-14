@@ -7,7 +7,7 @@
 🔗 완성된 웹 애플리케이션 보기
 -
 
-<a href="cookrecipe.up.railway.app" target="_blank">cookrecipe.up.railway.app</a>
+<a href="https://cookrecipe.up.railway.app/" target="_blank">[cookrecipe.up.railway.app](https://cookrecipe.up.railway.app/)</a>
 
 <br>
 
